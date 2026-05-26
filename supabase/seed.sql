@@ -1,0 +1,1 @@
+-- Optional local seed overrides (category data lives in migrations)
