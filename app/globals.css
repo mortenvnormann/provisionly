@@ -1,8 +1,32 @@
 @import "tailwindcss";
 
+/* Nordic-inspired palette — light default, dark via prefers-color-scheme */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f4f8fb;
+  --foreground: #0f172a;
+  --surface: #ffffff;
+  --muted: #e8f0f6;
+  --muted-foreground: #64748b;
+  --border: #d1e0ec;
+  --primary: #0d9488;
+  --primary-foreground: #ffffff;
+  --accent: #f59e0b;
+  --destructive: #e11d48;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0c1222;
+    --foreground: #f1f5f9;
+    --surface: #151d2e;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --border: #2a3a52;
+    --primary: #2dd4bf;
+    --primary-foreground: #042f2e;
+    --accent: #fbbf24;
+    --destructive: #fb7185;
+  }
 }
 
 @theme inline {
@@ -12,15 +36,21 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  height: 100%;
 }
 
 body {
+  min-height: 100%;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.safe-area-pb {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+.safe-area-pt {
+  padding-top: max(0.75rem, env(safe-area-inset-top));
 }

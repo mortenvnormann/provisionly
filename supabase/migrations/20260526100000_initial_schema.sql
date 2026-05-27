@@ -168,6 +168,7 @@ create table public.recipes (
   id uuid primary key default gen_random_uuid(),
   owner_id uuid not null references public.profiles (id) on delete cascade,
   title text not null,
+  description text not null default '',
   instructions text not null default '',
   tags text[] not null default '{}',
   default_servings int not null default 4 check (default_servings > 0),

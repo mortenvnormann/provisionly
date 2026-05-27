@@ -1,0 +1,122 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { AppNav } from "@/components/nav/app-nav";
+import { SettingsLink } from "@/components/nav/settings-link";
+import { SwipeRow } from "@/components/ui/swipe-row";
+import {
+  deleteRecipeAction,
+  fetchRecipesAction,
+  removeRecipeAction,
+} from "@/lib/recipes/actions";
+import type { RecipeSummary } from "@/lib/recipes/types";
+import { profileGreeting } from "@/lib/profile/types";
+import { Button } from "@/components/ui/button";
+
+type RecipesHomeProps = {
+  firstName: string | null;
+  lastName: string | null;
+  displayName: string | null;
+  email: string | null;
+  initialRecipes?: RecipeSummary[];
+};
+
+export function RecipesHome({
+  firstName,
+  lastName,
+  displayName,
+  email,
+  initialRecipes = [],
+}: RecipesHomeProps) {
+  const router = useRouter();
+  const [recipes, setRecipes] = useState<RecipeSummary[]>(initialRecipes);
+  const greeting = profileGreeting({ firstName, lastName, displayName }, email);
+
+  const loadRecipes = useCallback(async () => {
+    const data = await fetchRecipesAction();
+    setRecipes(data);
+  }, []);
+
+  useEffect(() => {
+    void loadRecipes();
+  }, [loadRecipes]);
+
+  async function handleRemoveRecipe(recipe: RecipeSummary) {
+    if (recipe.isOwner) {
+      await deleteRecipeAction(recipe.id);
+    } else {
+      await removeRecipeAction(recipe.id);
+    }
+    setRecipes((prev) => prev.filter((entry) => entry.id !== recipe.id));
+    router.refresh();
+  }
+
+  return (
+    <div className="flex min-h-full flex-1 flex-col">
+      <header className="safe-area-pt border-b border-[var(--border)] px-4 py-3">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="text-xs font-medium tracking-wide text-[var(--primary)] uppercase">
+              Provisionly
+            </p>
+            <h1 className="text-lg font-semibold text-[var(--foreground)]">
+              Hi, {greeting}
+            </h1>
+          </div>
+          <SettingsLink />
+        </div>
+      </header>
+
+      <div className="flex flex-1 flex-col gap-4 p-4 pb-24">
+        <AppNav active="recipes" />
+
+        {recipes.length === 0 ? (
+          <p className="py-8 text-center text-sm text-[var(--muted-foreground)]">
+            No recipes yet. Create your first recipe below.
+          </p>
+        ) : (
+          <ul className="flex flex-col gap-2">
+            {recipes.map((recipe) => (
+              <li key={recipe.id}>
+                <SwipeRow
+                  requireConfirm
+                  confirmMessage={
+                    recipe.isOwner
+                      ? `Delete "${recipe.title}"? This cannot be undone.`
+                      : `Remove "${recipe.title}" from your recipes?`
+                  }
+                  deleteLabel={recipe.isOwner ? "Delete" : "Remove"}
+                  onDelete={() => handleRemoveRecipe(recipe)}
+                >
+                  <button
+                    type="button"
+                    onClick={() => router.push(`/recipes/${recipe.id}`)}
+                    className="flex w-full items-center justify-between border border-[var(--border)] px-4 py-4 text-left transition-colors active:bg-[var(--muted)]"
+                  >
+                    <div className="min-w-0">
+                      <span className="block truncate font-medium text-[var(--foreground)]">
+                        {recipe.title}
+                      </span>
+                      <span className="text-xs text-[var(--muted-foreground)]">
+                        {recipe.defaultServings} servings
+                        {!recipe.isOwner ? " · shared" : ""}
+                      </span>
+                    </div>
+                    <span className="text-[var(--muted-foreground)]">›</span>
+                  </button>
+                </SwipeRow>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div className="safe-area-pb fixed inset-x-0 bottom-0 border-t border-[var(--border)] bg-[var(--surface)] p-4">
+        <Button fullWidth onClick={() => router.push("/recipes/new")}>
+          New recipe
+        </Button>
+      </div>
+    </div>
+  );
+}

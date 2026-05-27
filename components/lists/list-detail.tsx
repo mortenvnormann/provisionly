@@ -1,0 +1,452 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { AddItemBar } from "@/components/lists/add-item-bar";
+import { ListActionsMenu } from "@/components/lists/list-actions-menu";
+import { ListItemRowView } from "@/components/lists/list-item-row";
+import { ListMembers } from "@/components/lists/list-members";
+import { ShareListSheet } from "@/components/lists/share-list-sheet";
+import { SwipeRow } from "@/components/ui/swipe-row";
+import { LoadingState } from "@/components/ui/loading-state";
+import { useConfirm } from "@/components/ui/confirm-dialog";
+import { resolveCategoryId } from "@/lib/categorisation/resolve";
+import { useCategories } from "@/lib/categorisation/use-categories";
+import {
+  addGuestItem,
+  clearCheckedGuestItems,
+  deleteGuestItem,
+  deleteGuestList,
+  getGuestList,
+  updateGuestList,
+  updateGuestItem,
+} from "@/lib/guest/storage";
+import type { GuestListItem } from "@/lib/guest/types";
+import {
+  addListItemAction,
+  deleteCheckedItemsAction,
+  deleteListAction,
+  deleteListItemAction,
+  fetchListItemsAction,
+  leaveListAction,
+  setItemCheckedAction,
+  setListGroupByCategoryAction,
+} from "@/lib/lists/actions";
+import {
+  groupItemsByCategory,
+  groupItemsByCategoryId,
+} from "@/lib/lists/api";
+import {
+  itemsFingerprint,
+  readListCache,
+  writeListCache,
+} from "@/lib/lists/list-cache";
+import { repairListItemCategories } from "@/lib/lists/repair-categories";
+import type { ListItemRow } from "@/lib/lists/types";
+import { useListSync } from "@/lib/lists/use-list-sync";
+import type { ListMemberRow } from "@/lib/share/types";
+import { createClient } from "@/utils/supabase/client";
+
+type ListDetailProps = {
+  listId: string;
+  isGuest: boolean;
+  initialTitle?: string;
+  initialItems?: ListItemRow[];
+  initialMembers?: ListMemberRow[];
+  currentUserId?: string;
+  isOwner?: boolean;
+  showJoinedBanner?: boolean;
+  locale?: string;
+  initialGroupByCategory?: boolean;
+};
+
+function guestItemToRow(item: GuestListItem, listId: string): ListItemRow {
+  return {
+    id: item.id,
+    listId,
+    name: item.name,
+    quantity: item.quantity ?? null,
+    unit: item.unit ?? null,
+    categoryId: item.categoryId ?? null,
+    checked: item.checked,
+    sortKey: item.sortKey ?? "a0",
+  };
+}
+
+export function ListDetail({
+  listId,
+  isGuest,
+  initialTitle,
+  initialItems,
+  initialMembers = [],
+  currentUserId,
+  isOwner = true,
+  showJoinedBanner = false,
+  locale = "en",
+  initialGroupByCategory = true,
+}: ListDetailProps) {
+  const router = useRouter();
+  const confirmDialog = useConfirm();
+  const cached = !isGuest ? readListCache(listId) : null;
+  const [title, setTitle] = useState(
+    initialTitle ?? cached?.title ?? "Shopping list",
+  );
+  const [items, setItems] = useState<ListItemRow[]>(
+    initialItems ?? cached?.items ?? [],
+  );
+  const [groupByCategory, setGroupByCategory] = useState(
+    initialGroupByCategory ?? cached?.groupByCategory ?? true,
+  );
+  const [members] = useState<ListMemberRow[]>(initialMembers);
+  const [loading, setLoading] = useState(
+    !isGuest && !initialItems && !cached?.items.length,
+  );
+  const [shareOpen, setShareOpen] = useState(false);
+  const [joinedBanner, setJoinedBanner] = useState(showJoinedBanner);
+  const { categories, labelFor, error: categoriesError } = useCategories(locale);
+
+  const persistCache = useCallback(
+    (nextTitle: string, nextItems: ListItemRow[], nextGroupByCategory = groupByCategory) => {
+      if (!isGuest) {
+        writeListCache(listId, nextTitle, nextItems, nextGroupByCategory);
+      }
+    },
+    [isGuest, listId, groupByCategory],
+  );
+
+  const load = useCallback(async () => {
+    if (isGuest) {
+      const supabase = createClient();
+      const list = getGuestList(listId);
+      if (!list) {
+        setLoading(false);
+        return;
+      }
+      setTitle(list.title);
+      setGroupByCategory(list.groupByCategory !== false);
+      let rows = list.items.map((i) => guestItemToRow(i, listId));
+      rows = await repairListItemCategories(supabase, listId, rows, locale, true);
+      setItems(rows);
+      setLoading(false);
+      return;
+    }
+
+    const listItems = await fetchListItemsAction(listId);
+    setItems(listItems);
+    setLoading(false);
+    writeListCache(
+      listId,
+      initialTitle ?? cached?.title ?? "Shopping list",
+      listItems,
+      groupByCategory,
+    );
+  }, [isGuest, listId, locale, initialTitle, cached?.title, groupByCategory]);
+
+  useEffect(() => {
+    if (isGuest || !initialItems) {
+      void load();
+    } else {
+      persistCache(initialTitle ?? title, initialItems, groupByCategory);
+    }
+  }, [load, isGuest, initialItems, initialTitle, persistCache, title, groupByCategory]);
+
+  useListSync({
+    listId,
+    enabled: !isGuest,
+    initialGroupByCategory: groupByCategory,
+    onItemsChange: (nextItems) => {
+      setItems(nextItems);
+      persistCache(title, nextItems);
+    },
+    onGroupByCategoryChange: setGroupByCategory,
+  });
+
+  useEffect(() => {
+    if (!showJoinedBanner) return;
+    const timer = setTimeout(() => setJoinedBanner(false), 5000);
+    return () => clearTimeout(timer);
+  }, [showJoinedBanner]);
+
+  const grouped = useMemo(() => {
+    if (items.length === 0) return [];
+    if (!groupByCategory) {
+      return [
+        {
+          categoryId: null,
+          items: [...items].sort((a, b) => a.sortKey.localeCompare(b.sortKey)),
+        },
+      ];
+    }
+    if (categories.length === 0) {
+      return groupItemsByCategoryId(items);
+    }
+    return groupItemsByCategory(items, categories);
+  }, [items, categories, groupByCategory]);
+
+  const hasChecked = items.some((i) => i.checked);
+  const syncFingerprint = itemsFingerprint(items);
+
+  async function handleAdd(input: {
+    name: string;
+    quantity?: number;
+    unit?: string;
+  }) {
+    if (isGuest) {
+      const supabase = createClient();
+      const categoryId = await resolveCategoryId(supabase, input.name, locale);
+      addGuestItem(listId, {
+        name: input.name,
+        quantity: input.quantity,
+        unit: input.unit,
+        checked: false,
+        categoryId: categoryId ?? undefined,
+      });
+      void load();
+      return;
+    }
+
+    const row = await addListItemAction(listId, {
+      name: input.name,
+      quantity: input.quantity ?? null,
+      unit: input.unit ?? null,
+      existingSortKeys: items.map((i) => i.sortKey),
+    });
+    setItems((prev) => {
+      const next = [...prev, row];
+      persistCache(title, next);
+      return next;
+    });
+  }
+
+  async function handleToggle(itemId: string, checked: boolean) {
+    if (isGuest) {
+      updateGuestItem(listId, itemId, { checked });
+      setItems((prev) =>
+        prev.map((i) => (i.id === itemId ? { ...i, checked } : i)),
+      );
+      return;
+    }
+
+    await setItemCheckedAction(itemId, checked, listId);
+    setItems((prev) => {
+      const next = prev.map((i) => (i.id === itemId ? { ...i, checked } : i));
+      persistCache(title, next);
+      return next;
+    });
+  }
+
+  async function handleClearChecked() {
+    if (isGuest) {
+      clearCheckedGuestItems(listId);
+      void load();
+      return;
+    }
+
+    await deleteCheckedItemsAction(listId);
+    setItems((prev) => {
+      const next = prev.filter((i) => !i.checked);
+      persistCache(title, next);
+      return next;
+    });
+  }
+
+  async function handleDeleteList() {
+    const message =
+      isGuest || isOwner
+        ? `Delete "${title}"? This cannot be undone.`
+        : `Remove "${title}" from your lists?`;
+    const ok = await confirmDialog(
+      message,
+      isGuest || isOwner ? "Delete" : "Remove",
+    );
+    if (!ok) return;
+
+    if (isGuest) {
+      deleteGuestList(listId);
+    } else if (isOwner) {
+      await deleteListAction(listId);
+    } else {
+      await leaveListAction(listId);
+    }
+    router.push("/home");
+    router.refresh();
+  }
+
+  async function handleToggleGroupByCategory() {
+    const next = !groupByCategory;
+    setGroupByCategory(next);
+    persistCache(title, items, next);
+
+    if (isGuest) {
+      updateGuestList(listId, (list) => ({ ...list, groupByCategory: next }));
+      return;
+    }
+
+    try {
+      await setListGroupByCategoryAction(listId, next);
+    } catch {
+      setGroupByCategory(!next);
+      persistCache(title, items, !next);
+    }
+  }
+
+  async function handleDeleteItem(itemId: string) {
+    if (isGuest) {
+      deleteGuestItem(listId, itemId);
+      setItems((prev) => {
+        const next = prev.filter((i) => i.id !== itemId);
+        persistCache(title, next);
+        return next;
+      });
+      return;
+    }
+
+    await deleteListItemAction(itemId);
+    setItems((prev) => {
+      const next = prev.filter((i) => i.id !== itemId);
+      persistCache(title, next);
+      return next;
+    });
+  }
+
+  if (loading) {
+    return <LoadingState label="Loading list…" />;
+  }
+
+  if (isGuest && !getGuestList(listId)) {
+    return (
+      <div className="flex min-h-full flex-1 flex-col items-center justify-center gap-4 p-4">
+        <p className="text-sm text-[var(--muted-foreground)]">List not found</p>
+        <Link href="/home" className="text-sm font-medium text-[var(--primary)]">
+          Back to lists
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex min-h-full flex-1 flex-col">
+      <header className="safe-area-pt sticky top-0 z-10 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-sm">
+        <div className="flex items-center gap-2 px-2 py-3">
+          <Link
+            href="/home"
+            className="flex size-10 items-center justify-center rounded-lg text-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
+            aria-label="Back"
+          >
+            ‹
+          </Link>
+          <h1 className="min-w-0 flex-1 truncate text-lg font-semibold text-[var(--foreground)]">
+            {title}
+          </h1>
+          <ListActionsMenu
+            isGuest={isGuest}
+            isOwner={isOwner}
+            hasChecked={hasChecked}
+            onShare={() => setShareOpen(true)}
+            onClearChecked={() => void handleClearChecked()}
+            onDelete={() => void handleDeleteList()}
+          />
+        </div>
+        {!isGuest ? (
+          <ListMembers members={members} currentUserId={currentUserId} />
+        ) : null}
+        <div className="flex items-center justify-between border-t border-[var(--border)] px-4 py-2.5">
+          <span className="text-sm text-[var(--foreground)]">Group by category</span>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={groupByCategory}
+            aria-label="Group by category"
+            onClick={() => void handleToggleGroupByCategory()}
+            className={[
+              "relative h-7 w-12 shrink-0 rounded-full transition-colors",
+              groupByCategory ? "bg-[var(--primary)]" : "bg-[var(--muted)]",
+            ].join(" ")}
+          >
+            <span
+              className={[
+                "absolute top-0.5 size-6 rounded-full bg-white shadow transition-transform",
+                groupByCategory ? "left-[22px]" : "left-0.5",
+              ].join(" ")}
+            />
+          </button>
+        </div>
+      </header>
+
+      <div className="flex-1 overflow-y-auto pb-44">
+        {joinedBanner ? (
+          <div className="mx-4 mt-3 rounded-xl border border-[var(--primary)]/30 bg-[var(--primary)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
+            You joined this shared list. Changes sync automatically.
+          </div>
+        ) : null}
+        {categoriesError ? (
+          <div className="mx-4 mt-3 rounded-xl border border-[var(--destructive)]/40 bg-[var(--destructive)]/10 px-4 py-3 text-sm text-[var(--destructive)]">
+            {categoriesError}
+          </div>
+        ) : null}
+        {items.length === 0 ? (
+          <p className="px-4 py-12 text-center text-sm text-[var(--muted-foreground)]">
+            Add your first item below.
+          </p>
+        ) : (
+          grouped.map(({ categoryId, items: sectionItems }) => (
+            <section
+              key={groupByCategory ? (categoryId ?? "general") : "flat"}
+              className="px-2 py-3"
+            >
+              {groupByCategory ? (
+                <h2
+                  className="mb-1 px-2 text-xs font-semibold tracking-wide uppercase"
+                  style={{
+                    color:
+                      categories.find((c) => c.id === categoryId)?.color ??
+                      "var(--muted-foreground)",
+                  }}
+                >
+                  {labelFor(categoryId)}
+                </h2>
+              ) : null}
+              <ul
+                className="overflow-hidden rounded-xl border border-[var(--border)]/60 bg-[var(--surface)]"
+                data-sync={syncFingerprint}
+              >
+                {sectionItems.map((item) => (
+                  <li
+                    key={item.id}
+                    className="border-b border-[var(--border)]/60 last:border-b-0"
+                  >
+                    <SwipeRow
+                      className="rounded-none"
+                      requireConfirm
+                      confirmOnDelete={false}
+                      onDelete={() => void handleDeleteItem(item.id)}
+                    >
+                      <ListItemRowView
+                        item={item}
+                        onToggle={(id, checked) => void handleToggle(id, checked)}
+                      />
+                    </SwipeRow>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        )}
+      </div>
+
+      <div className="fixed inset-x-0 bottom-0 z-10">
+        <AddItemBar onAdd={handleAdd} />
+      </div>
+
+      {!isGuest ? (
+        <ShareListSheet
+          listId={listId}
+          listTitle={title}
+          open={shareOpen}
+          onClose={() => setShareOpen(false)}
+        />
+      ) : null}
+    </div>
+  );
+}
