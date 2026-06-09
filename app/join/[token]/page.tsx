@@ -25,7 +25,7 @@ export default async function JoinPage({ params }: JoinPageProps) {
 
     return (
       <main className="flex min-h-full flex-1 flex-col items-center justify-center gap-4 px-6 py-12 text-center">
-        <p className="text-sm font-medium tracking-wide text-[var(--primary)] uppercase">
+        <p className="text-sm font-medium tracking-wide text-[var(--brand)] uppercase">
           Provisionly
         </p>
         <h1 className="text-xl font-semibold text-[var(--foreground)]">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { RecipeInput } from "@/lib/recipes/types";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,11 @@ type IngredientDraft = {
   name: string;
   quantity: string;
   unit: string;
+};
+
+type InstructionStepDraft = {
+  key: string;
+  text: string;
 };
 
 type RecipeFormProps = {
@@ -29,10 +34,34 @@ function emptyIngredient(): IngredientDraft {
   };
 }
 
+function emptyStep(): InstructionStepDraft {
+  return {
+    key: crypto.randomUUID(),
+    text: "",
+  };
+}
+
+function parseInstructionSteps(instructions: string): InstructionStepDraft[] {
+  const lines = instructions
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  return lines.length > 0
+    ? lines.map((text) => ({ key: crypto.randomUUID(), text }))
+    : [emptyStep()];
+}
+
+function serializeInstructions(steps: InstructionStepDraft[]): string {
+  return steps
+    .map((step) => step.text.trim())
+    .filter(Boolean)
+    .join("\n");
+}
+
 function toInput(
   title: string,
   description: string,
-  instructions: string,
+  steps: InstructionStepDraft[],
   tagsText: string,
   defaultServings: number,
   ingredients: IngredientDraft[],
@@ -40,7 +69,7 @@ function toInput(
   return {
     title,
     description,
-    instructions,
+    instructions: serializeInstructions(steps),
     tags: tagsText
       .split(",")
       .map((t) => t.trim())
@@ -65,9 +94,14 @@ export function RecipeForm({
   onCancel,
 }: RecipeFormProps) {
   const router = useRouter();
+  const ingredientRefs = useRef(new Map<string, HTMLInputElement>());
+  const stepRefs = useRef(new Map<string, HTMLInputElement>());
+
   const [title, setTitle] = useState(initial?.title ?? "");
   const [description, setDescription] = useState(initial?.description ?? "");
-  const [instructions, setInstructions] = useState(initial?.instructions ?? "");
+  const [steps, setSteps] = useState<InstructionStepDraft[]>(() =>
+    parseInstructionSteps(initial?.instructions ?? ""),
+  );
   const [tagsText, setTagsText] = useState(initial?.tags.join(", ") ?? "");
   const [defaultServings, setDefaultServings] = useState(
     initial?.defaultServings ?? 4,
@@ -85,6 +119,18 @@ export function RecipeForm({
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
+  function focusIngredient(key: string) {
+    requestAnimationFrame(() => {
+      ingredientRefs.current.get(key)?.focus();
+    });
+  }
+
+  function focusStep(key: string) {
+    requestAnimationFrame(() => {
+      stepRefs.current.get(key)?.focus();
+    });
+  }
+
   function updateIngredient(key: string, patch: Partial<IngredientDraft>) {
     setIngredients((prev) =>
       prev.map((item) => (item.key === key ? { ...item, ...patch } : item)),
@@ -97,6 +143,74 @@ export function RecipeForm({
     );
   }
 
+  function addIngredientAfter(key: string) {
+    const next = emptyIngredient();
+    setIngredients((prev) => {
+      const index = prev.findIndex((item) => item.key === key);
+      if (index === -1) return [...prev, next];
+      const copy = [...prev];
+      copy.splice(index + 1, 0, next);
+      return copy;
+    });
+    focusIngredient(next.key);
+  }
+
+  function handleIngredientKeyDown(
+    event: React.KeyboardEvent<HTMLInputElement>,
+    key: string,
+    name: string,
+  ) {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    if (!name.trim()) return;
+
+    const index = ingredients.findIndex((item) => item.key === key);
+    const isLast = index === ingredients.length - 1;
+
+    if (isLast) {
+      addIngredientAfter(key);
+      return;
+    }
+
+    const nextKey = ingredients[index + 1]?.key;
+    if (nextKey) focusIngredient(nextKey);
+  }
+
+  function updateStep(key: string, text: string) {
+    setSteps((prev) =>
+      prev.map((step) => (step.key === key ? { ...step, text } : step)),
+    );
+  }
+
+  function removeStep(key: string) {
+    setSteps((prev) =>
+      prev.length <= 1 ? prev : prev.filter((step) => step.key !== key),
+    );
+  }
+
+  function addStepAfter(key: string) {
+    const next = emptyStep();
+    setSteps((prev) => {
+      const index = prev.findIndex((step) => step.key === key);
+      if (index === -1) return [...prev, next];
+      const copy = [...prev];
+      copy.splice(index + 1, 0, next);
+      return copy;
+    });
+    focusStep(next.key);
+  }
+
+  function handleStepKeyDown(
+    event: React.KeyboardEvent<HTMLInputElement>,
+    key: string,
+    text: string,
+  ) {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    if (!text.trim()) return;
+    addStepAfter(key);
+  }
+
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     setError(null);
@@ -105,7 +219,7 @@ export function RecipeForm({
       const input = toInput(
         title,
         description,
-        instructions,
+        steps,
         tagsText,
         defaultServings,
         ingredients,
@@ -170,18 +284,57 @@ export function RecipeForm({
         />
       </label>
 
-      <label className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-[var(--foreground)]">
-          Instructions
-        </span>
-        <textarea
-          value={instructions}
-          onChange={(e) => setInstructions(e.target.value)}
-          rows={5}
-          placeholder="Step by step…"
-          className="rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-base"
-        />
-      </label>
+      <div>
+        <div className="mb-2 flex items-center justify-between">
+          <span className="text-sm font-medium text-[var(--foreground)]">
+            Instructions
+          </span>
+          <button
+            type="button"
+            onClick={() => {
+              const next = emptyStep();
+              setSteps((prev) => [...prev, next]);
+              focusStep(next.key);
+            }}
+            className="text-sm font-medium text-[var(--accent)]"
+          >
+            + Add step
+          </button>
+        </div>
+        <p className="mb-2 text-xs text-[var(--muted-foreground)]">
+          Press Enter after each step to add the next one.
+        </p>
+        <ol className="flex list-none flex-col gap-2">
+          {steps.map((step, index) => (
+            <li key={step.key} className="flex items-start gap-2">
+              <span className="mt-2.5 w-6 shrink-0 text-sm font-semibold text-[var(--muted-foreground)]">
+                {index + 1}.
+              </span>
+              <input
+                ref={(node) => {
+                  if (node) stepRefs.current.set(step.key, node);
+                  else stepRefs.current.delete(step.key);
+                }}
+                type="text"
+                value={step.text}
+                onChange={(e) => updateStep(step.key, e.target.value)}
+                onKeyDown={(e) => handleStepKeyDown(e, step.key, step.text)}
+                placeholder={`Step ${index + 1}`}
+                enterKeyHint="next"
+                className="h-10 min-w-0 flex-1 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-sm"
+              />
+              <button
+                type="button"
+                onClick={() => removeStep(step.key)}
+                className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
+                aria-label={`Remove step ${index + 1}`}
+              >
+                ×
+              </button>
+            </li>
+          ))}
+        </ol>
+      </div>
 
       <div>
         <div className="mb-2 flex items-center justify-between">
@@ -190,12 +343,19 @@ export function RecipeForm({
           </span>
           <button
             type="button"
-            onClick={() => setIngredients((prev) => [...prev, emptyIngredient()])}
-            className="text-sm font-medium text-[var(--primary)]"
+            onClick={() => {
+              const next = emptyIngredient();
+              setIngredients((prev) => [...prev, next]);
+              focusIngredient(next.key);
+            }}
+            className="text-sm font-medium text-[var(--accent)]"
           >
             + Add
           </button>
         </div>
+        <p className="mb-2 text-xs text-[var(--muted-foreground)]">
+          Press Enter after each ingredient to add the next one.
+        </p>
         <ul className="flex flex-col gap-2">
           {ingredients.map((item) => (
             <li
@@ -203,12 +363,20 @@ export function RecipeForm({
               className="grid grid-cols-[1fr_4.5rem_4.5rem_auto] gap-2"
             >
               <input
+                ref={(node) => {
+                  if (node) ingredientRefs.current.set(item.key, node);
+                  else ingredientRefs.current.delete(item.key);
+                }}
                 type="text"
                 value={item.name}
                 onChange={(e) =>
                   updateIngredient(item.key, { name: e.target.value })
                 }
+                onKeyDown={(e) =>
+                  handleIngredientKeyDown(e, item.key, item.name)
+                }
                 placeholder="Ingredient"
+                enterKeyHint="next"
                 className="h-10 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-sm"
               />
               <input

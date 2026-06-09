@@ -10,7 +10,7 @@ const variants: Record<Variant, string> = {
   ghost:
     "text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] disabled:opacity-50",
   destructive:
-    "text-[var(--destructive)] hover:bg-[var(--destructive)] hover:text-white disabled:opacity-50",
+    "text-[var(--destructive)] hover:bg-[var(--destructive)] hover:text-[var(--destructive-foreground)] disabled:opacity-50",
 };
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -29,8 +29,8 @@ export function Button({
     <button
       type={props.type ?? "button"}
       className={[
-        "inline-flex h-11 items-center justify-center rounded-xl px-4 text-sm font-medium transition-colors",
-        "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]",
+        "inline-flex h-11 items-center justify-center gap-2 rounded-xl px-4 text-sm font-medium transition-colors",
+        "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]",
         fullWidth ? "w-full" : "",
         variants[variant],
         className,

@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "check:secrets": "node scripts/check-secrets.mjs",
-    "prelaunch": "npm run check:secrets && npm run lint && npm run build",
+    "check:colors": "node scripts/check-colors.mjs",
+    "prelaunch": "npm run check:secrets && npm run check:colors && npm run lint && npm run build",
     "db:push": "npx supabase db push",
     "db:reset": "npx supabase db reset",
     "db:bundle": "node scripts/bundle-migrations.mjs"

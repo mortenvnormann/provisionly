@@ -144,7 +144,7 @@ export function RecipeDetailView({
 
       <div className="flex-1 overflow-y-auto pb-28">
         {joinedBanner ? (
-          <div className="mx-4 mt-3 rounded-xl border border-[var(--primary)]/30 bg-[var(--primary)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
+          <div className="mx-4 mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
             You can view this recipe and add ingredients to your lists.
           </div>
         ) : null}
@@ -218,9 +218,15 @@ export function RecipeDetailView({
               <h2 className="mb-2 text-xs font-semibold tracking-wide text-[var(--muted-foreground)] uppercase">
                 Instructions
               </h2>
-              <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm whitespace-pre-wrap text-[var(--foreground)]">
-                {recipe.instructions}
-              </div>
+              <ol className="list-decimal space-y-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 pl-8 text-sm text-[var(--foreground)]">
+                {recipe.instructions
+                  .split("\n")
+                  .map((line) => line.trim())
+                  .filter(Boolean)
+                  .map((step, index) => (
+                    <li key={`${index}-${step}`}>{step}</li>
+                  ))}
+              </ol>
             </section>
           ) : null}
         </div>

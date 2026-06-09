@@ -73,7 +73,7 @@ export function SettingsForm({ profile }: SettingsFormProps) {
               </p>
             ) : null}
             {saveMessage ? (
-              <p className="text-sm text-[var(--primary)]">{saveMessage}</p>
+              <p className="text-sm text-[var(--accent)]">{saveMessage}</p>
             ) : null}
             <Button type="submit" disabled={saving}>
               {saving ? "Saving…" : "Save profile"}
@@ -103,7 +103,7 @@ export function SettingsForm({ profile }: SettingsFormProps) {
 
         <Link
           href="/home"
-          className="text-center text-sm font-medium text-[var(--primary)] underline-offset-2 hover:underline"
+          className="text-center text-sm font-medium text-[var(--brand)] underline-offset-2 hover:underline"
         >
           Back to lists
         </Link>

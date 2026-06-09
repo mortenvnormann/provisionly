@@ -85,7 +85,7 @@ export function AuthForm({ nextPath }: AuthFormProps) {
   return (
     <div className="w-full max-w-sm">
       <div className="mb-8 text-center">
-        <p className="text-sm font-medium tracking-wide text-[var(--primary)] uppercase">
+        <p className="text-sm font-medium tracking-wide text-[var(--brand)] uppercase">
           Provisionly
         </p>
         <h1 className="mt-2 text-2xl font-semibold text-[var(--foreground)]">
@@ -153,7 +153,7 @@ export function AuthForm({ nextPath }: AuthFormProps) {
         />
 
         {info ? (
-          <p className="rounded-lg bg-[var(--primary)]/10 px-3 py-2 text-sm text-[var(--foreground)]">
+          <p className="rounded-lg border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-2 text-sm text-[var(--foreground)]">
             {info}
           </p>
         ) : null}

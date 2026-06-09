@@ -1,0 +1,66 @@
+/**
+ * Provisionly design tokens — single source of truth.
+ * See docs/DESIGN.md for palette roles and usage rules.
+ */
+
+:root {
+  /* Light palette (raw) */
+  --color-fjord-blue: #1e293b;
+  --color-sage-leaf: #869a86;
+  --color-oatmeal: #f4ebe1;
+  --color-snow-white: #ffffff;
+  --color-birch-wood: #c4b5a6;
+  --color-charcoal: #2b2b2b;
+  --color-cloudberry-orange: #ff6b35;
+
+  /* Light semantic */
+  --background: var(--color-oatmeal);
+  --foreground: var(--color-charcoal);
+  --surface: var(--color-snow-white);
+  --muted: color-mix(in srgb, var(--color-birch-wood) 35%, var(--color-oatmeal));
+  --muted-foreground: var(--color-sage-leaf);
+  --border: var(--color-birch-wood);
+  --primary: var(--color-fjord-blue);
+  --primary-foreground: var(--color-snow-white);
+  --secondary: var(--color-sage-leaf);
+  --secondary-foreground: var(--color-snow-white);
+  --accent: var(--color-cloudberry-orange);
+  --accent-foreground: var(--color-snow-white);
+  --destructive: var(--color-cloudberry-orange);
+  --destructive-foreground: var(--color-snow-white);
+  --brand: var(--accent);
+  --focus-ring: var(--accent);
+  --overlay: color-mix(in srgb, var(--color-charcoal) 40%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark palette (raw) */
+    --color-deep-fjord: #0f172a;
+    --color-dark-sage: #2a332a;
+    --color-dark-charcoal: #1a1a1a;
+    --color-ash-wood: #4a443a;
+    --color-soft-birch: #a49586;
+    --color-cloud-white: #f1f1f1;
+    --color-electric-teal: #14b8a6;
+
+    /* Dark semantic */
+    --background: var(--color-deep-fjord);
+    --foreground: var(--color-cloud-white);
+    --surface: var(--color-dark-sage);
+    --muted: color-mix(in srgb, var(--color-dark-sage) 80%, var(--color-deep-fjord));
+    --muted-foreground: var(--color-ash-wood);
+    --border: var(--color-dark-charcoal);
+    --primary: var(--color-electric-teal);
+    --primary-foreground: var(--color-deep-fjord);
+    --secondary: var(--color-soft-birch);
+    --secondary-foreground: var(--color-deep-fjord);
+    --accent: var(--color-electric-teal);
+    --accent-foreground: var(--color-deep-fjord);
+    --destructive: var(--color-electric-teal);
+    --destructive-foreground: var(--color-deep-fjord);
+    --brand: var(--accent);
+    --focus-ring: var(--accent);
+    --overlay: color-mix(in srgb, var(--color-deep-fjord) 55%, transparent);
+  }
+}

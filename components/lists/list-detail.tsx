@@ -318,7 +318,7 @@ export function ListDetail({
     return (
       <div className="flex min-h-full flex-1 flex-col items-center justify-center gap-4 p-4">
         <p className="text-sm text-[var(--muted-foreground)]">List not found</p>
-        <Link href="/home" className="text-sm font-medium text-[var(--primary)]">
+        <Link href="/home" className="text-sm font-medium text-[var(--brand)]">
           Back to lists
         </Link>
       </div>
@@ -343,40 +343,22 @@ export function ListDetail({
             isGuest={isGuest}
             isOwner={isOwner}
             hasChecked={hasChecked}
+            groupByCategory={groupByCategory}
             onShare={() => setShareOpen(true)}
             onClearChecked={() => void handleClearChecked()}
+            onToggleGroupByCategory={() => void handleToggleGroupByCategory()}
             onDelete={() => void handleDeleteList()}
           />
         </div>
         {!isGuest ? (
           <ListMembers members={members} currentUserId={currentUserId} />
         ) : null}
-        <div className="flex items-center justify-between border-t border-[var(--border)] px-4 py-2.5">
-          <span className="text-sm text-[var(--foreground)]">Group by category</span>
-          <button
-            type="button"
-            role="switch"
-            aria-checked={groupByCategory}
-            aria-label="Group by category"
-            onClick={() => void handleToggleGroupByCategory()}
-            className={[
-              "relative h-7 w-12 shrink-0 rounded-full transition-colors",
-              groupByCategory ? "bg-[var(--primary)]" : "bg-[var(--muted)]",
-            ].join(" ")}
-          >
-            <span
-              className={[
-                "absolute top-0.5 size-6 rounded-full bg-white shadow transition-transform",
-                groupByCategory ? "left-[22px]" : "left-0.5",
-              ].join(" ")}
-            />
-          </button>
-        </div>
+        <AddItemBar onAdd={handleAdd} />
       </header>
 
-      <div className="flex-1 overflow-y-auto pb-44">
+      <div className="flex-1 overflow-y-auto">
         {joinedBanner ? (
-          <div className="mx-4 mt-3 rounded-xl border border-[var(--primary)]/30 bg-[var(--primary)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
+          <div className="mx-4 mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
             You joined this shared list. Changes sync automatically.
           </div>
         ) : null}
@@ -387,7 +369,7 @@ export function ListDetail({
         ) : null}
         {items.length === 0 ? (
           <p className="px-4 py-12 text-center text-sm text-[var(--muted-foreground)]">
-            Add your first item below.
+            Add your first item above.
           </p>
         ) : (
           grouped.map(({ categoryId, items: sectionItems }) => (
@@ -396,14 +378,7 @@ export function ListDetail({
               className="px-2 py-3"
             >
               {groupByCategory ? (
-                <h2
-                  className="mb-1 px-2 text-xs font-semibold tracking-wide uppercase"
-                  style={{
-                    color:
-                      categories.find((c) => c.id === categoryId)?.color ??
-                      "var(--muted-foreground)",
-                  }}
-                >
+                <h2 className="mb-1 px-2 text-xs font-semibold tracking-wide text-[var(--secondary)] uppercase">
                   {labelFor(categoryId)}
                 </h2>
               ) : null}
@@ -433,10 +408,6 @@ export function ListDetail({
             </section>
           ))
         )}
-      </div>
-
-      <div className="fixed inset-x-0 bottom-0 z-10">
-        <AddItemBar onAdd={handleAdd} />
       </div>
 
       {!isGuest ? (

@@ -30,7 +30,7 @@ export function ListMembers({ members, currentUserId }: ListMembersProps) {
               className="flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-2.5 py-1 text-xs text-[var(--foreground)]"
             >
               <span
-                className="flex size-6 items-center justify-center rounded-full bg-[var(--primary)]/15 text-[10px] font-semibold text-[var(--primary)]"
+                className="flex size-6 items-center justify-center rounded-full bg-[var(--secondary)]/20 text-[10px] font-semibold text-[var(--secondary)]"
                 aria-hidden
               >
                 {initials(member.displayName)}

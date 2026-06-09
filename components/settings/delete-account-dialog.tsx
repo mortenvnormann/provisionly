@@ -34,7 +34,7 @@ export function DeleteAccountDialog({ open, onClose }: DeleteAccountDialogProps)
   }
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 p-4">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[var(--overlay)] p-4">
       <button
         type="button"
         className="absolute inset-0"

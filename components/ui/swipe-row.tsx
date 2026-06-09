@@ -178,7 +178,7 @@ export function SwipeRow({
         <button
           type="button"
           onClick={(event) => void handleDeleteClick(event)}
-          className="flex h-full w-full items-center justify-center bg-[var(--destructive)] px-2 text-sm font-medium text-white hover:opacity-90"
+          className="flex h-full w-full items-center justify-center bg-[var(--destructive)] px-2 text-sm font-medium text-[var(--destructive-foreground)] hover:opacity-90"
         >
           {deleteLabel}
         </button>

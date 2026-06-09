@@ -60,7 +60,7 @@ export function InstallBanner() {
   if (!visible) return null;
 
   return (
-    <div className="safe-area-pb border-b border-[var(--primary)]/20 bg-[var(--primary)]/10 px-4 py-3">
+    <div className="safe-area-pb border-b border-[var(--accent)]/20 bg-[var(--accent)]/10 px-4 py-3">
       <div className="flex items-start gap-3">
         <div className="min-w-0 flex-1">
           <p className="text-sm font-medium text-[var(--foreground)]">

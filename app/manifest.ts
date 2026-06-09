@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { lightPalette } from "@/lib/design/palette";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -10,8 +11,8 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: "/",
     display: "standalone",
     orientation: "portrait",
-    background_color: "#f4f8fb",
-    theme_color: "#0d9488",
+    background_color: lightPalette.oatmeal,
+    theme_color: lightPalette.fjordBlue,
     categories: ["shopping", "food", "productivity"],
     icons: [
       {

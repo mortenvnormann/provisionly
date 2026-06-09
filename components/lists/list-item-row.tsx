@@ -29,7 +29,7 @@ export function ListItemRowView({ item, onToggle }: ListItemRowProps) {
         type="checkbox"
         checked={item.checked}
         onChange={() => onToggle(item.id, !item.checked)}
-        className="size-5 shrink-0 rounded border-[var(--border)] accent-[var(--primary)]"
+        className="size-5 shrink-0 rounded border-[var(--border)] accent-[var(--accent)]"
       />
       <span
         className={[

@@ -58,7 +58,7 @@ export function ServingsScaler({
         <button
           type="button"
           onClick={onReset}
-          className="mt-3 text-sm font-medium text-[var(--primary)]"
+          className="mt-3 text-sm font-medium text-[var(--brand)]"
         >
           Reset to {defaultServings} servings
         </button>

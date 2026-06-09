@@ -17,7 +17,7 @@ export function Input({ label, error, id, className = "", ...props }: InputProps
         id={inputId}
         className={[
           "h-11 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-base text-[var(--foreground)]",
-          "placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/25",
+          "placeholder:text-[var(--muted-foreground)] focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/25",
           error ? "border-[var(--destructive)]" : "",
           className,
         ]

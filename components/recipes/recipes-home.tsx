@@ -2,9 +2,14 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import {
+  FloatingCreateDock,
+  floatingDockScrollPadding,
+} from "@/components/layout/floating-create-dock";
+import { HomeHeader } from "@/components/layout/home-header";
 import { AppNav } from "@/components/nav/app-nav";
-import { SettingsLink } from "@/components/nav/settings-link";
 import { SwipeRow } from "@/components/ui/swipe-row";
+import { PlusIcon } from "@/components/ui/icons";
 import {
   deleteRecipeAction,
   fetchRecipesAction,
@@ -53,70 +58,67 @@ export function RecipesHome({
   }
 
   return (
-    <div className="flex min-h-full flex-1 flex-col">
-      <header className="safe-area-pt border-b border-[var(--border)] px-4 py-3">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <p className="text-xs font-medium tracking-wide text-[var(--primary)] uppercase">
-              Provisionly
-            </p>
-            <h1 className="text-lg font-semibold text-[var(--foreground)]">
-              Hi, {greeting}
-            </h1>
+    <div className="flex min-h-full flex-1 flex-col overflow-hidden">
+      <HomeHeader greeting={greeting} />
+
+      <div className="relative flex min-h-0 flex-1 flex-col">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+          <div
+            className={`flex flex-col gap-4 p-4 ${floatingDockScrollPadding()}`}
+          >
+            <AppNav active="recipes" />
+
+            {recipes.length === 0 ? (
+              <p className="py-8 text-center text-sm text-[var(--muted-foreground)]">
+                No recipes yet. Create your first recipe below.
+              </p>
+            ) : (
+              <ul className="flex flex-col gap-2">
+                {recipes.map((recipe) => (
+                  <li key={recipe.id}>
+                    <SwipeRow
+                      requireConfirm
+                      confirmMessage={
+                        recipe.isOwner
+                          ? `Delete "${recipe.title}"? This cannot be undone.`
+                          : `Remove "${recipe.title}" from your recipes?`
+                      }
+                      deleteLabel={recipe.isOwner ? "Delete" : "Remove"}
+                      onDelete={() => handleRemoveRecipe(recipe)}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => router.push(`/recipes/${recipe.id}`)}
+                        className="flex w-full items-center justify-between border border-[var(--border)] px-4 py-4 text-left transition-colors active:bg-[var(--muted)]"
+                      >
+                        <div className="min-w-0">
+                          <span className="block truncate font-medium text-[var(--foreground)]">
+                            {recipe.title}
+                          </span>
+                          <span className="text-xs text-[var(--muted-foreground)]">
+                            {recipe.defaultServings} servings
+                            {!recipe.isOwner ? " · shared" : ""}
+                          </span>
+                        </div>
+                        <span className="text-[var(--muted-foreground)]">
+                          ›
+                        </span>
+                      </button>
+                    </SwipeRow>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-          <SettingsLink />
         </div>
-      </header>
-
-      <div className="flex flex-1 flex-col gap-4 p-4 pb-24">
-        <AppNav active="recipes" />
-
-        {recipes.length === 0 ? (
-          <p className="py-8 text-center text-sm text-[var(--muted-foreground)]">
-            No recipes yet. Create your first recipe below.
-          </p>
-        ) : (
-          <ul className="flex flex-col gap-2">
-            {recipes.map((recipe) => (
-              <li key={recipe.id}>
-                <SwipeRow
-                  requireConfirm
-                  confirmMessage={
-                    recipe.isOwner
-                      ? `Delete "${recipe.title}"? This cannot be undone.`
-                      : `Remove "${recipe.title}" from your recipes?`
-                  }
-                  deleteLabel={recipe.isOwner ? "Delete" : "Remove"}
-                  onDelete={() => handleRemoveRecipe(recipe)}
-                >
-                  <button
-                    type="button"
-                    onClick={() => router.push(`/recipes/${recipe.id}`)}
-                    className="flex w-full items-center justify-between border border-[var(--border)] px-4 py-4 text-left transition-colors active:bg-[var(--muted)]"
-                  >
-                    <div className="min-w-0">
-                      <span className="block truncate font-medium text-[var(--foreground)]">
-                        {recipe.title}
-                      </span>
-                      <span className="text-xs text-[var(--muted-foreground)]">
-                        {recipe.defaultServings} servings
-                        {!recipe.isOwner ? " · shared" : ""}
-                      </span>
-                    </div>
-                    <span className="text-[var(--muted-foreground)]">›</span>
-                  </button>
-                </SwipeRow>
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
 
-      <div className="safe-area-pb fixed inset-x-0 bottom-0 border-t border-[var(--border)] bg-[var(--surface)] p-4">
+      <FloatingCreateDock>
         <Button fullWidth onClick={() => router.push("/recipes/new")}>
+          <PlusIcon className="h-4 w-4 shrink-0" />
           New recipe
         </Button>
-      </div>
+      </FloatingCreateDock>
     </div>
   );
 }

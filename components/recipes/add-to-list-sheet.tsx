@@ -94,7 +94,7 @@ export function AddToListSheet({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[var(--overlay)] p-4">
       <button
         type="button"
         className="absolute inset-0"
@@ -129,7 +129,7 @@ export function AddToListSheet({
           ) : lists.length === 0 ? (
             <p className="text-sm text-[var(--muted-foreground)]">
               No lists yet.{" "}
-              <Link href="/home" className="text-[var(--primary)] underline-offset-2 hover:underline">
+              <Link href="/home" className="text-[var(--brand)] underline-offset-2 hover:underline">
                 Create one first
               </Link>
               .
@@ -196,11 +196,11 @@ export function AddToListSheet({
           ) : null}
 
           {result ? (
-            <p className="rounded-xl border border-[var(--primary)]/30 bg-[var(--primary)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
+            <p className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
               {result}.{" "}
               <Link
                 href={`/lists/${listId}`}
-                className="font-medium text-[var(--primary)] underline-offset-2 hover:underline"
+                className="font-medium text-[var(--brand)] underline-offset-2 hover:underline"
               >
                 Open list
               </Link>

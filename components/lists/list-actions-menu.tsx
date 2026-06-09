@@ -7,8 +7,10 @@ type ListActionsMenuProps = {
   isGuest: boolean;
   isOwner: boolean;
   hasChecked: boolean;
+  groupByCategory: boolean;
   onShare: () => void;
   onClearChecked: () => void;
+  onToggleGroupByCategory: () => void;
   onDelete: () => void;
 };
 
@@ -16,8 +18,10 @@ export function ListActionsMenu({
   isGuest,
   isOwner,
   hasChecked,
+  groupByCategory,
   onShare,
   onClearChecked,
+  onToggleGroupByCategory,
   onDelete,
 }: ListActionsMenuProps) {
   const [open, setOpen] = useState(false);
@@ -56,7 +60,7 @@ export function ListActionsMenu({
       {open ? (
         <div
           role="menu"
-          className="absolute right-0 top-full z-20 mt-1 min-w-44 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] py-1 shadow-lg"
+          className="absolute right-0 top-full z-20 mt-1 min-w-52 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] py-1 shadow-lg"
         >
           {!isGuest ? (
             <button
@@ -68,6 +72,32 @@ export function ListActionsMenu({
               Share list
             </button>
           ) : null}
+          <div
+            role="menuitemcheckbox"
+            aria-checked={groupByCategory}
+            className="flex w-full items-center justify-between gap-3 px-4 py-2.5 text-sm text-[var(--foreground)] hover:bg-[var(--muted)]"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <span>Group by category</span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={groupByCategory}
+              aria-label="Group by category"
+              onClick={() => onToggleGroupByCategory()}
+              className={[
+                "relative h-7 w-12 shrink-0 rounded-full transition-colors",
+                groupByCategory ? "bg-[var(--primary)]" : "bg-[var(--muted)]",
+              ].join(" ")}
+            >
+              <span
+                className={[
+                  "absolute top-0.5 size-6 rounded-full bg-[var(--surface)] shadow transition-transform",
+                  groupByCategory ? "left-[22px]" : "left-0.5",
+                ].join(" ")}
+              />
+            </button>
+          </div>
           {hasChecked ? (
             <button
               type="button"

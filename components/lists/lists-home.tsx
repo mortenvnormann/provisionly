@@ -18,10 +18,15 @@ import {
 import type { ListSummary } from "@/lib/lists/types";
 import { profileGreeting } from "@/lib/profile/types";
 import { useGuestMigrationOnLogin } from "@/lib/guest/use-guest-migration";
+import {
+  FloatingCreateDock,
+  floatingDockScrollPadding,
+} from "@/components/layout/floating-create-dock";
+import { HomeHeader } from "@/components/layout/home-header";
 import { AppNav } from "@/components/nav/app-nav";
-import { SettingsLink } from "@/components/nav/settings-link";
 import { SwipeRow } from "@/components/ui/swipe-row";
 import { Button } from "@/components/ui/button";
+import { PlusIcon } from "@/components/ui/icons";
 
 type ListsHomeProps = {
   isGuest: boolean;
@@ -123,23 +128,15 @@ export function ListsHome({
   }
 
   return (
-    <div className="flex min-h-full flex-1 flex-col">
-      <header className="safe-area-pt sticky top-0 z-10 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-sm">
-        <div className="flex items-center justify-between gap-3 px-4 py-3">
-          <div>
-            <p className="text-xs font-medium tracking-wide text-[var(--primary)] uppercase">
-              Provisionly
-            </p>
-            <h1 className="text-lg font-semibold text-[var(--foreground)]">
-              Hi, {greeting}
-            </h1>
-          </div>
-          {!isGuest ? <SettingsLink /> : null}
-        </div>
-      </header>
+    <div className="flex min-h-full flex-1 flex-col overflow-hidden">
+      <HomeHeader greeting={greeting} showSettings={!isGuest} />
 
-      <div className="flex flex-1 flex-col gap-4 p-4 pb-24">
-        <AppNav active="lists" isGuest={isGuest} />
+      <div className="relative flex min-h-0 flex-1 flex-col">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+          <div
+            className={`flex flex-col gap-4 p-4 ${floatingDockScrollPadding(showForm)}`}
+          >
+            <AppNav active="lists" isGuest={isGuest} />
 
         {isGuest ? (
           <div className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3">
@@ -148,7 +145,7 @@ export function ListsHome({
               <form action={leaveGuestMode} className="inline">
                 <button
                   type="submit"
-                  className="font-medium text-[var(--primary)] underline-offset-2 hover:underline"
+                  className="font-medium text-[var(--brand)] underline-offset-2 hover:underline"
                 >
                   Create account
                 </button>
@@ -159,7 +156,7 @@ export function ListsHome({
         ) : null}
 
         {migrationResult?.migrated ? (
-          <div className="rounded-xl border border-[var(--primary)]/30 bg-[var(--primary)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
+          <div className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
             Imported {migrationResult.migrated} list
             {migrationResult.migrated === 1 ? "" : "s"} from guest mode.
           </div>
@@ -216,9 +213,11 @@ export function ListsHome({
             ))}
           </ul>
         )}
+          </div>
+        </div>
       </div>
 
-      <div className="safe-area-pb fixed inset-x-0 bottom-0 border-t border-[var(--border)] bg-[var(--surface)] p-4">
+      <FloatingCreateDock>
         {showForm ? (
           <form onSubmit={handleCreate} className="flex flex-col gap-2">
             <input
@@ -227,7 +226,7 @@ export function ListsHome({
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder="List name"
               autoFocus
-              className="h-11 w-full rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/25"
+              className="h-11 w-full rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/25"
             />
             <div className="flex gap-2">
               <Button
@@ -245,10 +244,11 @@ export function ListsHome({
           </form>
         ) : (
           <Button fullWidth onClick={() => setShowForm(true)}>
+            <PlusIcon className="h-4 w-4 shrink-0" />
             New list
           </Button>
         )}
-      </div>
+      </FloatingCreateDock>
     </div>
   );
 }

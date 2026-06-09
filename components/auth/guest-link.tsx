@@ -5,7 +5,7 @@ export function GuestLink() {
     <form action={continueAsGuest} className="mt-8 text-center">
       <button
         type="submit"
-        className="text-sm text-[var(--muted-foreground)] underline-offset-4 hover:text-[var(--foreground)] hover:underline"
+        className="text-sm text-[var(--brand)] underline-offset-4 hover:underline"
       >
         Continue as guest
       </button>

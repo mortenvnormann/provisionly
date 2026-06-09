@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { InstallBanner } from "@/components/pwa/install-banner";
 import { AppShell } from "@/components/layout/app-shell";
 import { AppProviders } from "@/components/providers/app-providers";
+import { darkPalette, lightPalette } from "@/lib/design/palette";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -41,8 +42,8 @@ export const viewport: Viewport = {
   maximumScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#0d9488" },
-    { media: "(prefers-color-scheme: dark)", color: "#0c1222" },
+    { media: "(prefers-color-scheme: light)", color: lightPalette.fjordBlue },
+    { media: "(prefers-color-scheme: dark)", color: darkPalette.deepFjord },
   ],
 };
 

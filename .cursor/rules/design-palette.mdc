@@ -1,0 +1,38 @@
+---
+description: Provisionly color palette and design tokens — no hardcoded colors in UI
+globs:
+  - "components/**"
+  - "app/**"
+  - "lib/**"
+alwaysApply: false
+---
+
+# Design palette
+
+Read [`docs/DESIGN.md`](../../docs/DESIGN.md) and use tokens from [`app/design-tokens.css`](../../app/design-tokens.css).
+
+## Rules
+
+1. **Never** use hex literals, `text-white`, `bg-black`, or `rgb()`/`rgba()` in components or app pages.
+2. Use semantic CSS variables: `var(--background)`, `var(--foreground)`, `var(--surface)`, `var(--primary)`, `var(--brand)`, `var(--accent)`, `var(--secondary)`, `var(--overlay)`, `var(--focus-ring)`, etc.
+3. Run `npm run check:colors` — wired into `prelaunch` and must pass before merge.
+
+## Token roles
+
+| Role | Token | Use for |
+|------|-------|---------|
+| CTA buttons | `--primary` | Solid Add / Save / Sign in buttons, toggle on-state |
+| Brand / links | `--brand` | Wordmarks, back links, settings links, guest CTA |
+| Contrast pop | `--accent` | Banners, checkboxes, spinners |
+| Focus | `--focus-ring` | Input focus rings |
+| Organic secondary | `--secondary` | Category headers, member chips |
+| Scrim | `--overlay` | Modal/sheet backdrops |
+| Destructive | `--destructive` | Delete actions |
+
+Category list headers: always `text-[var(--secondary)]` — not DB `category.color`.
+
+## Exceptions (hex allowed)
+
+- `app/design-tokens.css`
+- `lib/design/palette.ts` (PWA only)
+- `lib/pwa/icon-markup.tsx` (ImageResponse)

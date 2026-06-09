@@ -10,7 +10,7 @@ export function LoadingState({ label = "Loading…" }: LoadingStateProps) {
       aria-live="polite"
     >
       <div
-        className="size-8 animate-spin rounded-full border-2 border-[var(--muted)] border-t-[var(--primary)]"
+        className="size-8 animate-spin rounded-full border-2 border-[var(--muted)] border-t-[var(--accent)]"
         aria-hidden
       />
       <p className="text-sm text-[var(--muted-foreground)]">{label}</p>
