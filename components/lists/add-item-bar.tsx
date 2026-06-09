@@ -12,6 +12,14 @@ type AddItemBarProps = {
   disabled?: boolean;
 };
 
+function refocusNameInput(input: HTMLInputElement | null) {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      input?.focus();
+    });
+  });
+}
+
 export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
   const nameRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState("");
@@ -19,8 +27,7 @@ export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
   const [unit, setUnit] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
+  async function submitItem() {
     const trimmed = name.trim();
     if (!trimmed || loading) return;
 
@@ -34,10 +41,21 @@ export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
       setName("");
       setQuantity("");
       setUnit("");
-      nameRef.current?.focus();
+      refocusNameInput(nameRef.current);
     } finally {
       setLoading(false);
     }
+  }
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    await submitItem();
+  }
+
+  function handleNameKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    void submitItem();
   }
 
   return (
@@ -51,9 +69,10 @@ export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          onKeyDown={handleNameKeyDown}
           placeholder="Add item…"
-          disabled={disabled || loading}
-          enterKeyHint="done"
+          disabled={disabled}
+          enterKeyHint="next"
           className="h-11 min-w-0 flex-1 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/25"
           autoComplete="off"
         />
@@ -70,7 +89,7 @@ export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
           placeholder="Qty"
-          disabled={disabled || loading}
+          disabled={disabled}
           className="h-9 w-20 rounded-lg border border-[var(--border)] bg-[var(--background)] px-2 text-sm focus:border-[var(--focus-ring)] focus:outline-none"
         />
         <input
@@ -78,7 +97,7 @@ export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
           value={unit}
           onChange={(e) => setUnit(e.target.value)}
           placeholder="Unit (kg, pcs)"
-          disabled={disabled || loading}
+          disabled={disabled}
           className="h-9 min-w-0 flex-1 rounded-lg border border-[var(--border)] bg-[var(--background)] px-2 text-sm focus:border-[var(--focus-ring)] focus:outline-none"
         />
       </div>

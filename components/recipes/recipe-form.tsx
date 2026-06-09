@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { RecipeInput } from "@/lib/recipes/types";
 import { Button } from "@/components/ui/button";
@@ -96,6 +96,8 @@ export function RecipeForm({
   const router = useRouter();
   const ingredientRefs = useRef(new Map<string, HTMLInputElement>());
   const stepRefs = useRef(new Map<string, HTMLInputElement>());
+  const pendingIngredientFocus = useRef<string | null>(null);
+  const pendingStepFocus = useRef<string | null>(null);
 
   const [title, setTitle] = useState(initial?.title ?? "");
   const [description, setDescription] = useState(initial?.description ?? "");
@@ -119,16 +121,39 @@ export function RecipeForm({
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
-  function focusIngredient(key: string) {
-    requestAnimationFrame(() => {
-      ingredientRefs.current.get(key)?.focus();
-    });
+  useEffect(() => {
+    const key = pendingIngredientFocus.current;
+    if (!key) return;
+    pendingIngredientFocus.current = null;
+    const el = ingredientRefs.current.get(key);
+    if (!el) return;
+    el.focus();
+    el.scrollIntoView({ block: "center", behavior: "smooth" });
+  }, [ingredients]);
+
+  useEffect(() => {
+    const key = pendingStepFocus.current;
+    if (!key) return;
+    pendingStepFocus.current = null;
+    const el = stepRefs.current.get(key);
+    if (!el) return;
+    el.focus();
+    el.scrollIntoView({ block: "center", behavior: "smooth" });
+  }, [steps]);
+
+  function queueIngredientFocus(key: string) {
+    pendingIngredientFocus.current = key;
   }
 
-  function focusStep(key: string) {
-    requestAnimationFrame(() => {
-      stepRefs.current.get(key)?.focus();
-    });
+  function queueStepFocus(key: string) {
+    pendingStepFocus.current = key;
+  }
+
+  function focusIngredientNow(key: string) {
+    const el = ingredientRefs.current.get(key);
+    if (!el) return;
+    el.focus();
+    el.scrollIntoView({ block: "center", behavior: "smooth" });
   }
 
   function updateIngredient(key: string, patch: Partial<IngredientDraft>) {
@@ -152,7 +177,7 @@ export function RecipeForm({
       copy.splice(index + 1, 0, next);
       return copy;
     });
-    focusIngredient(next.key);
+    queueIngredientFocus(next.key);
   }
 
   function handleIngredientKeyDown(
@@ -173,7 +198,7 @@ export function RecipeForm({
     }
 
     const nextKey = ingredients[index + 1]?.key;
-    if (nextKey) focusIngredient(nextKey);
+    if (nextKey) focusIngredientNow(nextKey);
   }
 
   function updateStep(key: string, text: string) {
@@ -197,7 +222,7 @@ export function RecipeForm({
       copy.splice(index + 1, 0, next);
       return copy;
     });
-    focusStep(next.key);
+    queueStepFocus(next.key);
   }
 
   function handleStepKeyDown(
@@ -294,7 +319,7 @@ export function RecipeForm({
             onClick={() => {
               const next = emptyStep();
               setSteps((prev) => [...prev, next]);
-              focusStep(next.key);
+              queueStepFocus(next.key);
             }}
             className="text-sm font-medium text-[var(--accent)]"
           >
@@ -321,7 +346,7 @@ export function RecipeForm({
                 onKeyDown={(e) => handleStepKeyDown(e, step.key, step.text)}
                 placeholder={`Step ${index + 1}`}
                 enterKeyHint="next"
-                className="h-10 min-w-0 flex-1 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-sm"
+                className="h-10 min-w-0 flex-1 scroll-mb-28 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-sm"
               />
               <button
                 type="button"
@@ -346,7 +371,7 @@ export function RecipeForm({
             onClick={() => {
               const next = emptyIngredient();
               setIngredients((prev) => [...prev, next]);
-              focusIngredient(next.key);
+              queueIngredientFocus(next.key);
             }}
             className="text-sm font-medium text-[var(--accent)]"
           >
@@ -377,7 +402,7 @@ export function RecipeForm({
                 }
                 placeholder="Ingredient"
                 enterKeyHint="next"
-                className="h-10 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-sm"
+                className="h-10 scroll-mb-28 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-sm"
               />
               <input
                 type="text"
