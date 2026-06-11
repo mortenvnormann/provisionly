@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { ListItemRow } from "@/lib/lists/types";
 import { useTranslations } from "next-intl";
+
+const TAP_SLOP = 8;
 
 type ListItemRowProps = {
   item: ListItemRow;
@@ -43,6 +45,7 @@ export function ListItemRowView({
   );
   const [unit, setUnit] = useState(item.unit ?? "");
   const [saving, setSaving] = useState(false);
+  const tapStart = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     if (!editing) {
@@ -137,17 +140,33 @@ export function ListItemRowView({
           className="size-5 rounded border-[var(--border)] accent-[var(--accent)]"
         />
       </label>
-      <button
-        type="button"
-        onClick={() => onStartEdit(item.id)}
+      <div
+        role="button"
+        tabIndex={0}
         aria-label={tLists("editItem", { name: item.name })}
+        onPointerDown={(event) => {
+          tapStart.current = { x: event.clientX, y: event.clientY };
+        }}
+        onPointerUp={(event) => {
+          const dx = Math.abs(event.clientX - tapStart.current.x);
+          const dy = Math.abs(event.clientY - tapStart.current.y);
+          if (dx < TAP_SLOP && dy < TAP_SLOP) {
+            onStartEdit(item.id);
+          }
+        }}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            onStartEdit(item.id);
+          }
+        }}
         className={[
-          "min-w-0 flex-1 rounded-lg px-2 py-1 text-left text-base text-[var(--foreground)] transition-colors active:bg-[var(--muted)]",
+          "min-w-0 flex-1 touch-pan-y rounded-lg px-2 py-1 text-left text-base text-[var(--foreground)] transition-colors active:bg-[var(--muted)]",
           item.checked ? "line-through decoration-[var(--muted-foreground)]" : "",
         ].join(" ")}
       >
         {formatItemLabel(item)}
-      </button>
+      </div>
     </div>
   );
 }

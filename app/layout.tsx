@@ -62,12 +62,14 @@ export default async function RootLayout({
       lang={locale}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
+      <body className="flex h-dvh min-h-0 flex-col overflow-hidden">
         <NextIntlClientProvider messages={messages}>
           <AppProviders>
             <AppShell>
               <InstallBanner />
-              {children}
+              <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+                {children}
+              </div>
             </AppShell>
           </AppProviders>
         </NextIntlClientProvider>

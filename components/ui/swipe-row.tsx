@@ -44,6 +44,7 @@ export function SwipeRow({
   const lockedAxis = useRef<"x" | "y" | null>(null);
   const swipedHorizontally = useRef(false);
   const suppressClickRef = useRef(false);
+  const pointerDown = useRef(false);
 
   function reset() {
     setOffset(0);
@@ -52,6 +53,7 @@ export function SwipeRow({
     setDragging(false);
     lockedAxis.current = null;
     swipedHorizontally.current = false;
+    pointerDown.current = false;
   }
 
   function snapOpen() {
@@ -69,11 +71,11 @@ export function SwipeRow({
     liveOffset.current = offset;
     lockedAxis.current = null;
     swipedHorizontally.current = false;
-    setDragging(true);
+    pointerDown.current = true;
   }
 
   function onPointerMove(event: React.PointerEvent) {
-    if (!dragging) return;
+    if (!pointerDown.current) return;
 
     const deltaX = event.clientX - startX.current;
     const deltaY = event.clientY - startY.current;
@@ -86,6 +88,7 @@ export function SwipeRow({
     if (lockedAxis.current === "y") return;
 
     swipedHorizontally.current = true;
+    if (!dragging) setDragging(true);
     event.currentTarget.setPointerCapture(event.pointerId);
     event.preventDefault();
 
@@ -98,7 +101,8 @@ export function SwipeRow({
   }
 
   function onPointerUp(event: React.PointerEvent) {
-    if (!dragging) return;
+    if (!pointerDown.current) return;
+    pointerDown.current = false;
     setDragging(false);
 
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {

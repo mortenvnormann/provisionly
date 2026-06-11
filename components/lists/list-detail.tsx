@@ -384,8 +384,8 @@ export function ListDetail({
   }
 
   return (
-    <div className="flex min-h-full flex-1 flex-col">
-      <header className="safe-area-pt sticky top-0 z-10 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-sm">
+    <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
+      <header className="safe-area-pt sticky top-0 z-10 shrink-0 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-sm">
         <div className="flex items-center gap-2 px-2 py-3">
           <BackLink href="/home" label={tCommon("back")} />
           <h1 className="min-w-0 flex-1 truncate text-lg font-semibold text-[var(--foreground)]">
@@ -408,7 +408,8 @@ export function ListDetail({
         <AddItemBar onAdd={handleAdd} />
       </header>
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="relative flex min-h-0 flex-1 flex-col">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
         {joinedBanner ? (
           <div className="mx-4 mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
             {tLists("joinedBanner")}
@@ -466,6 +467,7 @@ export function ListDetail({
             </section>
           ))
         )}
+        </div>
       </div>
 
       {!isGuest ? (
