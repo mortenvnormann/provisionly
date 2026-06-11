@@ -1,4 +1,7 @@
+import "server-only";
+
 import { resolveCategoryId } from "@/lib/categorisation/resolve";
+import { getLocaleForUser } from "@/lib/i18n/user-locale";
 import { normalizeItemName, nextSortKey } from "@/lib/lists/normalize";
 import type { ListItemRow, ListSettings, ListSummary } from "@/lib/lists/types";
 import { createServiceClient } from "@/lib/supabase/service";
@@ -181,7 +184,10 @@ export async function addListItemForUser(
   const name = input.name.trim();
   const cookieStore = await cookies();
   const userClient = createClient(cookieStore);
-  const categoryId = await resolveCategoryId(userClient, name).catch(() => null);
+  const locale = await getLocaleForUser(userId);
+  const categoryId = await resolveCategoryId(userClient, name, locale).catch(
+    () => null,
+  );
 
   const service = createServiceClient();
   const { data, error } = await service
@@ -279,6 +285,7 @@ export async function createListWithItemsForUser(
   const userClient = createClient(cookieStore);
   const service = createServiceClient();
 
+  const locale = await getLocaleForUser(userId);
   const rows = await Promise.all(
     items.map(async (item, index) => ({
       list_id: list.id,
@@ -288,7 +295,9 @@ export async function createListWithItemsForUser(
       unit: item.unit ?? null,
       category_id:
         item.categoryId ??
-        (await resolveCategoryId(userClient, item.name).catch(() => null)),
+        (await resolveCategoryId(userClient, item.name, locale).catch(
+          () => null,
+        )),
       checked: item.checked ?? false,
       sort_key: item.sortKey ?? `a${index}`,
     })),

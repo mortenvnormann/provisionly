@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -18,6 +19,7 @@ import {
 import type { RecipeSummary } from "@/lib/recipes/types";
 import { profileGreeting } from "@/lib/profile/types";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 type RecipesHomeProps = {
   firstName: string | null;
@@ -35,8 +37,10 @@ export function RecipesHome({
   initialRecipes = [],
 }: RecipesHomeProps) {
   const router = useRouter();
+  const tRecipes = useTranslations("recipes");
+  const tCommon = useTranslations("common");
   const [recipes, setRecipes] = useState<RecipeSummary[]>(initialRecipes);
-  const greeting = profileGreeting({ firstName, lastName, displayName }, email);
+  const greetingName = profileGreeting({ firstName, lastName, displayName }, email);
 
   const loadRecipes = useCallback(async () => {
     const data = await fetchRecipesAction();
@@ -44,8 +48,10 @@ export function RecipesHome({
   }, []);
 
   useEffect(() => {
-    void loadRecipes();
-  }, [loadRecipes]);
+    if (initialRecipes.length === 0) {
+      void loadRecipes();
+    }
+  }, [loadRecipes, initialRecipes.length]);
 
   async function handleRemoveRecipe(recipe: RecipeSummary) {
     if (recipe.isOwner) {
@@ -59,7 +65,7 @@ export function RecipesHome({
 
   return (
     <div className="flex min-h-full flex-1 flex-col overflow-hidden">
-      <HomeHeader greeting={greeting} />
+      <HomeHeader greetingName={greetingName} />
 
       <div className="relative flex min-h-0 flex-1 flex-col">
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
@@ -70,7 +76,7 @@ export function RecipesHome({
 
             {recipes.length === 0 ? (
               <p className="py-8 text-center text-sm text-[var(--muted-foreground)]">
-                No recipes yet. Create your first recipe below.
+                {tRecipes("noRecipes")}
               </p>
             ) : (
               <ul className="flex flex-col gap-2">
@@ -80,15 +86,16 @@ export function RecipesHome({
                       requireConfirm
                       confirmMessage={
                         recipe.isOwner
-                          ? `Delete "${recipe.title}"? This cannot be undone.`
-                          : `Remove "${recipe.title}" from your recipes?`
+                          ? tRecipes("deleteRecipeConfirm", { title: recipe.title })
+                          : tRecipes("removeRecipeConfirm", { title: recipe.title })
                       }
-                      deleteLabel={recipe.isOwner ? "Delete" : "Remove"}
+                      deleteLabel={
+                        recipe.isOwner ? tCommon("delete") : tCommon("remove")
+                      }
                       onDelete={() => handleRemoveRecipe(recipe)}
                     >
-                      <button
-                        type="button"
-                        onClick={() => router.push(`/recipes/${recipe.id}`)}
+                      <Link
+                        href={`/recipes/${recipe.id}`}
                         className="flex w-full items-center justify-between border border-[var(--border)] px-4 py-4 text-left transition-colors active:bg-[var(--muted)]"
                       >
                         <div className="min-w-0">
@@ -96,14 +103,14 @@ export function RecipesHome({
                             {recipe.title}
                           </span>
                           <span className="text-xs text-[var(--muted-foreground)]">
-                            {recipe.defaultServings} servings
-                            {!recipe.isOwner ? " · shared" : ""}
+                            {tRecipes("servingsCount", { count: recipe.defaultServings })}
+                            {!recipe.isOwner ? ` · ${tCommon("shared")}` : ""}
                           </span>
                         </div>
                         <span className="text-[var(--muted-foreground)]">
                           ›
                         </span>
-                      </button>
+                      </Link>
                     </SwipeRow>
                   </li>
                 ))}
@@ -116,7 +123,7 @@ export function RecipesHome({
       <FloatingCreateDock>
         <Button fullWidth onClick={() => router.push("/recipes/new")}>
           <PlusIcon className="h-4 w-4 shrink-0" />
-          New recipe
+          {tRecipes("newRecipe")}
         </Button>
       </FloatingCreateDock>
     </div>

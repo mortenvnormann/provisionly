@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createRecipeShareLinkAction } from "@/lib/share/actions";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 type ShareRecipeSheetProps = {
   recipeId: string;
@@ -17,6 +18,8 @@ export function ShareRecipeSheet({
   open,
   onClose,
 }: ShareRecipeSheetProps) {
+  const tShare = useTranslations("share");
+  const tCommon = useTranslations("common");
   const [url, setUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +44,7 @@ export function ShareRecipeSheet({
       })
       .catch((err) => {
         if (cancelled) return;
-        setError(err instanceof Error ? err.message : "Could not create link");
+        setError(err instanceof Error ? err.message : tShare("couldNotCreateLink"));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -50,7 +53,7 @@ export function ShareRecipeSheet({
     return () => {
       cancelled = true;
     };
-  }, [open, recipeId]);
+  }, [open, recipeId, tShare]);
 
   if (!open) return null;
 
@@ -63,9 +66,9 @@ export function ShareRecipeSheet({
 
   function handleEmailShare() {
     if (!url) return;
-    const subject = encodeURIComponent(`Recipe: ${recipeTitle}`);
+    const subject = encodeURIComponent(tShare("recipeEmailSubject", { title: recipeTitle }));
     const body = encodeURIComponent(
-      `Hi,\n\nCheck out this recipe "${recipeTitle}" on Provisionly:\n\n${url}\n\nThis link does not expire.`,
+      tShare("recipeEmailBody", { title: recipeTitle, url }),
     );
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   }
@@ -75,25 +78,24 @@ export function ShareRecipeSheet({
       <button
         type="button"
         className="absolute inset-0"
-        aria-label="Close share dialog"
+        aria-label={tShare("closeShare")}
         onClick={onClose}
       />
       <div className="relative z-10 w-full max-w-md rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-lg">
         <div className="mb-4 flex items-start justify-between gap-3">
           <div>
             <h2 className="text-lg font-semibold text-[var(--foreground)]">
-              Share recipe
+              {tShare("shareRecipe")}
             </h2>
             <p className="mt-1 text-sm text-[var(--muted-foreground)]">
-              View-only access. Recipients can add ingredients to their lists or
-              clone the recipe. Link never expires.
+              {tShare("shareRecipeDescription")}
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
             className="flex size-8 items-center justify-center rounded-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
-            aria-label="Close"
+            aria-label={tCommon("close")}
           >
             ×
           </button>
@@ -101,7 +103,7 @@ export function ShareRecipeSheet({
 
         {loading ? (
           <p className="py-6 text-center text-sm text-[var(--muted-foreground)]">
-            Creating link…
+            {tShare("creatingLink")}
           </p>
         ) : null}
 
@@ -123,10 +125,10 @@ export function ShareRecipeSheet({
                 fullWidth
                 onClick={() => void handleCopy()}
               >
-                {copied ? "Copied!" : "Copy link"}
+                {copied ? tCommon("copied") : tCommon("copyLink")}
               </Button>
               <Button type="button" fullWidth onClick={handleEmailShare}>
-                Email
+                {tShare("emailInvite")}
               </Button>
             </div>
           </div>

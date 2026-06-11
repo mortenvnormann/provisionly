@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { RecipeInput } from "@/lib/recipes/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useTranslations } from "next-intl";
 
 type IngredientDraft = {
   key: string;
@@ -20,7 +21,7 @@ type InstructionStepDraft = {
 
 type RecipeFormProps = {
   initial?: RecipeInput;
-  submitLabel: string;
+  submitLabel?: string;
   onSubmit: (input: RecipeInput) => Promise<void>;
   onCancel?: () => void;
 };
@@ -93,6 +94,8 @@ export function RecipeForm({
   onSubmit,
   onCancel,
 }: RecipeFormProps) {
+  const tRecipes = useTranslations("recipes");
+  const tCommon = useTranslations("common");
   const router = useRouter();
   const ingredientRefs = useRef(new Map<string, HTMLInputElement>());
   const stepRefs = useRef(new Map<string, HTMLInputElement>());
@@ -250,11 +253,11 @@ export function RecipeForm({
         ingredients,
       );
       if (input.ingredients.length === 0) {
-        throw new Error("Add at least one ingredient.");
+        throw new Error(tRecipes("needIngredient"));
       }
       await onSubmit(input);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not save recipe");
+      setError(err instanceof Error ? err.message : tRecipes("couldNotSave"));
     } finally {
       setSaving(false);
     }
@@ -263,16 +266,16 @@ export function RecipeForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 pb-24">
       <Input
-        label="Title"
+        label={tRecipes("title")}
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="Recipe name"
+        placeholder={tRecipes("recipeName")}
         required
       />
 
       <label className="flex flex-col gap-1">
         <span className="text-sm font-medium text-[var(--foreground)]">
-          Default servings
+          {tRecipes("defaultServings")}
         </span>
         <input
           type="number"
@@ -286,25 +289,25 @@ export function RecipeForm({
       </label>
 
       <label className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-[var(--foreground)]">Tags</span>
+        <span className="text-sm font-medium text-[var(--foreground)]">{tRecipes("tags")}</span>
         <input
           type="text"
           value={tagsText}
           onChange={(e) => setTagsText(e.target.value)}
-          placeholder="quick, vegetarian"
+          placeholder={tRecipes("tagsPlaceholder")}
           className="h-11 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base"
         />
       </label>
 
       <label className="flex flex-col gap-1">
         <span className="text-sm font-medium text-[var(--foreground)]">
-          Description
+          {tRecipes("description")}
         </span>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           rows={3}
-          placeholder="Notes, tips, or comments…"
+          placeholder={tRecipes("descriptionPlaceholder")}
           className="rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-base"
         />
       </label>
@@ -312,7 +315,7 @@ export function RecipeForm({
       <div>
         <div className="mb-2 flex items-center justify-between">
           <span className="text-sm font-medium text-[var(--foreground)]">
-            Instructions
+            {tRecipes("instructions")}
           </span>
           <button
             type="button"
@@ -323,11 +326,11 @@ export function RecipeForm({
             }}
             className="text-sm font-medium text-[var(--accent)]"
           >
-            + Add step
+            {tRecipes("addStep")}
           </button>
         </div>
         <p className="mb-2 text-xs text-[var(--muted-foreground)]">
-          Press Enter after each step to add the next one.
+          {tRecipes("instructionsHint")}
         </p>
         <ol className="flex list-none flex-col gap-2">
           {steps.map((step, index) => (
@@ -344,7 +347,7 @@ export function RecipeForm({
                 value={step.text}
                 onChange={(e) => updateStep(step.key, e.target.value)}
                 onKeyDown={(e) => handleStepKeyDown(e, step.key, step.text)}
-                placeholder={`Step ${index + 1}`}
+                placeholder={tRecipes("stepPlaceholder", { number: index + 1 })}
                 enterKeyHint="next"
                 className="h-10 min-w-0 flex-1 scroll-mb-28 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-sm"
               />
@@ -352,7 +355,7 @@ export function RecipeForm({
                 type="button"
                 onClick={() => removeStep(step.key)}
                 className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
-                aria-label={`Remove step ${index + 1}`}
+                aria-label={tRecipes("removeStep", { number: index + 1 })}
               >
                 ×
               </button>
@@ -364,7 +367,7 @@ export function RecipeForm({
       <div>
         <div className="mb-2 flex items-center justify-between">
           <span className="text-sm font-medium text-[var(--foreground)]">
-            Ingredients
+            {tRecipes("ingredients")}
           </span>
           <button
             type="button"
@@ -375,11 +378,11 @@ export function RecipeForm({
             }}
             className="text-sm font-medium text-[var(--accent)]"
           >
-            + Add
+            {tRecipes("addIngredient")}
           </button>
         </div>
         <p className="mb-2 text-xs text-[var(--muted-foreground)]">
-          Press Enter after each ingredient to add the next one.
+          {tRecipes("ingredientsHint")}
         </p>
         <ul className="flex flex-col gap-2">
           {ingredients.map((item) => (
@@ -400,7 +403,7 @@ export function RecipeForm({
                 onKeyDown={(e) =>
                   handleIngredientKeyDown(e, item.key, item.name)
                 }
-                placeholder="Ingredient"
+                placeholder={tRecipes("ingredient")}
                 enterKeyHint="next"
                 className="h-10 scroll-mb-28 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-sm"
               />
@@ -411,7 +414,7 @@ export function RecipeForm({
                 onChange={(e) =>
                   updateIngredient(item.key, { quantity: e.target.value })
                 }
-                placeholder="Qty"
+                placeholder={tRecipes("qty")}
                 className="h-10 rounded-xl border border-[var(--border)] bg-[var(--background)] px-2 text-sm"
               />
               <input
@@ -420,14 +423,14 @@ export function RecipeForm({
                 onChange={(e) =>
                   updateIngredient(item.key, { unit: e.target.value })
                 }
-                placeholder="Unit"
+                placeholder={tRecipes("unit")}
                 className="h-10 rounded-xl border border-[var(--border)] bg-[var(--background)] px-2 text-sm"
               />
               <button
                 type="button"
                 onClick={() => removeIngredient(item.key)}
                 className="flex size-10 items-center justify-center rounded-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
-                aria-label="Remove ingredient"
+                aria-label={tRecipes("removeIngredient")}
               >
                 ×
               </button>
@@ -445,7 +448,7 @@ export function RecipeForm({
       <div className="safe-area-pb fixed inset-x-0 bottom-0 flex gap-2 border-t border-[var(--border)] bg-[var(--surface)] p-4">
         {onCancel ? (
           <Button type="button" variant="secondary" fullWidth onClick={onCancel}>
-            Cancel
+            {tCommon("cancel")}
           </Button>
         ) : (
           <Button
@@ -454,11 +457,11 @@ export function RecipeForm({
             fullWidth
             onClick={() => router.back()}
           >
-            Cancel
+            {tCommon("cancel")}
           </Button>
         )}
         <Button type="submit" fullWidth disabled={saving}>
-          {saving ? "Saving…" : submitLabel}
+          {saving ? tRecipes("saving") : (submitLabel ?? tRecipes("createRecipe"))}
         </Button>
       </div>
     </form>

@@ -1,8 +1,11 @@
+import type { AppLocale } from "@/lib/i18n/locales";
+
 export type UserProfile = {
   firstName: string | null;
   lastName: string | null;
   displayName: string | null;
   email: string;
+  locale: AppLocale;
 };
 
 export function profileGreeting(

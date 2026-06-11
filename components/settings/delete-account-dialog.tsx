@@ -4,6 +4,7 @@ import { useState } from "react";
 import { deleteAccountAction } from "@/lib/profile/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useTranslations } from "next-intl";
 
 const DELETE_CONFIRMATION = "delete my account";
 
@@ -13,6 +14,8 @@ type DeleteAccountDialogProps = {
 };
 
 export function DeleteAccountDialog({ open, onClose }: DeleteAccountDialogProps) {
+  const t = useTranslations("settings");
+  const tCommon = useTranslations("common");
   const [confirmation, setConfirmation] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -28,7 +31,7 @@ export function DeleteAccountDialog({ open, onClose }: DeleteAccountDialogProps)
     try {
       await deleteAccountAction(confirmation);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not delete account.");
+      setError(err instanceof Error ? err.message : t("couldNotDelete"));
       setDeleting(false);
     }
   }
@@ -38,7 +41,7 @@ export function DeleteAccountDialog({ open, onClose }: DeleteAccountDialogProps)
       <button
         type="button"
         className="absolute inset-0"
-        aria-label="Close dialog"
+        aria-label={tCommon("close")}
         onClick={onClose}
       />
       <div
@@ -51,15 +54,14 @@ export function DeleteAccountDialog({ open, onClose }: DeleteAccountDialogProps)
           id="delete-account-dialog-title"
           className="text-base font-semibold text-[var(--foreground)]"
         >
-          Delete account
+          {t("deleteAccountTitle")}
         </h2>
         <p className="mt-2 text-sm text-[var(--muted-foreground)]">
-          This permanently deletes your account and all lists, recipes, and
-          other data. This cannot be undone.
+          {t("deleteAccountBody")}
         </p>
         <div className="mt-4">
           <Input
-            label={`Type "${DELETE_CONFIRMATION}" to confirm`}
+            label={t("deleteConfirmInput", { phrase: DELETE_CONFIRMATION })}
             name="deleteConfirmation"
             value={confirmation}
             onChange={(event) => setConfirmation(event.target.value)}
@@ -81,7 +83,7 @@ export function DeleteAccountDialog({ open, onClose }: DeleteAccountDialogProps)
             disabled={deleting}
             onClick={onClose}
           >
-            Cancel
+            {tCommon("cancel")}
           </Button>
           <Button
             variant="destructive"
@@ -90,7 +92,7 @@ export function DeleteAccountDialog({ open, onClose }: DeleteAccountDialogProps)
             disabled={!deleteMatches || deleting}
             onClick={() => void handleDelete()}
           >
-            {deleting ? "Deleting…" : "Delete account"}
+            {deleting ? t("deleting") : t("deleteAccount")}
           </Button>
         </div>
       </div>

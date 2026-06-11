@@ -1,3 +1,5 @@
+import "server-only";
+
 import { buildJoinUrl } from "@/lib/app-url";
 import { assertListAccess } from "@/lib/lists/server";
 import { assertRecipeViewAccess } from "@/lib/recipes/server";

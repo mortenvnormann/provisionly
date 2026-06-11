@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 type AppNavProps = {
   active: "lists" | "recipes";
@@ -6,17 +7,19 @@ type AppNavProps = {
 };
 
 export function AppNav({ active, isGuest = false }: AppNavProps) {
+  const t = useTranslations("nav");
+
   if (isGuest) {
     return (
       <nav className="flex gap-1 rounded-xl bg-[var(--muted)] p-1">
         <span className="flex-1 rounded-lg bg-[var(--surface)] px-3 py-2 text-center text-sm font-medium text-[var(--foreground)] shadow-sm">
-          Lists
+          {t("lists")}
         </span>
         <span
           className="flex-1 rounded-lg px-3 py-2 text-center text-sm text-[var(--muted-foreground)]"
-          title="Create an account to use recipes"
+          title={t("guestRecipesHint")}
         >
-          Recipes
+          {t("recipes")}
         </span>
       </nav>
     );
@@ -33,7 +36,7 @@ export function AppNav({ active, isGuest = false }: AppNavProps) {
             : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]",
         ].join(" ")}
       >
-        Lists
+        {t("lists")}
       </Link>
       <Link
         href="/recipes"
@@ -44,7 +47,7 @@ export function AppNav({ active, isGuest = false }: AppNavProps) {
             : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]",
         ].join(" ")}
       >
-        Recipes
+        {t("recipes")}
       </Link>
     </nav>
   );

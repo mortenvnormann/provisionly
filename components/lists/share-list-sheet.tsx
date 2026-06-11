@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createShareLinkAction } from "@/lib/share/actions";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 type ShareListSheetProps = {
   listId: string;
@@ -24,6 +25,9 @@ export function ShareListSheet({
   open,
   onClose,
 }: ShareListSheetProps) {
+  const tLists = useTranslations("lists");
+  const tShare = useTranslations("share");
+  const tCommon = useTranslations("common");
   const [url, setUrl] = useState<string | null>(null);
   const [expiresAt, setExpiresAt] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -51,7 +55,7 @@ export function ShareListSheet({
       })
       .catch((err) => {
         if (cancelled) return;
-        setError(err instanceof Error ? err.message : "Could not create link");
+        setError(err instanceof Error ? err.message : tLists("couldNotCreateLink"));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -60,7 +64,7 @@ export function ShareListSheet({
     return () => {
       cancelled = true;
     };
-  }, [open, listId]);
+  }, [open, listId, tLists]);
 
   if (!open) return null;
 
@@ -73,9 +77,9 @@ export function ShareListSheet({
 
   function handleEmailShare() {
     if (!url) return;
-    const subject = encodeURIComponent(`Join my grocery list: ${listTitle}`);
+    const subject = encodeURIComponent(tShare("listEmailSubject", { title: listTitle }));
     const body = encodeURIComponent(
-      `Hi,\n\nJoin my shopping list "${listTitle}" on Provisionly:\n\n${url}\n\nThis link expires in 7 days.`,
+      tShare("listEmailBody", { title: listTitle, url }),
     );
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   }
@@ -85,24 +89,24 @@ export function ShareListSheet({
       <button
         type="button"
         className="absolute inset-0"
-        aria-label="Close share dialog"
+        aria-label={tShare("closeShare")}
         onClick={onClose}
       />
       <div className="relative z-10 w-full max-w-md rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-lg">
         <div className="mb-4 flex items-start justify-between gap-3">
           <div>
             <h2 className="text-lg font-semibold text-[var(--foreground)]">
-              Share list
+              {tLists("shareListTitle")}
             </h2>
             <p className="mt-1 text-sm text-[var(--muted-foreground)]">
-              Anyone with the link can edit this list. Links expire after 7 days.
+              {tLists("shareListDescription")}
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
             className="flex size-8 items-center justify-center rounded-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
-            aria-label="Close"
+            aria-label={tCommon("close")}
           >
             ×
           </button>
@@ -110,7 +114,7 @@ export function ShareListSheet({
 
         {loading ? (
           <p className="py-6 text-center text-sm text-[var(--muted-foreground)]">
-            Creating link…
+            {tShare("creatingLink")}
           </p>
         ) : null}
 
@@ -127,7 +131,7 @@ export function ShareListSheet({
             </div>
             {expiresAt ? (
               <p className="text-xs text-[var(--muted-foreground)]">
-                Expires {formatExpiry(expiresAt)}
+                {tShare("expiresAt", { date: formatExpiry(expiresAt) })}
               </p>
             ) : null}
             <div className="flex gap-2">
@@ -137,10 +141,10 @@ export function ShareListSheet({
                 fullWidth
                 onClick={() => void handleCopy()}
               >
-                {copied ? "Copied!" : "Copy link"}
+                {copied ? tCommon("copied") : tCommon("copyLink")}
               </Button>
               <Button type="button" fullWidth onClick={handleEmailShare}>
-                Email
+                {tShare("emailInvite")}
               </Button>
             </div>
           </div>

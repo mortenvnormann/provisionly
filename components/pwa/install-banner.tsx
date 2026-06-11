@@ -10,8 +10,11 @@ import {
   type BeforeInstallPromptEvent,
 } from "@/lib/pwa/install";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 export function InstallBanner() {
+  const tPwa = useTranslations("pwa");
+  const tCommon = useTranslations("common");
   const [visible, setVisible] = useState(false);
   const [iosHint, setIosHint] = useState(false);
   const [promptEvent, setPromptEvent] =
@@ -64,12 +67,12 @@ export function InstallBanner() {
       <div className="flex items-start gap-3">
         <div className="min-w-0 flex-1">
           <p className="text-sm font-medium text-[var(--foreground)]">
-            Install Provisionly
+            {tPwa("installTitle")}
           </p>
           <p className="mt-0.5 text-xs text-[var(--muted-foreground)]">
             {iosHint
-              ? "Tap Share, then “Add to Home Screen” for quick access."
-              : "Add to your home screen for a full-screen app experience."}
+              ? tPwa("iosHint")
+              : tPwa("installHint")}
           </p>
         </div>
         <div className="flex shrink-0 gap-2">
@@ -79,11 +82,11 @@ export function InstallBanner() {
               onClick={() => void handleInstall()}
               disabled={installing}
             >
-              {installing ? "…" : "Install"}
+              {installing ? "…" : tPwa("install")}
             </Button>
           ) : null}
           <Button type="button" variant="secondary" onClick={handleDismiss}>
-            Not now
+            {tCommon("cancel")}
           </Button>
         </div>
       </div>

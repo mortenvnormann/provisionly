@@ -3,8 +3,10 @@ import { redirect } from "next/navigation";
 import { SettingsForm } from "@/components/settings/settings-form";
 import { getSessionState } from "@/lib/auth/session";
 import { fetchProfileForUser } from "@/lib/profile/server";
+import { getTranslations } from "next-intl/server";
 
 export default async function SettingsPage() {
+  const tCommon = await getTranslations("common");
   const { user, isGuest, isAuthenticated } = await getSessionState();
 
   if (!isAuthenticated || isGuest || !user) {
@@ -19,12 +21,12 @@ export default async function SettingsPage() {
         <Link
           href="/home"
           className="flex size-10 items-center justify-center rounded-lg text-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
-          aria-label="Back"
+          aria-label={tCommon("back")}
         >
           ‹
         </Link>
         <h1 className="min-w-0 flex-1 text-lg font-semibold text-[var(--foreground)]">
-          Settings
+          {tCommon("settings")}
         </h1>
       </header>
       <SettingsForm profile={profile} />

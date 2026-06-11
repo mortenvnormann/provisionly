@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 type AddItemBarProps = {
   onAdd: (input: {
@@ -21,6 +22,8 @@ function refocusNameInput(input: HTMLInputElement | null) {
 }
 
 export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
+  const tLists = useTranslations("lists");
+  const tCommon = useTranslations("common");
   const nameRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -70,14 +73,14 @@ export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           onKeyDown={handleNameKeyDown}
-          placeholder="Add item…"
+          placeholder={tLists("addItem")}
           disabled={disabled}
           enterKeyHint="next"
           className="h-11 min-w-0 flex-1 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/25"
           autoComplete="off"
         />
         <Button type="submit" disabled={disabled || loading || !name.trim()}>
-          Add
+          {tCommon("add")}
         </Button>
       </div>
       <div className="mt-2 flex gap-2">
@@ -88,7 +91,7 @@ export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
           min="0"
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
-          placeholder="Qty"
+          placeholder={tLists("qty")}
           disabled={disabled}
           className="h-9 w-20 rounded-lg border border-[var(--border)] bg-[var(--background)] px-2 text-sm focus:border-[var(--focus-ring)] focus:outline-none"
         />
@@ -96,7 +99,7 @@ export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
           type="text"
           value={unit}
           onChange={(e) => setUnit(e.target.value)}
-          placeholder="Unit (kg, pcs)"
+          placeholder={tLists("unitPlaceholder")}
           disabled={disabled}
           className="h-9 min-w-0 flex-1 rounded-lg border border-[var(--border)] bg-[var(--background)] px-2 text-sm focus:border-[var(--focus-ring)] focus:outline-none"
         />

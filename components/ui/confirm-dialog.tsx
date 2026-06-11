@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 type PendingConfirm = {
   message: string;
@@ -32,12 +33,14 @@ function ConfirmDialog({
   onCancel,
   onConfirm,
 }: ConfirmDialogProps) {
+  const t = useTranslations("common");
+
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[var(--overlay)] p-4">
       <button
         type="button"
         className="absolute inset-0"
-        aria-label="Close dialog"
+        aria-label={t("close")}
         onClick={onCancel}
       />
       <div
@@ -54,7 +57,7 @@ function ConfirmDialog({
         </p>
         <div className="mt-5 flex gap-2">
           <Button variant="secondary" fullWidth type="button" onClick={onCancel}>
-            Cancel
+            {t("cancel")}
           </Button>
           <Button variant="destructive" fullWidth type="button" onClick={onConfirm}>
             {confirmLabel}
@@ -66,14 +69,15 @@ function ConfirmDialog({
 }
 
 export function ConfirmDialogProvider({ children }: { children: ReactNode }) {
+  const tCommon = useTranslations("common");
   const [pending, setPending] = useState<PendingConfirm | null>(null);
 
   const confirm = useCallback(
-    (message: string, confirmLabel = "Delete") =>
+    (message: string, confirmLabel = tCommon("delete")) =>
       new Promise<boolean>((resolve) => {
         setPending({ message, confirmLabel, resolve });
       }),
-    [],
+    [tCommon],
   );
 
   function close(confirmed: boolean) {

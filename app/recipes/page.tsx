@@ -5,9 +5,10 @@ import { fetchRecipeSummariesForUser } from "@/lib/recipes/server";
 import { createServiceClient } from "@/lib/supabase/service";
 
 export default async function RecipesPage() {
-  const { user } = await getSessionState();
+  const { user, isGuest } = await getSessionState();
 
   if (!user) redirect("/login");
+  if (isGuest) redirect("/home");
 
   const service = createServiceClient();
   const [{ data: profile }, recipes] = await Promise.all([

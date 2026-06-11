@@ -9,7 +9,7 @@ import { getCategoryLabel } from "@/lib/categorisation/resolve";
 import type { CategoryRow } from "@/lib/lists/types";
 import { createClient } from "@/utils/supabase/client";
 
-export function useCategories(locale = "en") {
+export function useCategories(locale = "en", generalLabel = "General") {
   const [categories, setCategories] = useState<CategoryRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,9 +37,9 @@ export function useCategories(locale = "en") {
   const categoryMap = new Map(categories.map((c) => [c.id, c]));
 
   function labelFor(categoryId: string | null): string {
-    if (!categoryId) return "General";
+    if (!categoryId) return generalLabel;
     const cat = categoryMap.get(categoryId);
-    if (!cat) return "General";
+    if (!cat) return generalLabel;
     return getCategoryLabel(cat, locale);
   }
 

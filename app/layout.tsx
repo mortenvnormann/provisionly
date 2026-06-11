@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import { InstallBanner } from "@/components/pwa/install-banner";
 import { AppShell } from "@/components/layout/app-shell";
 import { AppProviders } from "@/components/providers/app-providers";
@@ -47,23 +49,28 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <AppProviders>
-          <AppShell>
-            <InstallBanner />
-            {children}
-          </AppShell>
-        </AppProviders>
+        <NextIntlClientProvider messages={messages}>
+          <AppProviders>
+            <AppShell>
+              <InstallBanner />
+              {children}
+            </AppShell>
+          </AppProviders>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

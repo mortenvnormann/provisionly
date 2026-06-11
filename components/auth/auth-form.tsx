@@ -7,6 +7,7 @@ import { hasPendingGuestLists } from "@/lib/guest/migrate";
 import { safeNextPath } from "@/lib/auth/safe-redirect";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useTranslations } from "next-intl";
 
 type Mode = "signin" | "signup";
 
@@ -15,6 +16,8 @@ type AuthFormProps = {
 };
 
 export function AuthForm({ nextPath }: AuthFormProps) {
+  const tAuth = useTranslations("auth");
+  const tCommon = useTranslations("common");
   const router = useRouter();
   const destination = safeNextPath(nextPath);
   const [mode, setMode] = useState<Mode>("signin");
@@ -58,7 +61,7 @@ export function AuthForm({ nextPath }: AuthFormProps) {
 
         if (!data.session) {
           setInfo(
-            "Account created. Check your email to confirm, then sign in here.",
+            tAuth("accountCreated"),
           );
           setMode("signin");
           return;
@@ -76,7 +79,7 @@ export function AuthForm({ nextPath }: AuthFormProps) {
       router.push(destination);
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
+      setError(err instanceof Error ? err.message : tCommon("somethingWrong"));
     } finally {
       setLoading(false);
     }
@@ -86,13 +89,13 @@ export function AuthForm({ nextPath }: AuthFormProps) {
     <div className="w-full max-w-sm">
       <div className="mb-8 text-center">
         <p className="text-sm font-medium tracking-wide text-[var(--brand)] uppercase">
-          Provisionly
+          {tCommon("appName")}
         </p>
         <h1 className="mt-2 text-2xl font-semibold text-[var(--foreground)]">
-          {mode === "signin" ? "Welcome back" : "Create your account"}
+          {mode === "signin" ? tAuth("welcomeBack") : tAuth("createAccount")}
         </h1>
         <p className="mt-2 text-sm text-[var(--muted-foreground)]">
-          Collaborative grocery lists, made simple.
+          {tAuth("tagline")}
         </p>
       </div>
 
@@ -111,7 +114,7 @@ export function AuthForm({ nextPath }: AuthFormProps) {
             setInfo(null);
           }}
         >
-          Sign in
+          {tAuth("signIn")}
         </button>
         <button
           type="button"
@@ -127,13 +130,13 @@ export function AuthForm({ nextPath }: AuthFormProps) {
             setInfo(null);
           }}
         >
-          Sign up
+          {tAuth("createAccountButton")}
         </button>
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <Input
-          label="Email"
+          label={tAuth("email")}
           name="email"
           type="email"
           autoComplete="email"
@@ -142,7 +145,7 @@ export function AuthForm({ nextPath }: AuthFormProps) {
           onChange={(e) => setEmail(e.target.value)}
         />
         <Input
-          label="Password"
+          label={tAuth("password")}
           name="password"
           type="password"
           autoComplete={mode === "signin" ? "current-password" : "new-password"}
@@ -166,10 +169,10 @@ export function AuthForm({ nextPath }: AuthFormProps) {
 
         <Button type="submit" fullWidth disabled={loading}>
           {loading
-            ? "Please wait…"
+            ? tCommon("pleaseWait")
             : mode === "signin"
-              ? "Sign in"
-              : "Create account"}
+              ? tAuth("signIn")
+              : tAuth("createAccountButton")}
         </Button>
       </form>
     </div>

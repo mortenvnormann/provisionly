@@ -4,6 +4,13 @@ import { revalidatePath } from "next/cache";
 import { getVerifiedUser } from "@/lib/auth/get-user";
 import type { GuestList } from "@/lib/guest/types";
 import {
+  parseGuestLists,
+  parseItemId,
+  parseListId,
+  parseListItemInput,
+  parseListTitle,
+} from "@/lib/validation/parse";
+import {
   addListItemForUser,
   createListForUser,
   createListWithItemsForUser,
@@ -36,7 +43,7 @@ export async function fetchListsAction(): Promise<ListSummary[]> {
 
 export async function createListAction(title: string): Promise<ListSummary> {
   const user = await getVerifiedUser();
-  const list = await createListForUser(user.id, title);
+  const list = await createListForUser(user.id, parseListTitle(title));
   revalidatePath("/home");
   return list;
 }
@@ -45,21 +52,21 @@ export async function fetchListTitleAction(
   listId: string,
 ): Promise<string | null> {
   const user = await getVerifiedUser();
-  return fetchListTitleForUser(user.id, listId);
+  return fetchListTitleForUser(user.id, parseListId(listId));
 }
 
 export async function fetchListItemsAction(
   listId: string,
 ): Promise<ListItemRow[]> {
   const user = await getVerifiedUser();
-  return fetchListItemsForUser(user.id, listId);
+  return fetchListItemsForUser(user.id, parseListId(listId));
 }
 
 export async function fetchListSettingsAction(
   listId: string,
 ): Promise<{ groupByCategory: boolean }> {
   const user = await getVerifiedUser();
-  return fetchListSettingsForUser(user.id, listId);
+  return fetchListSettingsForUser(user.id, parseListId(listId));
 }
 
 export async function fetchListSyncAction(listId: string): Promise<{
@@ -67,7 +74,7 @@ export async function fetchListSyncAction(listId: string): Promise<{
   groupByCategory: boolean;
 }> {
   const user = await getVerifiedUser();
-  return fetchListSyncForUser(user.id, listId);
+  return fetchListSyncForUser(user.id, parseListId(listId));
 }
 
 export async function setListGroupByCategoryAction(
@@ -75,7 +82,11 @@ export async function setListGroupByCategoryAction(
   groupByCategory: boolean,
 ): Promise<void> {
   const user = await getVerifiedUser();
-  await setListGroupByCategoryForUser(user.id, listId, groupByCategory);
+  await setListGroupByCategoryForUser(
+    user.id,
+    parseListId(listId),
+    groupByCategory,
+  );
   revalidatePath(`/lists/${listId}`);
 }
 
@@ -89,7 +100,11 @@ export async function addListItemAction(
   },
 ): Promise<ListItemRow> {
   const user = await getVerifiedUser();
-  const item = await addListItemForUser(user.id, listId, input);
+  const item = await addListItemForUser(
+    user.id,
+    parseListId(listId),
+    parseListItemInput(input),
+  );
   revalidatePath(`/lists/${listId}`);
   return item;
 }
@@ -100,33 +115,33 @@ export async function setItemCheckedAction(
   listId: string,
 ): Promise<void> {
   const user = await getVerifiedUser();
-  await setItemCheckedForUser(user.id, itemId, checked);
-  revalidatePath(`/lists/${listId}`);
+  await setItemCheckedForUser(user.id, parseItemId(itemId), checked);
+  revalidatePath(`/lists/${parseListId(listId)}`);
 }
 
 export async function deleteCheckedItemsAction(
   listId: string,
 ): Promise<void> {
   const user = await getVerifiedUser();
-  await deleteCheckedItemsForUser(user.id, listId);
+  await deleteCheckedItemsForUser(user.id, parseListId(listId));
   revalidatePath(`/lists/${listId}`);
 }
 
 export async function deleteListAction(listId: string): Promise<void> {
   const user = await getVerifiedUser();
-  await deleteListForUser(user.id, listId);
+  await deleteListForUser(user.id, parseListId(listId));
   revalidatePath("/home");
 }
 
 export async function leaveListAction(listId: string): Promise<void> {
   const user = await getVerifiedUser();
-  await leaveListForUser(user.id, listId);
+  await leaveListForUser(user.id, parseListId(listId));
   revalidatePath("/home");
 }
 
 export async function deleteListItemAction(itemId: string): Promise<void> {
   const user = await getVerifiedUser();
-  const listId = await deleteListItemForUser(user.id, itemId);
+  const listId = await deleteListItemForUser(user.id, parseItemId(itemId));
   revalidatePath(`/lists/${listId}`);
 }
 
@@ -141,29 +156,30 @@ export async function migrateGuestListsAction(
     lists: [],
   };
 
-  if (guestLists.length === 0) return result;
+  const validatedLists = parseGuestLists(guestLists);
+  if (validatedLists.length === 0) return result;
 
   let user;
   try {
     user = await getVerifiedUser();
   } catch {
-    result.skipped = guestLists.length;
+    result.skipped = validatedLists.length;
     result.errors.push("Not signed in. Refresh the page to import guest lists.");
     return result;
   }
 
-  for (const guestList of guestLists) {
+  for (const guestList of validatedLists) {
     try {
       await createListWithItemsForUser(
         user.id,
         guestList.title,
         (guestList.items ?? []).map((item) => ({
           name: item.name,
-          quantity: item.quantity,
-          unit: item.unit,
+          quantity: item.quantity ?? undefined,
+          unit: item.unit ?? undefined,
           checked: item.checked,
           sortKey: item.sortKey,
-          categoryId: item.categoryId,
+          categoryId: item.categoryId ?? undefined,
         })),
         {
           groupByCategory: guestList.groupByCategory !== false,

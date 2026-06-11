@@ -3,6 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { getVerifiedUser } from "@/lib/auth/get-user";
 import { fetchListSummariesForUser } from "@/lib/lists/server";
+import {
+  parseAddRecipeToListOptions,
+  parseListId,
+  parseRecipeId,
+  parseRecipeInput,
+} from "@/lib/validation/parse";
 import type { ListSummary } from "@/lib/lists/types";
 import {
   addRecipeIngredientsToListForUser,
@@ -30,14 +36,14 @@ export async function fetchRecipeDetailAction(
   recipeId: string,
 ): Promise<RecipeDetail> {
   const user = await getVerifiedUser();
-  return fetchRecipeDetailForUser(user.id, recipeId);
+  return fetchRecipeDetailForUser(user.id, parseRecipeId(recipeId));
 }
 
 export async function createRecipeAction(
   input: RecipeInput,
 ): Promise<RecipeSummary> {
   const user = await getVerifiedUser();
-  const recipe = await createRecipeForUser(user.id, input);
+  const recipe = await createRecipeForUser(user.id, parseRecipeInput(input));
   revalidatePath("/recipes");
   return recipe;
 }
@@ -47,20 +53,21 @@ export async function updateRecipeAction(
   input: RecipeInput,
 ): Promise<void> {
   const user = await getVerifiedUser();
-  await updateRecipeForUser(user.id, recipeId, input);
+  const id = parseRecipeId(recipeId);
+  await updateRecipeForUser(user.id, id, parseRecipeInput(input));
   revalidatePath("/recipes");
-  revalidatePath(`/recipes/${recipeId}`);
+  revalidatePath(`/recipes/${id}`);
 }
 
 export async function deleteRecipeAction(recipeId: string): Promise<void> {
   const user = await getVerifiedUser();
-  await deleteRecipeForUser(user.id, recipeId);
+  await deleteRecipeForUser(user.id, parseRecipeId(recipeId));
   revalidatePath("/recipes");
 }
 
 export async function removeRecipeAction(recipeId: string): Promise<void> {
   const user = await getVerifiedUser();
-  await removeRecipeAccessForUser(user.id, recipeId);
+  await removeRecipeAccessForUser(user.id, parseRecipeId(recipeId));
   revalidatePath("/recipes");
 }
 
@@ -68,7 +75,7 @@ export async function cloneRecipeAction(
   recipeId: string,
 ): Promise<RecipeSummary> {
   const user = await getVerifiedUser();
-  const recipe = await cloneRecipeForUser(user.id, recipeId);
+  const recipe = await cloneRecipeForUser(user.id, parseRecipeId(recipeId));
   revalidatePath("/recipes");
   return recipe;
 }
@@ -82,13 +89,14 @@ export async function addRecipeToListAction(
   },
 ): Promise<AddToListResult> {
   const user = await getVerifiedUser();
+  const list = parseListId(listId);
   const result = await addRecipeIngredientsToListForUser(
     user.id,
-    recipeId,
-    listId,
-    options,
+    parseRecipeId(recipeId),
+    list,
+    parseAddRecipeToListOptions(options),
   );
-  revalidatePath(`/lists/${listId}`);
+  revalidatePath(`/lists/${list}`);
   return result;
 }
 

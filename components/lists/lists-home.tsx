@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { leaveGuestMode } from "@/lib/auth/actions";
@@ -27,6 +28,7 @@ import { AppNav } from "@/components/nav/app-nav";
 import { SwipeRow } from "@/components/ui/swipe-row";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@/components/ui/icons";
+import { useTranslations } from "next-intl";
 
 type ListsHomeProps = {
   isGuest: boolean;
@@ -46,6 +48,8 @@ export function ListsHome({
   initialLists = [],
 }: ListsHomeProps) {
   const router = useRouter();
+  const tHome = useTranslations("home");
+  const tCommon = useTranslations("common");
   const [lists, setLists] = useState<ListSummary[]>(initialLists);
   const [newTitle, setNewTitle] = useState("");
   const [creating, setCreating] = useState(false);
@@ -79,18 +83,20 @@ export function ListsHome({
     },
   });
 
-  const greeting = profileGreeting({ firstName, lastName, displayName }, email);
+  const greetingName = profileGreeting({ firstName, lastName, displayName }, email);
 
   useEffect(() => {
     if (!isGuest && hasPendingGuestLists()) {
       return;
     }
-    void loadLists();
-  }, [loadLists, isGuest]);
+    if (isGuest || initialLists.length === 0) {
+      void loadLists();
+    }
+  }, [loadLists, isGuest, initialLists.length]);
 
   async function handleCreate(event: React.FormEvent) {
     event.preventDefault();
-    const title = newTitle.trim() || "Shopping list";
+    const title = newTitle.trim() || tHome("defaultListTitle");
     setCreating(true);
     try {
       if (isGuest) {
@@ -129,7 +135,7 @@ export function ListsHome({
 
   return (
     <div className="flex min-h-full flex-1 flex-col overflow-hidden">
-      <HomeHeader greeting={greeting} showSettings={!isGuest} />
+      <HomeHeader greetingName={greetingName} showSettings={!isGuest} />
 
       <div className="relative flex min-h-0 flex-1 flex-col">
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
@@ -141,32 +147,30 @@ export function ListsHome({
         {isGuest ? (
           <div className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3">
             <p className="text-sm text-[var(--muted-foreground)]">
-              Guest mode — lists stay on this device.{" "}
+              {tHome("guestBanner")}{" "}
               <form action={leaveGuestMode} className="inline">
                 <button
                   type="submit"
                   className="font-medium text-[var(--brand)] underline-offset-2 hover:underline"
                 >
-                  Create account
+                  {tHome("createAccount")}
                 </button>
               </form>{" "}
-              to share lists.
+              {tHome("guestShareHint")}
             </p>
           </div>
         ) : null}
 
         {migrationResult?.migrated ? (
           <div className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
-            Imported {migrationResult.migrated} list
-            {migrationResult.migrated === 1 ? "" : "s"} from guest mode.
+            {tHome("importedLists", { count: migrationResult.migrated })}
           </div>
         ) : null}
 
         {migrationResult?.errors.length ? (
           <div className="rounded-xl border border-[var(--destructive)]/40 bg-[var(--destructive)]/10 px-4 py-3 text-sm text-[var(--destructive)]">
             <p className="font-medium">
-              Some guest lists could not be imported. Your local copies are kept
-              so we can retry.
+              {tHome("importErrorsTitle")}
             </p>
             <ul className="mt-2 list-disc space-y-1 pl-4">
               {migrationResult.errors.map((msg) => (
@@ -178,11 +182,11 @@ export function ListsHome({
 
         {isMigrating ? (
           <p className="py-4 text-center text-sm text-[var(--muted-foreground)]">
-            Importing guest lists…
+            {tHome("importing")}
           </p>
         ) : lists.length === 0 ? (
           <p className="py-8 text-center text-sm text-[var(--muted-foreground)]">
-            No lists yet. Create your first shopping list below.
+            {tHome("noLists")}
           </p>
         ) : (
           <ul className="flex flex-col gap-2">
@@ -192,22 +196,21 @@ export function ListsHome({
                   requireConfirm
                   confirmMessage={
                     list.isOwner
-                      ? `Delete "${list.title}"? This cannot be undone.`
-                      : `Remove "${list.title}" from your lists?`
+                      ? tHome("deleteListConfirm", { title: list.title })
+                      : tHome("removeListConfirm", { title: list.title })
                   }
-                  deleteLabel={list.isOwner ? "Delete" : "Remove"}
+                  deleteLabel={list.isOwner ? tCommon("delete") : tCommon("remove")}
                   onDelete={() => handleDeleteList(list)}
                 >
-                  <button
-                    type="button"
-                    onClick={() => router.push(`/lists/${list.id}`)}
+                  <Link
+                    href={`/lists/${list.id}`}
                     className="flex w-full items-center justify-between border border-[var(--border)] px-4 py-4 text-left transition-colors active:bg-[var(--muted)]"
                   >
                     <span className="font-medium text-[var(--foreground)]">
                       {list.title}
                     </span>
                     <span className="text-[var(--muted-foreground)]">›</span>
-                  </button>
+                  </Link>
                 </SwipeRow>
               </li>
             ))}
@@ -224,7 +227,7 @@ export function ListsHome({
               type="text"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
-              placeholder="List name"
+              placeholder={tHome("listName")}
               autoFocus
               className="h-11 w-full rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/25"
             />
@@ -235,17 +238,17 @@ export function ListsHome({
                 fullWidth
                 onClick={() => setShowForm(false)}
               >
-                Cancel
+                {tCommon("cancel")}
               </Button>
               <Button type="submit" fullWidth disabled={creating}>
-                {creating ? "Creating…" : "Create list"}
+                {creating ? tHome("creating") : tHome("createList")}
               </Button>
             </div>
           </form>
         ) : (
           <Button fullWidth onClick={() => setShowForm(true)}>
             <PlusIcon className="h-4 w-4 shrink-0" />
-            New list
+            {tHome("newList")}
           </Button>
         )}
       </FloatingCreateDock>

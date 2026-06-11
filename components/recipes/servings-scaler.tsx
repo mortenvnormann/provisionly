@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 type ServingsScalerProps = {
   defaultServings: number;
@@ -15,6 +16,8 @@ export function ServingsScaler({
   onReset,
   disabled = false,
 }: ServingsScalerProps) {
+  const tCommon = useTranslations("common");
+  const tRecipes = useTranslations("recipes");
   const canReset = servings !== defaultServings;
 
   function adjust(delta: number) {
@@ -25,9 +28,11 @@ export function ServingsScaler({
     <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-medium text-[var(--foreground)]">Servings</p>
+          <p className="text-sm font-medium text-[var(--foreground)]">
+            {tCommon("servings")}
+          </p>
           <p className="text-xs text-[var(--muted-foreground)]">
-            Recipe default: {defaultServings}
+            {tRecipes("recipeDefaultServings", { count: defaultServings })}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -36,7 +41,7 @@ export function ServingsScaler({
             disabled={disabled || servings <= 1}
             onClick={() => adjust(-1)}
             className="flex size-9 items-center justify-center rounded-lg border border-[var(--border)] text-lg disabled:opacity-40"
-            aria-label="Fewer servings"
+            aria-label={tRecipes("fewerServings")}
           >
             −
           </button>
@@ -48,7 +53,7 @@ export function ServingsScaler({
             disabled={disabled}
             onClick={() => adjust(1)}
             className="flex size-9 items-center justify-center rounded-lg border border-[var(--border)] text-lg disabled:opacity-40"
-            aria-label="More servings"
+            aria-label={tRecipes("moreServings")}
           >
             +
           </button>
@@ -60,7 +65,7 @@ export function ServingsScaler({
           onClick={onReset}
           className="mt-3 text-sm font-medium text-[var(--brand)]"
         >
-          Reset to {defaultServings} servings
+          {tRecipes("resetServings", { count: defaultServings })}
         </button>
       ) : null}
     </div>

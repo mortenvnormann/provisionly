@@ -1,0 +1,7877 @@
+[
+  {
+    "alias": "frozen peas",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühl erbsen",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "petits pois surgelés",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries erwten",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne ærter",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "frysta ärtor",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frosne erter",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastetut herneet",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen",
+    "slug": "frozen",
+    "language": null
+  },
+  {
+    "alias": "frozen corn",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlerbsen",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "maïs surgelé",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries maïs",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne majs",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "fryst majs",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frossen mais",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastemaissi",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "tiefkühl",
+    "slug": "frozen",
+    "language": null
+  },
+  {
+    "alias": "frozen spinach",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühl mais",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "épinards surgelés",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries spinazie",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frossen spinat",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "fryst spenat",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frossen spinat",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastespinatti",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "surgelé",
+    "slug": "frozen",
+    "language": null
+  },
+  {
+    "alias": "frozen broccoli",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlspinat",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "brocoli surgelé",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries broccoli",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frossen broccoli",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "fryst broccoli",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frossen brokkoli",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakasteparsakaali",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "diepvries",
+    "slug": "frozen",
+    "language": null
+  },
+  {
+    "alias": "frozen cauliflower",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlbrokkoli",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "chou-fleur surgelé",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries bloemkool",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frossen blomkål",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "fryst blomkål",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frossen blomkål",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastekukkakaali",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frost",
+    "slug": "frozen",
+    "language": null
+  },
+  {
+    "alias": "frozen green beans",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlblumenkohl",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "haricots verts surgelés",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries sperziebonen",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne bønner",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "frysta bönor",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frosne bønner",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastejuurekset",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "fryst",
+    "slug": "frozen",
+    "language": null
+  },
+  {
+    "alias": "frozen mixed vegetables",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlbohnen",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "légumes surgelés",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries groenten",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne grøntsager",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "frysta grönsaker",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frosne grønnsaker",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastemarjat",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frossen",
+    "slug": "frozen",
+    "language": null
+  },
+  {
+    "alias": "frozen carrots",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlgemüse",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "carottes surgelées",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries wortelen",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne gulerødder",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "frysta morötter",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frosne gulrøtter",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastemansikat",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "pakaste",
+    "slug": "frozen",
+    "language": null
+  },
+  {
+    "alias": "frozen berries",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlkarotten",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "fruits rouges surgelés",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries bessen",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne bær",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "frysta bär",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frosne bær",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakaste vadelmat",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen strawberries",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlbeeren",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "fraises surgelées",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries aardbeien",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne jordbær",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "frysta jordgubbar",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frosne jordbær",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakaste mustikat",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen raspberries",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlerdbeeren",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "framboises surgelées",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries frambozen",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne hindbær",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "frysta hallon",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frosne bringebær",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastemango",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen blueberries",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlhimbeeren",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "myrtilles surgelées",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries bosbessen",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne blåbær",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "frysta blåbär",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frosne blåbær",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakasteananas",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen mango",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlheidelbeeren",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "mangue surgelée",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries mango",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frossen mango",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "fryst mango",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frossen mango",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastepizza",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen pineapple",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühl mango",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "ananas surgelé",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries ananas",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frossen ananas",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "fryst ananas",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frossen ananas",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastelasagne",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen pizza",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühl ananas",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "pizza surgelée",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries pizza",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frossen pizza",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "fryst pizza",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frossen pizza",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakasteranskalaiset",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen lasagne",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlpizza",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "lasagnes surgelées",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries lasagne",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frossen lasagne",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "fryst lasagne",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frossen lasagne",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "kalapuikot",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen fries",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühllasagne",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "frites surgelées",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries friet",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne pomfritter",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "frysta pommes",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frosne pommes frites",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "kananugetit",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen chips",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "pommes frites tiefkühl",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "batonnets de poisson",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries patat",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "fiskefrikadeller",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "fiskpinnar",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "fiskepinner",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakaste katkaravut",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen fish fingers",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "fischstäbchen",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "nuggets de poulet",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "vissticks",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "kyllingenuggets",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "kycklingnuggets",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "kyllingnuggets",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastelohi",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen chicken nuggets",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "chicken nuggets",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "crevettes surgelées",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "kippenuggets",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne rejer",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "frysta räkor",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frosne reker",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakasteturska",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen chicken strips",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "chicken strips",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "saumon surgelé",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries garnalen",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frossen laks",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "fryst lax",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frossen laks",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastejauheliha",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen prawns",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlgarnelen",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "cabillaud surgelé",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries zalm",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frossen torsk",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "fryst torsk",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frossen torsk",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastelihapullat",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen salmon",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühllachs",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "viande hachée surgelée",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries kabeljauw",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frossent hakket kød",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "fryst färs",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frossent kjøttdeig",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastehampurilaiset",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen cod",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlkabeljau",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "boulettes surgelées",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries gehakt",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne frikadeller",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "frysta köttbullar",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frosne kjøttboller",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastevohvelit",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen haddock",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlhackfleisch",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "burgers surgelés",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries gehaktballen",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne burgers",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "frysta hamburgare",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frosne burgere",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastepannukakut",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen mince",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühl frikadellen",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "gaufres surgelées",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries burgers",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne vafler",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "frysta våfflor",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frosne vafler",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastepiirakka",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen meatballs",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühl burger",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "crêpes surgelées",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries wafels",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frosne pandekager",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "frysta pannkakor",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frosne pannekaker",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakasteruoka",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen burgers",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlwaffeln",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "pâtisserie surgelée",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries pannenkoeken",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frossen tærte",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "fryst paj",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frossen pai",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "pakastikeitto",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "frozen waffles",
+    "slug": "frozen",
+    "language": "en"
+  },
+  {
+    "alias": "tiefkühlpfannkuchen",
+    "slug": "frozen",
+    "language": "de"
+  },
+  {
+    "alias": "tarte surgelée",
+    "slug": "frozen",
+    "language": "fr"
+  },
+  {
+    "alias": "diepvries deeg",
+    "slug": "frozen",
+    "language": "nl"
+  },
+  {
+    "alias": "frossen ret",
+    "slug": "frozen",
+    "language": "da"
+  },
+  {
+    "alias": "fryst färdigrätt",
+    "slug": "frozen",
+    "language": "sv"
+  },
+  {
+    "alias": "frossen ferdigrett",
+    "slug": "frozen",
+    "language": "no"
+  },
+  {
+    "alias": "jäätelö",
+    "slug": "frozen",
+    "language": "fi"
+  },
+  {
+    "alias": "chips",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "chips",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "chips",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "chips",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "chips",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "chips",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "chips",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "sipsit",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "snack",
+    "slug": "snacks",
+    "language": null
+  },
+  {
+    "alias": "crisps",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "kartoffelchips",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "chips de pomme de terre",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "aardappelchips",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "kartoffelchips",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "potatischips",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "potetgull",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "perunasipsit",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "snacks",
+    "slug": "snacks",
+    "language": null
+  },
+  {
+    "alias": "potato chips",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "tortilla chips",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "chips tortilla",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "tortilla chips",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "tortilla chips",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "tortillachips",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "tortillachips",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "tortillasipsit",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "chips",
+    "slug": "snacks",
+    "language": null
+  },
+  {
+    "alias": "tortilla chips",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "nachos",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "nachos",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "nacho's",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "nachos",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "nachos",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "nachos",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "nachot",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "chocolate",
+    "slug": "snacks",
+    "language": null
+  },
+  {
+    "alias": "nachos",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "popcorn",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "pop-corn",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "popcorn",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "popcorn",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "popcorn",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "popcorn",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "popcorn",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "candy",
+    "slug": "snacks",
+    "language": null
+  },
+  {
+    "alias": "popcorn",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "brezeln",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "bretzels",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "pretzels",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "kridtler",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "pretzlar",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "pretzels",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "pretzelit",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "popcorn",
+    "slug": "snacks",
+    "language": null
+  },
+  {
+    "alias": "pretzels",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "salzbrezeln",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "noix",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "noten",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "saltkringler",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "kringlor",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "saltkringler",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "pähkinät",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "nuts",
+    "slug": "snacks",
+    "language": null
+  },
+  {
+    "alias": "nuts",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "nüsse",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "amandes",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "amandelen",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "nødder",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "nötter",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "nøtter",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "mantelit",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "almonds",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "mandeln",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "cacahuètes",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "pinda's",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "mandler",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "mandlar",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "mandler",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "maapähkinät",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "peanuts",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "erdnüsse",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "noix de cajou",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "cashewnoten",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "peanuts",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "jordnötter",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "peanøtter",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "cashewpähkinät",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "cashews",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "cashewkerne",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "noix de grenoble",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "walnoten",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "cashewnødder",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "cashewnötter",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "cashewnøtter",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "saksanpähkinät",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "walnuts",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "walnüsse",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "pistaches",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "pistachenoten",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "valnødder",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "valnötter",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "valnøtter",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "pistaasipähkinät",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "pistachios",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "pistazien",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "mélange de noix",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "notenmix",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "pistacienødder",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "pistagenötter",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "pistasjnøtter",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "pähkinäsekoitus",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "mixed nuts",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "nussmischung",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "chocolat",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "chocolade",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "nøddeblanding",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "nötblandning",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "nøtteblanding",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "suklaa",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "trail mix",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "studentenfutter",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "chocolat au lait",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "melkchocolade",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "chokolade",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "choklad",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "sjokolade",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "maitosuklaa",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "chocolate",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "schokolade",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "chocolat noir",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "pure chocolade",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "mælkechokolade",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "mjölkchoklad",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "melkesjokolade",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "tumma suklaa",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "milk chocolate",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "vollmilchschokolade",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "barre chocolatée",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "chocoladereep",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "mørk chokolade",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "mörk choklad",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "mørk sjokolade",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "suklaapatukka",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "dark chocolate",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "zartbitterschokolade",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "bonbons",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "snoep",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "chokoladebar",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "chokladkaka",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "sjokoladeplate",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "karkit",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "white chocolate",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "schokoriegel",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "oursons gélifiés",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "winegums",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "slik",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "godis",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "godteri",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "karkkimix",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "chocolate bar",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "süßigkeiten",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "réglisse",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "drop",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "vingummi",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "gelégodis",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "seiggodt",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "lakritsi",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "candy",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "gummibärchen",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "sucettes",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "lolly's",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "lakrids",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "lakrits",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "lakris",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "tikkukarkit",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "sweets",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "lakritz",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "biscuits",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "koekjes",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "slikkepinde",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "sugtabletter",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "sukkerstenger",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "keksit",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "gummy bears",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "lutscher",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "crackers",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "biscuits",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "kiks",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "kex",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "kjeks",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "näkkileipä",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "liquorice",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "kekse",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "galettes de riz",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "crackers",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "crackers",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "crackers",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "crackers",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "riisikakut",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "lollipops",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "cracker",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "barre céréales",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "rijstwafels",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "riskager",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "riskakor",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "riskaker",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "myslipatukka",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "cookies",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "reiswaffeln",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "barre protéinée",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "mueslireep",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "müslibar",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "müslibar",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "müslibar",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "proteiinipatukka",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "biscuits",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "müsliriegel",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "barre énergétique",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "proteinereep",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "proteinbar",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "proteinbar",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "proteinbar",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "energiapatukka",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "crackers",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "proteinriegel",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "jerky",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "energiereep",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "energibar",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "energibar",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "energibar",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "suolapähkinät",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "rice cakes",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "energieriegel",
+    "slug": "snacks",
+    "language": "de"
+  },
+  {
+    "alias": "bâtonnets",
+    "slug": "snacks",
+    "language": "fr"
+  },
+  {
+    "alias": "beef jerky",
+    "slug": "snacks",
+    "language": "nl"
+  },
+  {
+    "alias": "saltede peanuts",
+    "slug": "snacks",
+    "language": "da"
+  },
+  {
+    "alias": "saltade jordnötter",
+    "slug": "snacks",
+    "language": "sv"
+  },
+  {
+    "alias": "saltede peanøtter",
+    "slug": "snacks",
+    "language": "no"
+  },
+  {
+    "alias": "hasselpähkinät",
+    "slug": "snacks",
+    "language": "fi"
+  },
+  {
+    "alias": "granola bar",
+    "slug": "snacks",
+    "language": "en"
+  },
+  {
+    "alias": "toilet paper",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "toilettenpapier",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "papier toilette",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "wc papier",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "toiletpapir",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "toalettpapper",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "toalettpapir",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "wc paperi",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "detergent",
+    "slug": "household",
+    "language": null
+  },
+  {
+    "alias": "kitchen roll",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "küchenrolle",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "essuie-tout",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "toiletpapier",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "køkkenrulle",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "hushållspapper",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "kjøkkenrull",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "talouspaperi",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "bleach",
+    "slug": "household",
+    "language": null
+  },
+  {
+    "alias": "paper towels",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "papiertücher",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "papier essuie-tout",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "keukenrol",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "papirhåndklæder",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "pappershanddukar",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "papirhåndklær",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "nenäliinat",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "foil",
+    "slug": "household",
+    "language": null
+  },
+  {
+    "alias": "tissues",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "taschentücher",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "mouchoirs",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "keukenpapier",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "lommetørklæder",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "näsdukar",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "lommetørklær",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "pesuaine",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "batteries",
+    "slug": "household",
+    "language": null
+  },
+  {
+    "alias": "facial tissues",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "waschmittel",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "lessive",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "tissues",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "vaskemiddel",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "tvättmedel",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "vaskemiddel",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "pesujauhe",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "tissues",
+    "slug": "household",
+    "language": null
+  },
+  {
+    "alias": "laundry detergent",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "waschpulver",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "lessive liquide",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "zakdoekjes",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "vaskepulver",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "tvättpulver",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "vaskepulver",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "huuhteluaine",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "cleaner",
+    "slug": "household",
+    "language": null
+  },
+  {
+    "alias": "washing powder",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "weichspüler",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "adoucissant",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "wasmiddel",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "skyllemiddel",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "sköljmedel",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "skyllemiddel",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "astianpesuaine",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "washing liquid",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "spülmittel",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "liquide vaisselle",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "waspoeder",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "opvaskemiddel",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "diskmedel",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "oppvaskmiddel",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "astianpesutabletit",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "fabric softener",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "geschirrspültabs",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "pastilles lave-vaisselle",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "wasverzachter",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "opvasketabs",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "maskindiskmedel",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "oppvasktabletter",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "astianpesusuola",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "dish soap",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "geschirrspülsalz",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "sel lave-vaisselle",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "afwasmiddel",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "opvaskesalt",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "maskindisktabletter",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "oppvaskesalt",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "huuhtelukirkaste",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "washing up liquid",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "klarspüler",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "liquide rinçage",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "vaatwastabletten",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "afspændingsmiddel",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "diskmaskinsalt",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "avspylingsmiddel",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "yleispuhdistusaine",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "dishwasher tablets",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "allzweckreiniger",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "nettoyant multi-usages",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "vaatwaszout",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "rengøringsmiddel",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "avspänningsmedel",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "rengjøringsmiddel",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "kylpyhuoneen puhdistusaine",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "dishwasher salt",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "badreiniger",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "nettoyant salle de bain",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "glansspoelmiddel",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "badeværelsesrengøring",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "allrengöringsmedel",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "baderomsrengjøring",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "lasinpuhdistusaine",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "rinse aid",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "glasreiniger",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "nettoyant vitres",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "allesreiniger",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "glasrens",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "badrumsrengöring",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "glassrens",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "lattianpuhdistusaine",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "all-purpose cleaner",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "bodenreiniger",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "nettoyant sol",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "badkamerreiniger",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "gulvrens",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "glasrengöring",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "gulvrens",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "valkaisuaine",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "bathroom cleaner",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "bleiche",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "eau de javel",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "glasreiniger",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "bleach",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "golvrengöring",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "blekemiddel",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "desinfiointiaine",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "glass cleaner",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "desinfektionsmittel",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "désinfectant",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "vloerreiniger",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "desinfektionsmiddel",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "blekmedel",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "desinfeksjonsmiddel",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "siivousliinat",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "floor cleaner",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "feuchttücher",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "lingettes",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "bleek",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "rengøringsklude",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "desinfektionsmedel",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "rengjøringskluter",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "pesusienet",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "bleach",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "schwämme",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "éponges",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "desinfectiemiddel",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "svampe",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "rengöringsdukar",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "svamper",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "kumihanskat",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "disinfectant",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "topfreiniger",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "gants en caoutchouc",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "schoonmaakdoekjes",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "gummihandsker",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "svampar",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "gummihansker",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "roskapussit",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "surface wipes",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "gummihandschuhe",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "sacs poubelle",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "sponzen",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "affaldsposer",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "gummihandskar",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "søppelposer",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "pakastepussit",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "cleaning wipes",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "müllbeutel",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "sacs congélation",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "schuursponsjes",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "fryseposer",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "soppåsar",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "fryseposer",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "muovikelmu",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "sponges",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "gefrierbeutel",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "film alimentaire",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "rubber handschoenen",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "plastfolie",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "fryspåsar",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "plastfolie",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "alumiinifolio",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "scourers",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "frischhaltefolie",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "papier aluminium",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "vuilniszakken",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "aluminiumfolie",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "plastfolie",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "aluminiumsfolie",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "leivinpaperi",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "scrubbing brush",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "alufolie",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "papier cuisson",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "afvalzakken",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "bagepapir",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "aluminiumfolie",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "bakepapir",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "alumiivuoat",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "rubber gloves",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "backpapier",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "plaques aluminium",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "vrieszakken",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "alufoliebakker",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "bakplåtspapper",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "aluminiumsformer",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "paristot",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "bin bags",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "aluschalen",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "piles",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "vershoudfolie",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "batterier",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "aluminiumformar",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "batterier",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "aa paristot",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "trash bags",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "batterien",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "piles aa",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "aluminiumfolie",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "aa batterier",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "batterier",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "aa batterier",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "aaa paristot",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "food bags",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "aa batterien",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "piles aaa",
+    "slug": "household",
+    "language": "fr"
+  },
+  {
+    "alias": "bakpapier",
+    "slug": "household",
+    "language": "nl"
+  },
+  {
+    "alias": "aaa batterier",
+    "slug": "household",
+    "language": "da"
+  },
+  {
+    "alias": "aa batterier",
+    "slug": "household",
+    "language": "sv"
+  },
+  {
+    "alias": "aaa batterier",
+    "slug": "household",
+    "language": "no"
+  },
+  {
+    "alias": "lamput",
+    "slug": "household",
+    "language": "fi"
+  },
+  {
+    "alias": "freezer bags",
+    "slug": "household",
+    "language": "en"
+  },
+  {
+    "alias": "aaa batterien",
+    "slug": "household",
+    "language": "de"
+  },
+  {
+    "alias": "apple",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "apfel",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "pomme",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "appel",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "æble",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "äpple",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "eple",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "omena",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "avocado",
+    "slug": "produce",
+    "language": null
+  },
+  {
+    "alias": "apples",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "äpfel",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "pommes",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "appels",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "æbler",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "banan",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "epler",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "omenat",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "mango",
+    "slug": "produce",
+    "language": null
+  },
+  {
+    "alias": "banana",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "banane",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "banane",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "banaan",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "banan",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "apelsin",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "banan",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "banaani",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "basil",
+    "slug": "produce",
+    "language": null
+  },
+  {
+    "alias": "bananas",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "bananen",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "orange",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "sinaasappel",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "appelsin",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "citron",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "appelsin",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "appelsiini",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "mint",
+    "slug": "produce",
+    "language": null
+  },
+  {
+    "alias": "orange",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "orange",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "citron",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "citroen",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "citron",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "lime",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "sitron",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "sitruuna",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "ginger",
+    "slug": "produce",
+    "language": null
+  },
+  {
+    "alias": "oranges",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "orangen",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "citron vert",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "limoen",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "lime",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "druva",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "lime",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "lime",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "lemon",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "zitrone",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "raisin",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "druif",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "drue",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "druvor",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "drue",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "viinirypäle",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "lemons",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "zitronen",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "fraise",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "druiven",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "druer",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "jordgubbe",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "druer",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "mansikka",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "lime",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "limette",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "myrtille",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "aardbei",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "jordbær",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "jordgubbar",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "jordbær",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "mansikat",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "grape",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "traube",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "framboise",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "aardbeien",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "blåbær",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "blåbär",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "blåbær",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "mustikka",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "grapes",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "trauben",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "mûre",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "bosbes",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "hindbær",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "hallon",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "bringebær",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "vadelma",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "strawberry",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "erdbeere",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "cerise",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "framboos",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "brombær",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "björnbär",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "bjørnebær",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "karhunvatukka",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "strawberries",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "erdbeeren",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "pêche",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "braam",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "kirsebær",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "körsbär",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "kirsebær",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "kirsikka",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "blueberry",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "heidelbeere",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "poire",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "kers",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "fersken",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "persika",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "fersken",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "persikka",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "blueberries",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "himbeere",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "prune",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "perzik",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "pære",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "päron",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "pære",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "päärynä",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "raspberry",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "brombeere",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "mangue",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "peer",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "blomme",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "plommon",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "plomme",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "luumu",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "raspberries",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "kirsche",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "ananas",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "pruim",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "mango",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "mango",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "mango",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "mango",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "blackberry",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "kirschen",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "pastèque",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "mango",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "ananas",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "ananas",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "ananas",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "ananas",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "blackberries",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "pfirsich",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "melon",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "ananas",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "vandmelon",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "vattenmelon",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "vannmelon",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "vesimeloni",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "cherry",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "birne",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "kiwi",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "watermeloen",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "melon",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "melon",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "melon",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "meloni",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "cherries",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "pflaume",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "avocat",
+    "slug": "produce",
+    "language": "fr"
+  },
+  {
+    "alias": "meloen",
+    "slug": "produce",
+    "language": "nl"
+  },
+  {
+    "alias": "kiwi",
+    "slug": "produce",
+    "language": "da"
+  },
+  {
+    "alias": "kiwi",
+    "slug": "produce",
+    "language": "sv"
+  },
+  {
+    "alias": "kiwi",
+    "slug": "produce",
+    "language": "no"
+  },
+  {
+    "alias": "kiivi",
+    "slug": "produce",
+    "language": "fi"
+  },
+  {
+    "alias": "peach",
+    "slug": "produce",
+    "language": "en"
+  },
+  {
+    "alias": "mango",
+    "slug": "produce",
+    "language": "de"
+  },
+  {
+    "alias": "milk",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "milch",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "lait",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "melk",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "mælk",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "mjölk",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "melk",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "maito",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "milk",
+    "slug": "dairy",
+    "language": null
+  },
+  {
+    "alias": "semi-skimmed milk",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "haltbare milch",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "lait demi-écrémé",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "halfvolle melk",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "letmælk",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "lättmjölk",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "lettmelk",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "kevytmaito",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "cheese",
+    "slug": "dairy",
+    "language": null
+  },
+  {
+    "alias": "skimmed milk",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "hafermilch",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "lait écrémé",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "magere melk",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "skummetmælk",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "skummjölk",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "skummet melk",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "rasvaton maito",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "butter",
+    "slug": "dairy",
+    "language": null
+  },
+  {
+    "alias": "whole milk",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "mandelmilch",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "lait entier",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "volle melk",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "sødmælk",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "standardmjölk",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "helmelk",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "täysmaito",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "yogurt",
+    "slug": "dairy",
+    "language": null
+  },
+  {
+    "alias": "oat milk",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "sojamilch",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "lait d'avoine",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "havermelk",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "havremælk",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "havremjölk",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "havremelk",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "kauramaito",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "cream",
+    "slug": "dairy",
+    "language": null
+  },
+  {
+    "alias": "almond milk",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "käse",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "lait d'amande",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "amandelmelk",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "mandelmælk",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "mandelmjölk",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "mandelmelk",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "mantelimaito",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "eggs",
+    "slug": "dairy",
+    "language": null
+  },
+  {
+    "alias": "soy milk",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "cheddar",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "lait de soja",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "sojamelk",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "sojamælk",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "sojamjölk",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "soyamelk",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "soijamaito",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "cheese",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "mozzarella",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "fromage",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "kaas",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "ost",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "ost",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "ost",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "juusto",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "cheddar",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "parmesan",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "cheddar",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "cheddar",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "cheddar",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "cheddar",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "cheddar",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "cheddar",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "mozzarella",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "feta",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "mozzarella",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "mozzarella",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "mozzarella",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "mozzarella",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "mozzarella",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "mozzarella",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "parmesan",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "brie",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "parmesan",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "parmezaan",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "parmesan",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "parmesan",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "parmesan",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "parmesaani",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "feta",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "camembert",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "feta",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "feta",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "feta",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "feta",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "feta",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "feta",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "brie",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "frischkäse",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "brie",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "brie",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "brie",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "brie",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "brie",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "brie",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "camembert",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "hüttenkäse",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "camembert",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "camembert",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "camembert",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "camembert",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "camembert",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "camembert",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "cream cheese",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "ricotta",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "fromage frais",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "roomkaas",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "flødeost",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "färskost",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "kremost",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "tuorejuusto",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "cottage cheese",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "ziegenkäse",
+    "slug": "dairy",
+    "language": "de"
+  },
+  {
+    "alias": "cottage cheese",
+    "slug": "dairy",
+    "language": "fr"
+  },
+  {
+    "alias": "cottage cheese",
+    "slug": "dairy",
+    "language": "nl"
+  },
+  {
+    "alias": "cottage cheese",
+    "slug": "dairy",
+    "language": "da"
+  },
+  {
+    "alias": "cottage cheese",
+    "slug": "dairy",
+    "language": "sv"
+  },
+  {
+    "alias": "cottage cheese",
+    "slug": "dairy",
+    "language": "no"
+  },
+  {
+    "alias": "ricotta",
+    "slug": "dairy",
+    "language": "fi"
+  },
+  {
+    "alias": "ricotta",
+    "slug": "dairy",
+    "language": "en"
+  },
+  {
+    "alias": "chicken",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "hähnchen",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "poulet",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "kip",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "kylling",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "kyckling",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "kylling",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "kana",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "bacon",
+    "slug": "meat_fish",
+    "language": null
+  },
+  {
+    "alias": "chicken breast",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "hähnchenbrust",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "blanc de poulet",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "kipfilet",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "kyllingebryst",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "kycklingbröst",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "kyllingbryst",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "kananrinta",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "salmon",
+    "slug": "meat_fish",
+    "language": null
+  },
+  {
+    "alias": "chicken thighs",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "hähnchenschenkel",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "cuisses de poulet",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "kippendijen",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "kyllingelår",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "kycklinglår",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "kyllinglår",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "kananreidet",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "tuna",
+    "slug": "meat_fish",
+    "language": null
+  },
+  {
+    "alias": "chicken wings",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "hähnchenflügel",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "ailes de poulet",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "kippenvleugels",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "kyllingevinger",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "kycklingvingar",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "kyllingvinger",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "kanansiivet",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "sausage",
+    "slug": "meat_fish",
+    "language": null
+  },
+  {
+    "alias": "whole chicken",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "ganzes hähnchen",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "poulet entier",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "hele kip",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "hel kylling",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "hel kyckling",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "hel kylling",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "kokonainen kana",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "ham",
+    "slug": "meat_fish",
+    "language": null
+  },
+  {
+    "alias": "turkey",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "pute",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "dinde",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "kalkoen",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "kalkun",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "kalkon",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "kalkun",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "kalkkuna",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "duck",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "ente",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "canard",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "eend",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "and",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "anka",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "and",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "ankka",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "beef",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "rindfleisch",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "boeuf",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "rundvlees",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "oksekød",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "nötkött",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "storfekjøtt",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "naudanliha",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "steak",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "steak",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "steak",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "biefstuk",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "bøf",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "biff",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "biff",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "pihvi",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "sirloin",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "rumpsteak",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "rumsteck",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "runderlappen",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "entrecote",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "entrecote",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "entrecôte",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "jauheliha",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "ribeye",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "entrecôte",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "entrecôte",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "rundergehakt",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "hakket oksekød",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "nötfärs",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "kjøttdeig",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "naudan paisti",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "mince",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "hackfleisch",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "viande hachée",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "stoofvlees",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "oksegullasch",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "grytbitar",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "oksekjøtt",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "sianliha",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "ground beef",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "rindergulasch",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "boeuf bourguignon",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "varkensvlees",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "svinekød",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "fläsk",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "svinekjøtt",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "possun kyljykset",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "beef stew",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "braten",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "rôti de boeuf",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "varkenskoteletten",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "svinekoteletter",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "fläskkotletter",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "svinekoteletter",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "pekoni",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "roast beef",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "schweinefleisch",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "porc",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "buikspek",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "bacon",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "bacon",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "bacon",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "kinkku",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "pork",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "schweinekoteletts",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "côtelettes de porc",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "spek",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "skinke",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "skinka",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "skinke",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "makkara",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "pork chops",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "schweinebauch",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "poitrine de porc",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "ham",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "pølser",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "korv",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "pølser",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "makkarat",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "pork belly",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "speck",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "lard",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "worstjes",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "medister",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "korvar",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "chorizo",
+    "slug": "meat_fish",
+    "language": "no"
+  },
+  {
+    "alias": "chorizo",
+    "slug": "meat_fish",
+    "language": "fi"
+  },
+  {
+    "alias": "bacon",
+    "slug": "meat_fish",
+    "language": "en"
+  },
+  {
+    "alias": "schinken",
+    "slug": "meat_fish",
+    "language": "de"
+  },
+  {
+    "alias": "jambon",
+    "slug": "meat_fish",
+    "language": "fr"
+  },
+  {
+    "alias": "worst",
+    "slug": "meat_fish",
+    "language": "nl"
+  },
+  {
+    "alias": "chorizo",
+    "slug": "meat_fish",
+    "language": "da"
+  },
+  {
+    "alias": "chorizo",
+    "slug": "meat_fish",
+    "language": "sv"
+  },
+  {
+    "alias": "bread",
+    "slug": "bakery",
+    "language": "en"
+  },
+  {
+    "alias": "brot",
+    "slug": "bakery",
+    "language": "de"
+  },
+  {
+    "alias": "pain",
+    "slug": "bakery",
+    "language": "fr"
+  },
+  {
+    "alias": "brood",
+    "slug": "bakery",
+    "language": "nl"
+  },
+  {
+    "alias": "brød",
+    "slug": "bakery",
+    "language": "da"
+  },
+  {
+    "alias": "bröd",
+    "slug": "bakery",
+    "language": "sv"
+  },
+  {
+    "alias": "brød",
+    "slug": "bakery",
+    "language": "no"
+  },
+  {
+    "alias": "leipä",
+    "slug": "bakery",
+    "language": "fi"
+  },
+  {
+    "alias": "bread",
+    "slug": "bakery",
+    "language": null
+  },
+  {
+    "alias": "white bread",
+    "slug": "bakery",
+    "language": "en"
+  },
+  {
+    "alias": "weißbrot",
+    "slug": "bakery",
+    "language": "de"
+  },
+  {
+    "alias": "pain blanc",
+    "slug": "bakery",
+    "language": "fr"
+  },
+  {
+    "alias": "wit brood",
+    "slug": "bakery",
+    "language": "nl"
+  },
+  {
+    "alias": "hvidt brød",
+    "slug": "bakery",
+    "language": "da"
+  },
+  {
+    "alias": "vitt bröd",
+    "slug": "bakery",
+    "language": "sv"
+  },
+  {
+    "alias": "hvitt brød",
+    "slug": "bakery",
+    "language": "no"
+  },
+  {
+    "alias": "valkoinen leipä",
+    "slug": "bakery",
+    "language": "fi"
+  },
+  {
+    "alias": "baguette",
+    "slug": "bakery",
+    "language": null
+  },
+  {
+    "alias": "brown bread",
+    "slug": "bakery",
+    "language": "en"
+  },
+  {
+    "alias": "vollkornbrot",
+    "slug": "bakery",
+    "language": "de"
+  },
+  {
+    "alias": "pain complet",
+    "slug": "bakery",
+    "language": "fr"
+  },
+  {
+    "alias": "bruin brood",
+    "slug": "bakery",
+    "language": "nl"
+  },
+  {
+    "alias": "fuldkornsbrød",
+    "slug": "bakery",
+    "language": "da"
+  },
+  {
+    "alias": "fullkornsbröd",
+    "slug": "bakery",
+    "language": "sv"
+  },
+  {
+    "alias": "fullkornsbrød",
+    "slug": "bakery",
+    "language": "no"
+  },
+  {
+    "alias": "täysjyväleipä",
+    "slug": "bakery",
+    "language": "fi"
+  },
+  {
+    "alias": "croissant",
+    "slug": "bakery",
+    "language": null
+  },
+  {
+    "alias": "wholemeal bread",
+    "slug": "bakery",
+    "language": "en"
+  },
+  {
+    "alias": "sauerteigbrot",
+    "slug": "bakery",
+    "language": "de"
+  },
+  {
+    "alias": "pain de campagne",
+    "slug": "bakery",
+    "language": "fr"
+  },
+  {
+    "alias": "volkorenbrood",
+    "slug": "bakery",
+    "language": "nl"
+  },
+  {
+    "alias": "surdejsbrød",
+    "slug": "bakery",
+    "language": "da"
+  },
+  {
+    "alias": "surdegsbröd",
+    "slug": "bakery",
+    "language": "sv"
+  },
+  {
+    "alias": "surdeigsbrød",
+    "slug": "bakery",
+    "language": "no"
+  },
+  {
+    "alias": "hapantaikinaleipä",
+    "slug": "bakery",
+    "language": "fi"
+  },
+  {
+    "alias": "bagel",
+    "slug": "bakery",
+    "language": null
+  },
+  {
+    "alias": "sourdough",
+    "slug": "bakery",
+    "language": "en"
+  },
+  {
+    "alias": "baguette",
+    "slug": "bakery",
+    "language": "de"
+  },
+  {
+    "alias": "baguette",
+    "slug": "bakery",
+    "language": "fr"
+  },
+  {
+    "alias": "zuurdesem brood",
+    "slug": "bakery",
+    "language": "nl"
+  },
+  {
+    "alias": "baguette",
+    "slug": "bakery",
+    "language": "da"
+  },
+  {
+    "alias": "baguette",
+    "slug": "bakery",
+    "language": "sv"
+  },
+  {
+    "alias": "baguette",
+    "slug": "bakery",
+    "language": "no"
+  },
+  {
+    "alias": "patonki",
+    "slug": "bakery",
+    "language": "fi"
+  },
+  {
+    "alias": "baguette",
+    "slug": "bakery",
+    "language": "en"
+  },
+  {
+    "alias": "ciabatta",
+    "slug": "bakery",
+    "language": "de"
+  },
+  {
+    "alias": "ciabatta",
+    "slug": "bakery",
+    "language": "fr"
+  },
+  {
+    "alias": "stokbrood",
+    "slug": "bakery",
+    "language": "nl"
+  },
+  {
+    "alias": "ciabatta",
+    "slug": "bakery",
+    "language": "da"
+  },
+  {
+    "alias": "ciabatta",
+    "slug": "bakery",
+    "language": "sv"
+  },
+  {
+    "alias": "ciabatta",
+    "slug": "bakery",
+    "language": "no"
+  },
+  {
+    "alias": "baguette",
+    "slug": "bakery",
+    "language": "fi"
+  },
+  {
+    "alias": "ciabatta",
+    "slug": "bakery",
+    "language": "en"
+  },
+  {
+    "alias": "pita",
+    "slug": "bakery",
+    "language": "de"
+  },
+  {
+    "alias": "pita",
+    "slug": "bakery",
+    "language": "fr"
+  },
+  {
+    "alias": "baguette",
+    "slug": "bakery",
+    "language": "nl"
+  },
+  {
+    "alias": "pita",
+    "slug": "bakery",
+    "language": "da"
+  },
+  {
+    "alias": "pita",
+    "slug": "bakery",
+    "language": "sv"
+  },
+  {
+    "alias": "pita",
+    "slug": "bakery",
+    "language": "no"
+  },
+  {
+    "alias": "ciabatta",
+    "slug": "bakery",
+    "language": "fi"
+  },
+  {
+    "alias": "pita",
+    "slug": "bakery",
+    "language": "en"
+  },
+  {
+    "alias": "naan",
+    "slug": "bakery",
+    "language": "de"
+  },
+  {
+    "alias": "naan",
+    "slug": "bakery",
+    "language": "fr"
+  },
+  {
+    "alias": "ciabatta",
+    "slug": "bakery",
+    "language": "nl"
+  },
+  {
+    "alias": "naan",
+    "slug": "bakery",
+    "language": "da"
+  },
+  {
+    "alias": "naan",
+    "slug": "bakery",
+    "language": "sv"
+  },
+  {
+    "alias": "naan",
+    "slug": "bakery",
+    "language": "no"
+  },
+  {
+    "alias": "pita",
+    "slug": "bakery",
+    "language": "fi"
+  },
+  {
+    "alias": "naan",
+    "slug": "bakery",
+    "language": "en"
+  },
+  {
+    "alias": "wrap",
+    "slug": "bakery",
+    "language": "de"
+  },
+  {
+    "alias": "wrap",
+    "slug": "bakery",
+    "language": "fr"
+  },
+  {
+    "alias": "pita",
+    "slug": "bakery",
+    "language": "nl"
+  },
+  {
+    "alias": "wrap",
+    "slug": "bakery",
+    "language": "da"
+  },
+  {
+    "alias": "wrap",
+    "slug": "bakery",
+    "language": "sv"
+  },
+  {
+    "alias": "wrap",
+    "slug": "bakery",
+    "language": "no"
+  },
+  {
+    "alias": "naan",
+    "slug": "bakery",
+    "language": "fi"
+  },
+  {
+    "alias": "tortilla wrap",
+    "slug": "bakery",
+    "language": "en"
+  },
+  {
+    "alias": "brötchen",
+    "slug": "bakery",
+    "language": "de"
+  },
+  {
+    "alias": "petits pains",
+    "slug": "bakery",
+    "language": "fr"
+  },
+  {
+    "alias": "naan",
+    "slug": "bakery",
+    "language": "nl"
+  },
+  {
+    "alias": "boller",
+    "slug": "bakery",
+    "language": "da"
+  },
+  {
+    "alias": "frallor",
+    "slug": "bakery",
+    "language": "sv"
+  },
+  {
+    "alias": "rundstykker",
+    "slug": "bakery",
+    "language": "no"
+  },
+  {
+    "alias": "wrap",
+    "slug": "bakery",
+    "language": "fi"
+  },
+  {
+    "alias": "rolls",
+    "slug": "bakery",
+    "language": "en"
+  },
+  {
+    "alias": "semmeln",
+    "slug": "bakery",
+    "language": "de"
+  },
+  {
+    "alias": "brioche",
+    "slug": "bakery",
+    "language": "fr"
+  },
+  {
+    "alias": "wrap",
+    "slug": "bakery",
+    "language": "nl"
+  },
+  {
+    "alias": "rundstykker",
+    "slug": "bakery",
+    "language": "da"
+  },
+  {
+    "alias": "bullar",
+    "slug": "bakery",
+    "language": "sv"
+  },
+  {
+    "alias": "boller",
+    "slug": "bakery",
+    "language": "no"
+  },
+  {
+    "alias": "sämpylä",
+    "slug": "bakery",
+    "language": "fi"
+  },
+  {
+    "alias": "buns",
+    "slug": "bakery",
+    "language": "en"
+  },
+  {
+    "alias": "burgerbrötchen",
+    "slug": "bakery",
+    "language": "de"
+  },
+  {
+    "alias": "pain burger",
+    "slug": "bakery",
+    "language": "fr"
+  },
+  {
+    "alias": "rice",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "reis",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "riz",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "rijst",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "ris",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "ris",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "ris",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "riisi",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "rice",
+    "slug": "pantry",
+    "language": null
+  },
+  {
+    "alias": "basmati rice",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "basmatireis",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "riz basmati",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "basmatirijst",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "basmatiris",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "basmatiris",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "basmatiris",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "basmatiriisi",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "pasta",
+    "slug": "pantry",
+    "language": null
+  },
+  {
+    "alias": "jasmine rice",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "jasminreis",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "riz jasmin",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "jasmijnrijst",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "jasminris",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "jasminris",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "jasminris",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "jasmiiniriisi",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "flour",
+    "slug": "pantry",
+    "language": null
+  },
+  {
+    "alias": "brown rice",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "brauner reis",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "riz complet",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "zilvervliesrijst",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "brune ris",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "brunt ris",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "brun ris",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "täysjyväriisi",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "sugar",
+    "slug": "pantry",
+    "language": null
+  },
+  {
+    "alias": "pasta",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "nudeln",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "pâtes",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "pasta",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "pasta",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "pasta",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "pasta",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "pasta",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "salt",
+    "slug": "pantry",
+    "language": null
+  },
+  {
+    "alias": "spaghetti",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "spaghetti",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "spaghetti",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "spaghetti",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "spaghetti",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "spaghetti",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "spaghetti",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "spagetti",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "oil",
+    "slug": "pantry",
+    "language": null
+  },
+  {
+    "alias": "penne",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "penne",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "penne",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "penne",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "penne",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "penne",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "penne",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "penne",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "honey",
+    "slug": "pantry",
+    "language": null
+  },
+  {
+    "alias": "fusilli",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "fusilli",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "fusilli",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "fusilli",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "fusilli",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "fusilli",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "fusilli",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "fusilli",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "oats",
+    "slug": "pantry",
+    "language": null
+  },
+  {
+    "alias": "lasagne sheets",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "lasagneplatten",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "feuilles de lasagne",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "lasagnebladen",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "lasagneplader",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "lasagneplattor",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "lasagneplater",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "lasagnelevyt",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "quinoa",
+    "slug": "pantry",
+    "language": null
+  },
+  {
+    "alias": "noodles",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "mehl",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "farine",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "bloem",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "mel",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "mjöl",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "mel",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "jauho",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "flour",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "weizenmehl",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "sucre",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "suiker",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "sukker",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "socker",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "sukker",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "sokeri",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "plain flour",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "backmehl",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "sucre roux",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "bruine suiker",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "brun sukker",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "brunt socker",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "brunt sukker",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "ruskea sokeri",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "self-raising flour",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "zucker",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "sucre glace",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "poedersuiker",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "flormelis",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "florsocker",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "melis",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "tomusokeri",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "bread flour",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "brauner zucker",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "sel",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "zout",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "salt",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "salt",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "salt",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "suola",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "sugar",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "puderzucker",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "poivre",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "peper",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "peber",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "peppar",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "pepper",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "pippuri",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "caster sugar",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "salz",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "huile d'olive",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "olijfolie",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "olivenolie",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "olivolja",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "olivenolje",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "oliiviöljy",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "brown sugar",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "pfeffer",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "huile de tournesol",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "zonnebloemolie",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "solsikkeolie",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "solrosolja",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "solsikkeolje",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "auringonkukkaöljy",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "icing sugar",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "olivenöl",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "huile de coco",
+    "slug": "pantry",
+    "language": "fr"
+  },
+  {
+    "alias": "kokosolie",
+    "slug": "pantry",
+    "language": "nl"
+  },
+  {
+    "alias": "kokosolie",
+    "slug": "pantry",
+    "language": "da"
+  },
+  {
+    "alias": "kokosolja",
+    "slug": "pantry",
+    "language": "sv"
+  },
+  {
+    "alias": "kokosolje",
+    "slug": "pantry",
+    "language": "no"
+  },
+  {
+    "alias": "kookosöljy",
+    "slug": "pantry",
+    "language": "fi"
+  },
+  {
+    "alias": "salt",
+    "slug": "pantry",
+    "language": "en"
+  },
+  {
+    "alias": "sonnenblumenöl",
+    "slug": "pantry",
+    "language": "de"
+  },
+  {
+    "alias": "water",
+    "slug": "beverages",
+    "language": "en"
+  },
+  {
+    "alias": "wasser",
+    "slug": "beverages",
+    "language": "de"
+  },
+  {
+    "alias": "eau",
+    "slug": "beverages",
+    "language": "fr"
+  },
+  {
+    "alias": "water",
+    "slug": "beverages",
+    "language": "nl"
+  },
+  {
+    "alias": "vand",
+    "slug": "beverages",
+    "language": "da"
+  },
+  {
+    "alias": "vatten",
+    "slug": "beverages",
+    "language": "sv"
+  },
+  {
+    "alias": "vann",
+    "slug": "beverages",
+    "language": "no"
+  },
+  {
+    "alias": "vesi",
+    "slug": "beverages",
+    "language": "fi"
+  },
+  {
+    "alias": "water",
+    "slug": "beverages",
+    "language": null
+  },
+  {
+    "alias": "sparkling water",
+    "slug": "beverages",
+    "language": "en"
+  },
+  {
+    "alias": "sprudelwasser",
+    "slug": "beverages",
+    "language": "de"
+  },
+  {
+    "alias": "eau pétillante",
+    "slug": "beverages",
+    "language": "fr"
+  },
+  {
+    "alias": "bruiswater",
+    "slug": "beverages",
+    "language": "nl"
+  },
+  {
+    "alias": "danskvand",
+    "slug": "beverages",
+    "language": "da"
+  },
+  {
+    "alias": "kolsyrat vatten",
+    "slug": "beverages",
+    "language": "sv"
+  },
+  {
+    "alias": "mineralvann",
+    "slug": "beverages",
+    "language": "no"
+  },
+  {
+    "alias": "hiilihapotettu vesi",
+    "slug": "beverages",
+    "language": "fi"
+  },
+  {
+    "alias": "juice",
+    "slug": "beverages",
+    "language": null
+  },
+  {
+    "alias": "still water",
+    "slug": "beverages",
+    "language": "en"
+  },
+  {
+    "alias": "stilles wasser",
+    "slug": "beverages",
+    "language": "de"
+  },
+  {
+    "alias": "eau plate",
+    "slug": "beverages",
+    "language": "fr"
+  },
+  {
+    "alias": "plat water",
+    "slug": "beverages",
+    "language": "nl"
+  },
+  {
+    "alias": "stille vand",
+    "slug": "beverages",
+    "language": "da"
+  },
+  {
+    "alias": "stillavatten",
+    "slug": "beverages",
+    "language": "sv"
+  },
+  {
+    "alias": "kullsyrevann",
+    "slug": "beverages",
+    "language": "no"
+  },
+  {
+    "alias": "juomavesi",
+    "slug": "beverages",
+    "language": "fi"
+  },
+  {
+    "alias": "coffee",
+    "slug": "beverages",
+    "language": null
+  },
+  {
+    "alias": "mineral water",
+    "slug": "beverages",
+    "language": "en"
+  },
+  {
+    "alias": "mineralwasser",
+    "slug": "beverages",
+    "language": "de"
+  },
+  {
+    "alias": "eau minérale",
+    "slug": "beverages",
+    "language": "fr"
+  },
+  {
+    "alias": "mineraalwater",
+    "slug": "beverages",
+    "language": "nl"
+  },
+  {
+    "alias": "mineralvand",
+    "slug": "beverages",
+    "language": "da"
+  },
+  {
+    "alias": "mineralvatten",
+    "slug": "beverages",
+    "language": "sv"
+  },
+  {
+    "alias": "stillevann",
+    "slug": "beverages",
+    "language": "no"
+  },
+  {
+    "alias": "mineraalivesi",
+    "slug": "beverages",
+    "language": "fi"
+  },
+  {
+    "alias": "tea",
+    "slug": "beverages",
+    "language": null
+  },
+  {
+    "alias": "juice",
+    "slug": "beverages",
+    "language": "en"
+  },
+  {
+    "alias": "saft",
+    "slug": "beverages",
+    "language": "de"
+  },
+  {
+    "alias": "jus",
+    "slug": "beverages",
+    "language": "fr"
+  },
+  {
+    "alias": "sap",
+    "slug": "beverages",
+    "language": "nl"
+  },
+  {
+    "alias": "juice",
+    "slug": "beverages",
+    "language": "da"
+  },
+  {
+    "alias": "juice",
+    "slug": "beverages",
+    "language": "sv"
+  },
+  {
+    "alias": "juice",
+    "slug": "beverages",
+    "language": "no"
+  },
+  {
+    "alias": "mehu",
+    "slug": "beverages",
+    "language": "fi"
+  },
+  {
+    "alias": "beer",
+    "slug": "beverages",
+    "language": null
+  },
+  {
+    "alias": "orange juice",
+    "slug": "beverages",
+    "language": "en"
+  },
+  {
+    "alias": "orangensaft",
+    "slug": "beverages",
+    "language": "de"
+  },
+  {
+    "alias": "jus d'orange",
+    "slug": "beverages",
+    "language": "fr"
+  },
+  {
+    "alias": "sinaasappelsap",
+    "slug": "beverages",
+    "language": "nl"
+  },
+  {
+    "alias": "appelsinjuice",
+    "slug": "beverages",
+    "language": "da"
+  },
+  {
+    "alias": "apelsinjuice",
+    "slug": "beverages",
+    "language": "sv"
+  },
+  {
+    "alias": "appelsinjuice",
+    "slug": "beverages",
+    "language": "no"
+  },
+  {
+    "alias": "appelsiinimehu",
+    "slug": "beverages",
+    "language": "fi"
+  },
+  {
+    "alias": "wine",
+    "slug": "beverages",
+    "language": null
+  },
+  {
+    "alias": "apple juice",
+    "slug": "beverages",
+    "language": "en"
+  },
+  {
+    "alias": "apfelsaft",
+    "slug": "beverages",
+    "language": "de"
+  },
+  {
+    "alias": "jus de pomme",
+    "slug": "beverages",
+    "language": "fr"
+  },
+  {
+    "alias": "appelsap",
+    "slug": "beverages",
+    "language": "nl"
+  },
+  {
+    "alias": "æblejuice",
+    "slug": "beverages",
+    "language": "da"
+  },
+  {
+    "alias": "äppeljuice",
+    "slug": "beverages",
+    "language": "sv"
+  },
+  {
+    "alias": "eplejuice",
+    "slug": "beverages",
+    "language": "no"
+  },
+  {
+    "alias": "omenamehu",
+    "slug": "beverages",
+    "language": "fi"
+  },
+  {
+    "alias": "cola",
+    "slug": "beverages",
+    "language": null
+  },
+  {
+    "alias": "cranberry juice",
+    "slug": "beverages",
+    "language": "en"
+  },
+  {
+    "alias": "kaffee",
+    "slug": "beverages",
+    "language": "de"
+  },
+  {
+    "alias": "café",
+    "slug": "beverages",
+    "language": "fr"
+  },
+  {
+    "alias": "koffie",
+    "slug": "beverages",
+    "language": "nl"
+  },
+  {
+    "alias": "kaffe",
+    "slug": "beverages",
+    "language": "da"
+  },
+  {
+    "alias": "kaffe",
+    "slug": "beverages",
+    "language": "sv"
+  },
+  {
+    "alias": "kaffe",
+    "slug": "beverages",
+    "language": "no"
+  },
+  {
+    "alias": "kahvi",
+    "slug": "beverages",
+    "language": "fi"
+  },
+  {
+    "alias": "coffee",
+    "slug": "beverages",
+    "language": "en"
+  },
+  {
+    "alias": "gemahlener kaffee",
+    "slug": "beverages",
+    "language": "de"
+  },
+  {
+    "alias": "café moulu",
+    "slug": "beverages",
+    "language": "fr"
+  },
+  {
+    "alias": "gemalen koffie",
+    "slug": "beverages",
+    "language": "nl"
+  },
+  {
+    "alias": "formalet kaffe",
+    "slug": "beverages",
+    "language": "da"
+  },
+  {
+    "alias": "malet kaffe",
+    "slug": "beverages",
+    "language": "sv"
+  },
+  {
+    "alias": "malt kaffe",
+    "slug": "beverages",
+    "language": "no"
+  },
+  {
+    "alias": "jauhettu kahvi",
+    "slug": "beverages",
+    "language": "fi"
+  },
+  {
+    "alias": "ground coffee",
+    "slug": "beverages",
+    "language": "en"
+  },
+  {
+    "alias": "löslicher kaffee",
+    "slug": "beverages",
+    "language": "de"
+  },
+  {
+    "alias": "café soluble",
+    "slug": "beverages",
+    "language": "fr"
+  },
+  {
+    "alias": "oploskoffie",
+    "slug": "beverages",
+    "language": "nl"
+  },
+  {
+    "alias": "instant kaffe",
+    "slug": "beverages",
+    "language": "da"
+  },
+  {
+    "alias": "snabbkaffe",
+    "slug": "beverages",
+    "language": "sv"
+  },
+  {
+    "alias": "pulverkaffe",
+    "slug": "beverages",
+    "language": "no"
+  },
+  {
+    "alias": "pikakahvi",
+    "slug": "beverages",
+    "language": "fi"
+  },
+  {
+    "alias": "instant coffee",
+    "slug": "beverages",
+    "language": "en"
+  },
+  {
+    "alias": "kaffeebohnen",
+    "slug": "beverages",
+    "language": "de"
+  },
+  {
+    "alias": "grains de café",
+    "slug": "beverages",
+    "language": "fr"
+  },
+  {
+    "alias": "koffiebonen",
+    "slug": "beverages",
+    "language": "nl"
+  },
+  {
+    "alias": "kaffebønner",
+    "slug": "beverages",
+    "language": "da"
+  },
+  {
+    "alias": "kaffebönor",
+    "slug": "beverages",
+    "language": "sv"
+  },
+  {
+    "alias": "kaffebønner",
+    "slug": "beverages",
+    "language": "no"
+  },
+  {
+    "alias": "kahvipavut",
+    "slug": "beverages",
+    "language": "fi"
+  },
+  {
+    "alias": "coffee beans",
+    "slug": "beverages",
+    "language": "en"
+  },
+  {
+    "alias": "tee",
+    "slug": "beverages",
+    "language": "de"
+  },
+  {
+    "alias": "thé",
+    "slug": "beverages",
+    "language": "fr"
+  },
+  {
+    "alias": "thee",
+    "slug": "beverages",
+    "language": "nl"
+  },
+  {
+    "alias": "te",
+    "slug": "beverages",
+    "language": "da"
+  },
+  {
+    "alias": "te",
+    "slug": "beverages",
+    "language": "sv"
+  },
+  {
+    "alias": "te",
+    "slug": "beverages",
+    "language": "no"
+  },
+  {
+    "alias": "tee",
+    "slug": "beverages",
+    "language": "fi"
+  },
+  {
+    "alias": "tea",
+    "slug": "beverages",
+    "language": "en"
+  },
+  {
+    "alias": "grüner tee",
+    "slug": "beverages",
+    "language": "de"
+  },
+  {
+    "alias": "thé vert",
+    "slug": "beverages",
+    "language": "fr"
+  },
+  {
+    "alias": "groene thee",
+    "slug": "beverages",
+    "language": "nl"
+  },
+  {
+    "alias": "grøn te",
+    "slug": "beverages",
+    "language": "da"
+  },
+  {
+    "alias": "grönt te",
+    "slug": "beverages",
+    "language": "sv"
+  },
+  {
+    "alias": "grønn te",
+    "slug": "beverages",
+    "language": "no"
+  },
+  {
+    "alias": "vihreä tee",
+    "slug": "beverages",
+    "language": "fi"
+  },
+  {
+    "alias": "green tea",
+    "slug": "beverages",
+    "language": "en"
+  },
+  {
+    "alias": "schwarzer tee",
+    "slug": "beverages",
+    "language": "de"
+  },
+  {
+    "alias": "thé noir",
+    "slug": "beverages",
+    "language": "fr"
+  },
+  {
+    "alias": "zwarte thee",
+    "slug": "beverages",
+    "language": "nl"
+  },
+  {
+    "alias": "miscellaneous",
+    "slug": "general",
+    "language": "en"
+  },
+  {
+    "alias": "sonstiges",
+    "slug": "general",
+    "language": "de"
+  },
+  {
+    "alias": "divers",
+    "slug": "general",
+    "language": "fr"
+  },
+  {
+    "alias": "overig",
+    "slug": "general",
+    "language": "nl"
+  },
+  {
+    "alias": "diverse",
+    "slug": "general",
+    "language": "da"
+  },
+  {
+    "alias": "övrigt",
+    "slug": "general",
+    "language": "sv"
+  },
+  {
+    "alias": "diverse",
+    "slug": "general",
+    "language": "no"
+  },
+  {
+    "alias": "muu",
+    "slug": "general",
+    "language": "fi"
+  },
+  {
+    "alias": "misc",
+    "slug": "general",
+    "language": null
+  },
+  {
+    "alias": "other",
+    "slug": "general",
+    "language": "en"
+  },
+  {
+    "alias": "verschiedenes",
+    "slug": "general",
+    "language": "de"
+  },
+  {
+    "alias": "autre",
+    "slug": "general",
+    "language": "fr"
+  },
+  {
+    "alias": "diversen",
+    "slug": "general",
+    "language": "nl"
+  },
+  {
+    "alias": "andet",
+    "slug": "general",
+    "language": "da"
+  },
+  {
+    "alias": "diverse",
+    "slug": "general",
+    "language": "sv"
+  },
+  {
+    "alias": "annet",
+    "slug": "general",
+    "language": "no"
+  },
+  {
+    "alias": "sekalaista",
+    "slug": "general",
+    "language": "fi"
+  },
+  {
+    "alias": "other",
+    "slug": "general",
+    "language": null
+  },
+  {
+    "alias": "various",
+    "slug": "general",
+    "language": "en"
+  },
+  {
+    "alias": "diverses",
+    "slug": "general",
+    "language": "de"
+  },
+  {
+    "alias": "autres",
+    "slug": "general",
+    "language": "fr"
+  },
+  {
+    "alias": "divers",
+    "slug": "general",
+    "language": "nl"
+  },
+  {
+    "alias": "øvrigt",
+    "slug": "general",
+    "language": "da"
+  },
+  {
+    "alias": "annat",
+    "slug": "general",
+    "language": "sv"
+  },
+  {
+    "alias": "øvrig",
+    "slug": "general",
+    "language": "no"
+  }
+]

@@ -1,6 +1,7 @@
 "use server";
 
 import { getVerifiedUser } from "@/lib/auth/get-user";
+import { parseListId, parseRecipeId, parseShareToken } from "@/lib/validation/parse";
 import {
   createShareLinkForList,
   createShareLinkForRecipe,
@@ -21,12 +22,12 @@ export async function createRecipeShareLinkAction(
   recipeId: string,
 ): Promise<ShareLinkResult> {
   const user = await getVerifiedUser();
-  return createShareLinkForRecipe(user.id, recipeId);
+  return createShareLinkForRecipe(user.id, parseRecipeId(recipeId));
 }
 
 export async function joinListAction(token: string): Promise<string> {
   const user = await getVerifiedUser();
-  const listId = await joinListViaToken(user.id, token);
+  const listId = await joinListViaToken(user.id, parseShareToken(token));
   revalidatePath("/home");
   revalidatePath(`/lists/${listId}`);
   return listId;
@@ -36,5 +37,5 @@ export async function fetchListMembersAction(
   listId: string,
 ): Promise<ListMemberRow[]> {
   const user = await getVerifiedUser();
-  return fetchListMembersForUser(user.id, listId);
+  return fetchListMembersForUser(user.id, parseListId(listId));
 }

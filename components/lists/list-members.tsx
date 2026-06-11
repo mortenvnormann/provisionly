@@ -1,4 +1,5 @@
 import type { ListMemberRow } from "@/lib/share/types";
+import { useTranslations } from "next-intl";
 
 type ListMembersProps = {
   members: ListMemberRow[];
@@ -13,17 +14,19 @@ function initials(name: string): string {
 }
 
 export function ListMembers({ members, currentUserId }: ListMembersProps) {
+  const tLists = useTranslations("lists");
+
   if (members.length <= 1) return null;
 
   return (
     <div className="border-b border-[var(--border)] px-4 py-2">
       <p className="mb-2 text-xs font-medium tracking-wide text-[var(--muted-foreground)] uppercase">
-        Shared with
+        {tLists("sharedWith")}
       </p>
       <ul className="flex flex-wrap gap-2">
         {members.map((member) => {
           const isYou = member.userId === currentUserId;
-          const label = isYou ? "You" : member.displayName;
+          const label = isYou ? tLists("you") : member.displayName;
           return (
             <li
               key={member.userId}
@@ -37,7 +40,7 @@ export function ListMembers({ members, currentUserId }: ListMembersProps) {
               </span>
               <span>
                 {label}
-                {member.isOwner ? " · owner" : ""}
+                {member.isOwner ? ` · ${tLists("owner")}` : ""}
               </span>
             </li>
           );

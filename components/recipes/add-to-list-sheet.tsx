@@ -8,6 +8,7 @@ import type { RecipeIngredientRow } from "@/lib/recipes/types";
 import type { ListSummary } from "@/lib/lists/types";
 import { ServingsScaler } from "@/components/recipes/servings-scaler";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 type AddToListSheetProps = {
   recipeId: string;
@@ -29,6 +30,8 @@ export function AddToListSheet({
   open,
   onClose,
 }: AddToListSheetProps) {
+  const t = useTranslations("addToList");
+  const tCommon = useTranslations("common");
   const [lists, setLists] = useState<ListSummary[]>([]);
   const [listId, setListId] = useState("");
   const [servings, setServings] = useState(defaultServings);
@@ -57,10 +60,10 @@ export function AddToListSheet({
         if (data[0]) setListId(data[0].id);
       })
       .catch((err) => {
-        setError(err instanceof Error ? err.message : "Could not load lists");
+        setError(err instanceof Error ? err.message : t("couldNotLoad"));
       })
       .finally(() => setLoading(false));
-  }, [open, defaultServings, ingredients]);
+  }, [open, defaultServings, ingredients, t]);
 
   function toggleIngredient(id: string) {
     setSelected((prev) => {
@@ -81,11 +84,11 @@ export function AddToListSheet({
         selectedIngredientIds: [...selected],
       });
       const parts: string[] = [];
-      if (added) parts.push(`${added} added`);
-      if (merged) parts.push(`${merged} merged`);
-      setResult(parts.join(", ") || "Done");
+      if (added) parts.push(t("resultAdded", { count: added }));
+      if (merged) parts.push(t("resultMerged", { count: merged }));
+      setResult(parts.join(", ") || t("done"));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not add to list");
+      setError(err instanceof Error ? err.message : t("couldNotAdd"));
     } finally {
       setSubmitting(false);
     }
@@ -98,7 +101,7 @@ export function AddToListSheet({
       <button
         type="button"
         className="absolute inset-0"
-        aria-label="Close"
+        aria-label={tCommon("close")}
         onClick={onClose}
       />
       <div className="relative z-10 flex max-h-[85vh] w-full max-w-md flex-col rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-lg">
@@ -106,17 +109,17 @@ export function AddToListSheet({
           <div className="flex items-start justify-between gap-3">
             <div>
               <h2 className="text-lg font-semibold text-[var(--foreground)]">
-                Add to list
+                {t("title")}
               </h2>
               <p className="mt-1 text-sm text-[var(--muted-foreground)]">
-                Choose a list and deselect anything you already have.
+                {t("description")}
               </p>
             </div>
             <button
               type="button"
               onClick={onClose}
               className="flex size-8 items-center justify-center rounded-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
-              aria-label="Close"
+              aria-label={tCommon("close")}
             >
               ×
             </button>
@@ -125,12 +128,12 @@ export function AddToListSheet({
 
         <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-4">
           {loading ? (
-            <p className="text-sm text-[var(--muted-foreground)]">Loading lists…</p>
+            <p className="text-sm text-[var(--muted-foreground)]">{t("loadingLists")}</p>
           ) : lists.length === 0 ? (
             <p className="text-sm text-[var(--muted-foreground)]">
-              No lists yet.{" "}
+              {t("noLists")}{" "}
               <Link href="/home" className="text-[var(--brand)] underline-offset-2 hover:underline">
-                Create one first
+                {t("createListLink")}
               </Link>
               .
             </p>
@@ -138,7 +141,7 @@ export function AddToListSheet({
             <>
               <label className="flex flex-col gap-1">
                 <span className="text-xs font-medium text-[var(--muted-foreground)] uppercase">
-                  Target list
+                  {t("targetList")}
                 </span>
                 <select
                   value={listId}
@@ -202,7 +205,7 @@ export function AddToListSheet({
                 href={`/lists/${listId}`}
                 className="font-medium text-[var(--brand)] underline-offset-2 hover:underline"
               >
-                Open list
+                {t("viewList")}
               </Link>
             </p>
           ) : null}
@@ -214,7 +217,7 @@ export function AddToListSheet({
             disabled={submitting || !listId || selected.size === 0 || !!result}
             onClick={() => void handleSubmit()}
           >
-            {submitting ? "Adding…" : "Add to list"}
+            {submitting ? t("adding") : t("addToList")}
           </Button>
         </div>
       </div>

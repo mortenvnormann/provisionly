@@ -47,6 +47,7 @@ import type { ListItemRow } from "@/lib/lists/types";
 import { useListSync } from "@/lib/lists/use-list-sync";
 import type { ListMemberRow } from "@/lib/share/types";
 import { createClient } from "@/utils/supabase/client";
+import { useTranslations } from "next-intl";
 
 type ListDetailProps = {
   listId: string;
@@ -86,11 +87,13 @@ export function ListDetail({
   locale = "en",
   initialGroupByCategory = true,
 }: ListDetailProps) {
+  const tLists = useTranslations("lists");
+  const tCommon = useTranslations("common");
   const router = useRouter();
   const confirmDialog = useConfirm();
   const cached = !isGuest ? readListCache(listId) : null;
   const [title, setTitle] = useState(
-    initialTitle ?? cached?.title ?? "Shopping list",
+    initialTitle ?? cached?.title ?? tLists("defaultListTitle"),
   );
   const [items, setItems] = useState<ListItemRow[]>(
     initialItems ?? cached?.items ?? [],
@@ -104,7 +107,10 @@ export function ListDetail({
   );
   const [shareOpen, setShareOpen] = useState(false);
   const [joinedBanner, setJoinedBanner] = useState(showJoinedBanner);
-  const { categories, labelFor, error: categoriesError } = useCategories(locale);
+  const { categories, labelFor, error: categoriesError } = useCategories(
+    locale,
+    tCommon("general"),
+  );
 
   const persistCache = useCallback(
     (nextTitle: string, nextItems: ListItemRow[], nextGroupByCategory = groupByCategory) => {
@@ -137,11 +143,19 @@ export function ListDetail({
     setLoading(false);
     writeListCache(
       listId,
-      initialTitle ?? cached?.title ?? "Shopping list",
+      initialTitle ?? cached?.title ?? tLists("defaultListTitle"),
       listItems,
       groupByCategory,
     );
-  }, [isGuest, listId, locale, initialTitle, cached?.title, groupByCategory]);
+  }, [
+    isGuest,
+    listId,
+    locale,
+    initialTitle,
+    cached?.title,
+    groupByCategory,
+    tLists,
+  ]);
 
   useEffect(() => {
     if (isGuest || !initialItems) {
@@ -252,13 +266,11 @@ export function ListDetail({
   }
 
   async function handleDeleteList() {
-    const message =
-      isGuest || isOwner
-        ? `Delete "${title}"? This cannot be undone.`
-        : `Remove "${title}" from your lists?`;
     const ok = await confirmDialog(
-      message,
-      isGuest || isOwner ? "Delete" : "Remove",
+      isGuest || isOwner
+        ? tLists("deleteListConfirm", { title })
+        : tLists("removeListConfirm", { title }),
+      isGuest || isOwner ? tCommon("delete") : tCommon("remove"),
     );
     if (!ok) return;
 
@@ -311,15 +323,15 @@ export function ListDetail({
   }
 
   if (loading) {
-    return <LoadingState label="Loading list…" />;
+    return <LoadingState label={tLists("loadingList")} />;
   }
 
   if (isGuest && !getGuestList(listId)) {
     return (
       <div className="flex min-h-full flex-1 flex-col items-center justify-center gap-4 p-4">
-        <p className="text-sm text-[var(--muted-foreground)]">List not found</p>
+        <p className="text-sm text-[var(--muted-foreground)]">{tLists("notFound")}</p>
         <Link href="/home" className="text-sm font-medium text-[var(--brand)]">
-          Back to lists
+          {tLists("backToLists")}
         </Link>
       </div>
     );
@@ -332,7 +344,7 @@ export function ListDetail({
           <Link
             href="/home"
             className="flex size-10 items-center justify-center rounded-lg text-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
-            aria-label="Back"
+            aria-label={tCommon("back")}
           >
             ‹
           </Link>
@@ -359,7 +371,7 @@ export function ListDetail({
       <div className="flex-1 overflow-y-auto">
         {joinedBanner ? (
           <div className="mx-4 mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
-            You joined this shared list. Changes sync automatically.
+            {tLists("joinedBanner")}
           </div>
         ) : null}
         {categoriesError ? (
@@ -369,12 +381,12 @@ export function ListDetail({
         ) : null}
         {items.length === 0 ? (
           <p className="px-4 py-12 text-center text-sm text-[var(--muted-foreground)]">
-            Add your first item above.
+            {tLists("addFirstItem")}
           </p>
         ) : (
           grouped.map(({ categoryId, items: sectionItems }) => (
             <section
-              key={groupByCategory ? (categoryId ?? "general") : "flat"}
+              key={groupByCategory ? (categoryId ?? tCommon("general")) : "flat"}
               className="px-2 py-3"
             >
               {groupByCategory ? (
@@ -395,6 +407,8 @@ export function ListDetail({
                       className="rounded-none"
                       requireConfirm
                       confirmOnDelete={false}
+                      confirmMessage={tLists("deleteItemConfirm")}
+                      deleteLabel={tCommon("delete")}
                       onDelete={() => void handleDeleteItem(item.id)}
                     >
                       <ListItemRowView

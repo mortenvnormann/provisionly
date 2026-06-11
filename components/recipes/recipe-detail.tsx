@@ -17,6 +17,7 @@ import {
 import { scaleQuantity } from "@/lib/recipes/scale";
 import type { RecipeDetail, RecipeInput } from "@/lib/recipes/types";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 type RecipeDetailViewProps = {
   recipe: RecipeDetail;
@@ -32,6 +33,10 @@ export function RecipeDetailView({
   recipe: initialRecipe,
   showJoinedBanner = false,
 }: RecipeDetailViewProps) {
+  const tRecipes = useTranslations("recipes");
+  const tCommon = useTranslations("common");
+  const tShare = useTranslations("share");
+  const tAddToList = useTranslations("addToList");
   const router = useRouter();
   const confirmDialog = useConfirm();
   const [recipe, setRecipe] = useState(initialRecipe);
@@ -72,7 +77,8 @@ export function RecipeDetailView({
 
   async function handleDelete() {
     const ok = await confirmDialog(
-      `Delete "${recipe.title}"? This cannot be undone.`,
+      tRecipes("deleteRecipeConfirm", { title: recipe.title }),
+      tCommon("delete"),
     );
     if (!ok) return;
     await deleteRecipeAction(recipe.id);
@@ -82,8 +88,8 @@ export function RecipeDetailView({
 
   async function handleRemove() {
     const ok = await confirmDialog(
-      `Remove "${recipe.title}" from your recipes?`,
-      "Remove",
+      tRecipes("removeRecipeConfirm", { title: recipe.title }),
+      tCommon("remove"),
     );
     if (!ok) return;
     await removeRecipeAction(recipe.id);
@@ -96,7 +102,7 @@ export function RecipeDetailView({
       <div className="flex min-h-full flex-1 flex-col">
         <header className="border-b border-[var(--border)] px-4 py-3">
           <h1 className="text-lg font-semibold text-[var(--foreground)]">
-            Edit recipe
+            {tRecipes("editRecipe")}
           </h1>
         </header>
         <div className="p-4">
@@ -113,7 +119,7 @@ export function RecipeDetailView({
                 unit: item.unit,
               })),
             }}
-            submitLabel="Save changes"
+            submitLabel={tRecipes("saveChanges")}
             onSubmit={handleUpdate}
             onCancel={() => setEditing(false)}
           />
@@ -129,7 +135,7 @@ export function RecipeDetailView({
           <Link
             href="/recipes"
             className="flex size-10 items-center justify-center rounded-lg text-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
-            aria-label="Back"
+            aria-label={tCommon("back")}
           >
             ‹
           </Link>
@@ -137,7 +143,7 @@ export function RecipeDetailView({
             {recipe.title}
           </h1>
           <Button variant="ghost" type="button" onClick={() => setShareOpen(true)}>
-            Share
+            {tShare("shareRecipe")}
           </Button>
         </div>
       </header>
@@ -145,13 +151,13 @@ export function RecipeDetailView({
       <div className="flex-1 overflow-y-auto pb-28">
         {joinedBanner ? (
           <div className="mx-4 mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
-            You can view this recipe and add ingredients to your lists.
+            {tRecipes("joinedBanner")}
           </div>
         ) : null}
 
         {!recipe.isOwner ? (
           <div className="mx-4 mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--muted-foreground)]">
-            View only — clone to edit your own copy.
+            {tRecipes("viewOnlyBanner")}
           </div>
         ) : null}
 
@@ -172,7 +178,7 @@ export function RecipeDetailView({
           {recipe.description ? (
             <section>
               <h2 className="mb-2 text-xs font-semibold tracking-wide text-[var(--muted-foreground)] uppercase">
-                Notes
+                {tRecipes("notes")}
               </h2>
               <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm whitespace-pre-wrap text-[var(--foreground)]">
                 {recipe.description}
@@ -189,7 +195,7 @@ export function RecipeDetailView({
 
           <section>
             <h2 className="mb-2 text-xs font-semibold tracking-wide text-[var(--muted-foreground)] uppercase">
-              Ingredients
+              {tRecipes("ingredients")}
             </h2>
             <ul className="divide-y divide-[var(--border)]/60 rounded-xl border border-[var(--border)] bg-[var(--surface)]">
               {recipe.ingredients.map((item) => {
@@ -216,7 +222,7 @@ export function RecipeDetailView({
           {recipe.instructions ? (
             <section>
               <h2 className="mb-2 text-xs font-semibold tracking-wide text-[var(--muted-foreground)] uppercase">
-                Instructions
+                {tRecipes("instructions")}
               </h2>
               <ol className="list-decimal space-y-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 pl-8 text-sm text-[var(--foreground)]">
                 {recipe.instructions
@@ -234,7 +240,7 @@ export function RecipeDetailView({
 
       <div className="safe-area-pb fixed inset-x-0 bottom-0 flex flex-col gap-2 border-t border-[var(--border)] bg-[var(--surface)] p-4">
         <Button fullWidth onClick={() => setAddOpen(true)}>
-          Add to list
+          {tAddToList("addToList")}
         </Button>
         <div className="flex gap-2">
           {recipe.isOwner ? (
@@ -245,7 +251,7 @@ export function RecipeDetailView({
                 type="button"
                 onClick={() => setEditing(true)}
               >
-                Edit
+                {tRecipes("edit")}
               </Button>
               <Button
                 variant="destructive"
@@ -253,7 +259,7 @@ export function RecipeDetailView({
                 type="button"
                 onClick={() => void handleDelete()}
               >
-                Delete
+                {tCommon("delete")}
               </Button>
             </>
           ) : (
@@ -265,7 +271,7 @@ export function RecipeDetailView({
                 disabled={cloning}
                 onClick={() => void handleClone()}
               >
-                {cloning ? "Cloning…" : "Clone recipe"}
+                {cloning ? tRecipes("cloning") : tRecipes("cloneRecipe")}
               </Button>
               <Button
                 variant="secondary"
@@ -273,7 +279,7 @@ export function RecipeDetailView({
                 type="button"
                 onClick={() => void handleRemove()}
               >
-                Remove
+                {tCommon("remove")}
               </Button>
             </>
           )}

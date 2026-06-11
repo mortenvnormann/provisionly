@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 type ListActionsMenuProps = {
   isGuest: boolean;
@@ -24,6 +25,7 @@ export function ListActionsMenu({
   onToggleGroupByCategory,
   onDelete,
 }: ListActionsMenuProps) {
+  const t = useTranslations("lists");
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -50,7 +52,7 @@ export function ListActionsMenu({
       <Button
         variant="ghost"
         type="button"
-        aria-label="List actions"
+        aria-label={t("listActions")}
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
         className="px-3"
@@ -69,7 +71,7 @@ export function ListActionsMenu({
               className="flex w-full px-4 py-2.5 text-left text-sm text-[var(--foreground)] hover:bg-[var(--muted)]"
               onClick={() => run(onShare)}
             >
-              Share list
+              {t("shareList")}
             </button>
           ) : null}
           <div
@@ -78,12 +80,12 @@ export function ListActionsMenu({
             className="flex w-full items-center justify-between gap-3 px-4 py-2.5 text-sm text-[var(--foreground)] hover:bg-[var(--muted)]"
             onClick={(event) => event.stopPropagation()}
           >
-            <span>Group by category</span>
+            <span>{t("groupByCategory")}</span>
             <button
               type="button"
               role="switch"
               aria-checked={groupByCategory}
-              aria-label="Group by category"
+              aria-label={t("groupByCategory")}
               onClick={() => onToggleGroupByCategory()}
               className={[
                 "relative h-7 w-12 shrink-0 rounded-full transition-colors",
@@ -105,7 +107,7 @@ export function ListActionsMenu({
               className="flex w-full px-4 py-2.5 text-left text-sm text-[var(--foreground)] hover:bg-[var(--muted)]"
               onClick={() => run(onClearChecked)}
             >
-              Clear done
+              {t("clearChecked")}
             </button>
           ) : null}
           <button
@@ -114,7 +116,7 @@ export function ListActionsMenu({
             className="flex w-full px-4 py-2.5 text-left text-sm text-[var(--destructive)] hover:bg-[var(--destructive)]/10"
             onClick={() => run(onDelete)}
           >
-            {isGuest || isOwner ? "Delete list" : "Remove list"}
+            {isGuest || isOwner ? t("deleteList") : t("removeList")}
           </button>
         </div>
       ) : null}

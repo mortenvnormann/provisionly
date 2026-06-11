@@ -27,10 +27,12 @@ export function SwipeRow({
   onDelete,
   requireConfirm = false,
   confirmOnDelete = true,
-  confirmMessage = "Delete this item?",
-  deleteLabel = "Delete",
+  confirmMessage,
+  deleteLabel,
   className = "",
 }: SwipeRowProps) {
+  const resolvedConfirmMessage = confirmMessage ?? "Delete this item?";
+  const resolvedDeleteLabel = deleteLabel ?? "Delete";
   const confirm = useConfirm();
   const [offset, setOffset] = useState(0);
   const [open, setOpen] = useState(false);
@@ -147,7 +149,7 @@ export function SwipeRow({
     event.preventDefault();
     event.stopPropagation();
     if (confirmOnDelete) {
-      const ok = await confirm(confirmMessage, deleteLabel);
+      const ok = await confirm(resolvedConfirmMessage, resolvedDeleteLabel);
       if (!ok) return;
     }
     reset();
@@ -180,7 +182,7 @@ export function SwipeRow({
           onClick={(event) => void handleDeleteClick(event)}
           className="flex h-full w-full items-center justify-center bg-[var(--destructive)] px-2 text-sm font-medium text-[var(--destructive-foreground)] hover:opacity-90"
         >
-          {deleteLabel}
+          {resolvedDeleteLabel}
         </button>
       </div>
       <div

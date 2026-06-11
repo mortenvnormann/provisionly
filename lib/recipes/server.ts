@@ -1,4 +1,7 @@
+import "server-only";
+
 import { resolveCategoryId } from "@/lib/categorisation/resolve";
+import { getLocaleForUser } from "@/lib/i18n/user-locale";
 import { assertListAccess } from "@/lib/lists/server";
 import { normalizeItemName, nextSortKey } from "@/lib/lists/normalize";
 import { scaleQuantity } from "@/lib/recipes/scale";
@@ -163,6 +166,7 @@ async function insertRecipeIngredients(
   const cookieStore = await cookies();
   const userClient = createClient(cookieStore);
   const service = createServiceClient();
+  const locale = await getLocaleForUser(userId);
 
   const rows = await Promise.all(
     ingredients.map(async (item, index) => {
@@ -173,7 +177,9 @@ async function insertRecipeIngredients(
         name_normalized: normalizeItemName(name),
         quantity: item.quantity ?? null,
         unit: item.unit?.trim() || null,
-        category_id: await resolveCategoryId(userClient, name).catch(() => null),
+        category_id: await resolveCategoryId(userClient, name, locale).catch(
+          () => null,
+        ),
         position: index,
       };
     }),
@@ -370,6 +376,7 @@ export async function addRecipeIngredientsToListForUser(
   let added = 0;
   let merged = 0;
   const sortKeys = items.map((item) => item.sort_key);
+  const locale = await getLocaleForUser(userId);
 
   for (const ingredient of toAdd) {
     const scaledQty = scaleQuantity(
@@ -410,7 +417,9 @@ export async function addRecipeIngredientsToListForUser(
     const userClient = createClient(cookieStore);
     const categoryId =
       ingredient.categoryId ??
-      (await resolveCategoryId(userClient, ingredient.name).catch(() => null));
+      (await resolveCategoryId(userClient, ingredient.name, locale).catch(
+        () => null,
+      ));
 
     const sortKey = nextSortKey(sortKeys);
     sortKeys.push(sortKey);
