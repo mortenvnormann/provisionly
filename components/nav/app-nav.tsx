@@ -29,6 +29,7 @@ export function AppNav({ active, isGuest = false }: AppNavProps) {
     <nav className="flex gap-1 rounded-xl bg-[var(--muted)] p-1">
       <Link
         href="/home"
+        transitionTypes={active === "recipes" ? ["nav-back"] : undefined}
         className={[
           "flex-1 rounded-lg px-3 py-2 text-center text-sm font-medium transition-colors",
           active === "lists"
@@ -40,6 +41,7 @@ export function AppNav({ active, isGuest = false }: AppNavProps) {
       </Link>
       <Link
         href="/recipes"
+        transitionTypes={active === "lists" ? ["nav-forward"] : undefined}
         className={[
           "flex-1 rounded-lg px-3 py-2 text-center text-sm font-medium transition-colors",
           active === "recipes"

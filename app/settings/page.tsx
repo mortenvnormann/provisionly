@@ -20,6 +20,7 @@ export default async function SettingsPage() {
       <header className="safe-area-pt flex items-center gap-2 border-b border-[var(--border)] px-2 py-3">
         <Link
           href="/home"
+          transitionTypes={["nav-down"]}
           className="flex size-10 items-center justify-center rounded-lg text-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
           aria-label={tCommon("back")}
         >

@@ -1,66 +1,68 @@
 /**
  * Provisionly design tokens — single source of truth.
+ * Light: "Fresh Nordic Garden" · Dark: "Midnight Frost"
  * See docs/DESIGN.md for palette roles and usage rules.
  */
 
 :root {
-  /* Light palette (raw) */
-  --color-fjord-blue: #1e293b;
-  --color-sage-leaf: #869a86;
-  --color-oatmeal: #f4ebe1;
-  --color-snow-white: #ffffff;
-  --color-birch-wood: #c4b5a6;
-  --color-charcoal: #2b2b2b;
-  --color-cloudberry-orange: #ff6b35;
+  /* Light palette — Fresh Nordic Garden (raw) */
+  --color-mist-white: #f0f4f8;
+  --color-haze-blue: #e0e7ff;
+  --color-frost-slate: #2b354f;
+  --color-driftwood: #d8dee9;
+  --color-sea-mint: #a1dbc2;
+  --color-cloud-blue: #cbd5e1;
+  --color-lingonberry-red: #e13c33;
+  --color-pure-white: #ffffff;
 
   /* Light semantic */
-  --background: var(--color-oatmeal);
-  --foreground: var(--color-charcoal);
-  --surface: var(--color-snow-white);
-  --muted: color-mix(in srgb, var(--color-birch-wood) 35%, var(--color-oatmeal));
-  --muted-foreground: var(--color-sage-leaf);
-  --border: var(--color-birch-wood);
-  --primary: var(--color-fjord-blue);
-  --primary-foreground: var(--color-snow-white);
-  --secondary: var(--color-sage-leaf);
-  --secondary-foreground: var(--color-snow-white);
-  --accent: var(--color-cloudberry-orange);
-  --accent-foreground: var(--color-snow-white);
-  --destructive: var(--color-cloudberry-orange);
-  --destructive-foreground: var(--color-snow-white);
+  --background: var(--color-mist-white);
+  --foreground: var(--color-frost-slate);
+  --surface: var(--color-pure-white);
+  --muted: color-mix(in srgb, var(--color-driftwood) 35%, var(--color-mist-white));
+  --muted-foreground: var(--color-cloud-blue);
+  --border: var(--color-driftwood);
+  --primary: var(--color-frost-slate);
+  --primary-foreground: var(--color-pure-white);
+  --secondary: var(--color-sea-mint);
+  --secondary-foreground: var(--color-frost-slate);
+  --accent: var(--color-lingonberry-red);
+  --accent-foreground: var(--color-pure-white);
+  --destructive: var(--color-lingonberry-red);
+  --destructive-foreground: var(--color-pure-white);
   --brand: var(--accent);
   --focus-ring: var(--accent);
-  --overlay: color-mix(in srgb, var(--color-charcoal) 40%, transparent);
+  --overlay: color-mix(in srgb, var(--color-frost-slate) 40%, transparent);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Dark palette (raw) */
-    --color-deep-fjord: #0f172a;
-    --color-dark-sage: #2a332a;
-    --color-dark-charcoal: #1a1a1a;
-    --color-ash-wood: #4a443a;
-    --color-soft-birch: #a49586;
-    --color-cloud-white: #f1f1f1;
-    --color-electric-teal: #14b8a6;
+    /* Dark palette — Midnight Frost (raw) */
+    --color-night-slate: #1a1d29;
+    --color-midnight-black: #11141d;
+    --color-deep-frost: #333b53;
+    --color-weathered-copper: #6a6c79;
+    --color-glacier-gray: #b1b7c4;
+    --color-icy-white: #e4eaf2;
+    --color-lingonberry-red: #e13c33;
 
     /* Dark semantic */
-    --background: var(--color-deep-fjord);
-    --foreground: var(--color-cloud-white);
-    --surface: var(--color-dark-sage);
-    --muted: color-mix(in srgb, var(--color-dark-sage) 80%, var(--color-deep-fjord));
-    --muted-foreground: var(--color-ash-wood);
-    --border: var(--color-dark-charcoal);
-    --primary: var(--color-electric-teal);
-    --primary-foreground: var(--color-deep-fjord);
-    --secondary: var(--color-soft-birch);
-    --secondary-foreground: var(--color-deep-fjord);
-    --accent: var(--color-electric-teal);
-    --accent-foreground: var(--color-deep-fjord);
-    --destructive: var(--color-electric-teal);
-    --destructive-foreground: var(--color-deep-fjord);
+    --background: var(--color-night-slate);
+    --foreground: var(--color-icy-white);
+    --surface: var(--color-midnight-black);
+    --muted: color-mix(in srgb, var(--color-deep-frost) 80%, var(--color-night-slate));
+    --muted-foreground: var(--color-glacier-gray);
+    --border: var(--color-deep-frost);
+    --primary: var(--color-icy-white);
+    --primary-foreground: var(--color-night-slate);
+    --secondary: var(--color-weathered-copper);
+    --secondary-foreground: var(--color-icy-white);
+    --accent: var(--color-lingonberry-red);
+    --accent-foreground: var(--color-pure-white);
+    --destructive: var(--color-lingonberry-red);
+    --destructive-foreground: var(--color-pure-white);
     --brand: var(--accent);
     --focus-ring: var(--accent);
-    --overlay: color-mix(in srgb, var(--color-deep-fjord) 55%, transparent);
+    --overlay: color-mix(in srgb, var(--color-night-slate) 55%, transparent);
   }
 }

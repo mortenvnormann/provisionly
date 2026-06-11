@@ -4,48 +4,48 @@ All UI colors must come from CSS variables in [`app/design-tokens.css`](../app/d
 
 Run `npm run check:colors` before shipping — it fails on hex literals, `text-white`, `bg-black`, and `rgb()`/`rgba()` in `components/`, `app/`, and `lib/`.
 
-## Light palette
+## Light palette — "Fresh Nordic Garden"
 
 | Name | Hex | Role | Vibe |
 |------|-----|------|------|
-| Fjord Blue | `#1E293B` | Primary base / depth | Deep, grounding midnight blue |
-| Sage Leaf | `#869A86` | Secondary / organic | Muted, sophisticated green |
-| Oatmeal | `#F4EBE1` | Background / softness | Warm, premium cream |
-| Snow White | `#FFFFFF` | Highlights / canvas | Crisp, clean white |
-| Birch Wood | `#C4B5A6` | Neutral accent | Light, warm gray-tan |
-| Charcoal | `#2B2B2B` | Structure / typography | Soft, high-end black |
-| Cloudberry Orange | `#FF6B35` | Sharp contrast | Vibrant, electric arctic berry |
+| Mist White | `#F0F4F8` | Main canvas | Cool, airy Nordic background |
+| Haze Blue | `#E0E7FF` | Soft accent | Gentle lavender-blue wash |
+| Frost Slate | `#2B354F` | Structural lines | Deep blue-gray typography and depth |
+| Driftwood | `#D8DEE9` | Pale neutral | Light cool gray dividers |
+| Sea Mint | `#A1DBC2` | Fresh organic green | Soft garden green accent |
+| Cloud Blue | `#CBD5E1` | Muted gray-blue | Secondary labels and hints |
+| Lingonberry Red | `#E13C33` | Sharp contrast | Bold Nordic berry pop |
 
-## Dark palette
+## Dark palette — "Midnight Frost"
 
 | Name | Hex | Role | Vibe |
 |------|-----|------|------|
-| Deep Fjord | `#0F172A` | Main night canvas | Deep night slate background |
-| Dark Sage | `#2A332A` | Secondary base / depth | Deep, muted foliage |
-| Dark Charcoal | `#1A1A1A` | Structure / subtle lines | Soft premium black for outlines |
-| Ash Wood | `#4A443A` | Intermediate accent | Dark warm brownish-gray |
-| Soft Birch | `#A49586` | Light neutral | Pale desaturated beige-gray |
-| Cloud White | `#F1F1F1` | Primary text / contrast | Soft high-light gray |
-| Electric Teal | `#14B8A6` | Sharp contrast | Icy vibrant arctic blue |
+| Night Slate | `#1A1D29` | Main canvas | Deep night background |
+| Midnight Black | `#11141D` | Deep structure | Elevated card surfaces |
+| Deep Frost | `#333B53` | Subtle lines | Cool border and divider tone |
+| Weathered Copper | `#6A6C79` | Muted bronze accent | Organic secondary accent |
+| Glacier Gray | `#B1B7C4` | Cool neutral accent | Muted secondary text |
+| Icy White | `#E4EAF2` | Crisp primary text | High-contrast readable text |
+| Lingonberry Red | `#E13C33` | Sharp contrast | Bold Nordic berry pop |
 
 ## Semantic tokens
 
 | Token | Light | Dark |
 |-------|-------|------|
-| `--background` | Oatmeal | Deep Fjord |
-| `--foreground` | Charcoal | Cloud White |
-| `--surface` | Snow White | Dark Sage |
-| `--muted` | Birch tint (derived) | Dark Sage |
-| `--muted-foreground` | Sage Leaf | Ash Wood |
-| `--border` | Birch Wood | Dark Charcoal |
-| `--primary` | Fjord Blue | Electric Teal |
-| `--primary-foreground` | Snow White | Deep Fjord |
-| `--secondary` | Sage Leaf | Soft Birch |
-| `--accent` | Cloudberry Orange | Electric Teal |
-| `--brand` | Cloudberry Orange (alias of `--accent`) | Electric Teal |
-| `--focus-ring` | Cloudberry Orange (alias of `--accent`) | Electric Teal |
-| `--overlay` | Charcoal ~40% alpha | Deep Fjord ~40% alpha |
-| `--destructive` | Cloudberry Orange | Electric Teal |
+| `--background` | Mist White | Night Slate |
+| `--foreground` | Frost Slate | Icy White |
+| `--surface` | Pure White (`#FFFFFF`) | Midnight Black |
+| `--muted` | Driftwood tint (derived) | Deep Frost tint (derived) |
+| `--muted-foreground` | Cloud Blue | Glacier Gray |
+| `--border` | Driftwood | Deep Frost |
+| `--primary` | Frost Slate | Icy White |
+| `--primary-foreground` | Pure White | Night Slate |
+| `--secondary` | Sea Mint | Weathered Copper |
+| `--accent` | Lingonberry Red | Lingonberry Red |
+| `--brand` | Lingonberry Red (alias of `--accent`) | Lingonberry Red |
+| `--focus-ring` | Lingonberry Red (alias of `--accent`) | Lingonberry Red |
+| `--overlay` | Frost Slate ~40% alpha | Night Slate ~55% alpha |
+| `--destructive` | Lingonberry Red | Lingonberry Red |
 
 Tailwind utilities are registered in [`app/globals.css`](../app/globals.css) (`bg-surface`, `text-accent`, `border-border`, etc.) alongside `var(--*)` in class strings.
 
@@ -78,6 +78,6 @@ PWA manifest and layout `themeColor` import from `lib/design/palette.ts` only.
 
 ## PWA
 
-- Manifest `background_color`: Oatmeal (`lightPalette.oatmeal`)
-- Manifest `theme_color`: Fjord Blue (`lightPalette.fjordBlue`)
+- Manifest `background_color`: Mist White (`lightPalette.mistWhite`)
+- Manifest `theme_color`: Frost Slate (`lightPalette.frostSlate`)
 - Icons: [`lib/pwa/icon-markup.tsx`](../lib/pwa/icon-markup.tsx)

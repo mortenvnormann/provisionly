@@ -17,7 +17,7 @@ export function ProvisionlyIcon({ size }: { size: number }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: `linear-gradient(145deg, ${lightPalette.fjordBlue} 0%, ${lightPalette.sageLeaf} 55%, ${lightPalette.birchWood} 100%)`,
+        background: `linear-gradient(145deg, ${lightPalette.frostSlate} 0%, ${lightPalette.seaMint} 55%, ${lightPalette.driftwood} 100%)`,
         borderRadius: radius,
       }}
     >
@@ -28,9 +28,9 @@ export function ProvisionlyIcon({ size }: { size: number }) {
           gap,
           width: listWidth,
           padding: `${pad}px`,
-          background: `${lightPalette.snowWhite}f5`,
+          background: `${lightPalette.pureWhite}f5`,
           borderRadius: Math.round(radius * 0.7),
-          boxShadow: `0 8px 24px color-mix(in srgb, ${lightPalette.fjordBlue} 22%, transparent)`,
+          boxShadow: `0 8px 24px color-mix(in srgb, ${lightPalette.frostSlate} 22%, transparent)`,
         }}
       >
         {[0, 1, 2].map((row) => (
@@ -48,9 +48,9 @@ export function ProvisionlyIcon({ size }: { size: number }) {
                 height: checkSize,
                 borderRadius: Math.round(checkSize * 0.28),
                 border: `${Math.max(2, Math.round(size * 0.018))}px solid ${
-                  row === 0 ? lightPalette.fjordBlue : lightPalette.birchWood
+                  row === 0 ? lightPalette.frostSlate : lightPalette.driftwood
                 }`,
-                background: row === 0 ? lightPalette.oatmeal : lightPalette.snowWhite,
+                background: row === 0 ? lightPalette.mistWhite : lightPalette.pureWhite,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -61,8 +61,8 @@ export function ProvisionlyIcon({ size }: { size: number }) {
                   style={{
                     width: Math.round(checkSize * 0.34),
                     height: Math.round(checkSize * 0.2),
-                    borderLeft: `${Math.max(2, Math.round(size * 0.022))}px solid ${lightPalette.cloudberryOrange}`,
-                    borderBottom: `${Math.max(2, Math.round(size * 0.022))}px solid ${lightPalette.cloudberryOrange}`,
+                    borderLeft: `${Math.max(2, Math.round(size * 0.022))}px solid ${lightPalette.lingonberryRed}`,
+                    borderBottom: `${Math.max(2, Math.round(size * 0.022))}px solid ${lightPalette.lingonberryRed}`,
                     transform: "rotate(-45deg) translateY(-1px)",
                   }}
                 />
@@ -75,10 +75,10 @@ export function ProvisionlyIcon({ size }: { size: number }) {
                 borderRadius: lineHeight,
                 background:
                   row === 0
-                    ? lightPalette.fjordBlue
+                    ? lightPalette.frostSlate
                     : row === 1
-                      ? lightPalette.sageLeaf
-                      : lightPalette.birchWood,
+                      ? lightPalette.seaMint
+                      : lightPalette.driftwood,
                 opacity: row === 0 ? 1 : 0.85,
               }}
             />

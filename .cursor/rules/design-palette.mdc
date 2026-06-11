@@ -9,6 +9,8 @@ alwaysApply: false
 
 # Design palette
 
+Themes: **Fresh Nordic Garden** (light) · **Midnight Frost** (dark).
+
 Read [`docs/DESIGN.md`](../../docs/DESIGN.md) and use tokens from [`app/design-tokens.css`](../../app/design-tokens.css).
 
 ## Rules

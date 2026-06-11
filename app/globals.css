@@ -23,6 +23,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
+:root {
+  --nav-slide-duration: 450ms;
+  --nav-slide-ease: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
 html {
   height: 100%;
 }
@@ -40,4 +45,88 @@ body {
 
 .safe-area-pt {
   padding-top: max(0.75rem, env(safe-area-inset-top));
+}
+
+/* Navigation view transitions (tabs + settings) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    overflow: clip;
+  }
+
+  ::view-transition-old(.nav-forward) {
+    animation: var(--nav-slide-duration) var(--nav-slide-ease) both nav-slide-out-left;
+  }
+
+  ::view-transition-new(.nav-forward) {
+    animation: var(--nav-slide-duration) var(--nav-slide-ease) both nav-slide-in-right;
+  }
+
+  ::view-transition-old(.nav-back) {
+    animation: var(--nav-slide-duration) var(--nav-slide-ease) both nav-slide-out-right;
+  }
+
+  ::view-transition-new(.nav-back) {
+    animation: var(--nav-slide-duration) var(--nav-slide-ease) both nav-slide-in-left;
+  }
+
+  ::view-transition-old(.nav-up) {
+    animation: none;
+  }
+
+  ::view-transition-new(.nav-up) {
+    animation: var(--nav-slide-duration) var(--nav-slide-ease) both nav-slide-in-up;
+  }
+
+  ::view-transition-old(.nav-down) {
+    animation: var(--nav-slide-duration) var(--nav-slide-ease) both nav-slide-out-down;
+  }
+
+  ::view-transition-new(.nav-down) {
+    animation: none;
+  }
+}
+
+@keyframes nav-slide-out-left {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes nav-slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes nav-slide-out-right {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes nav-slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes nav-slide-in-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes nav-slide-out-down {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
 }

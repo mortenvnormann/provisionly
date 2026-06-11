@@ -44,8 +44,8 @@ export const viewport: Viewport = {
   maximumScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: lightPalette.fjordBlue },
-    { media: "(prefers-color-scheme: dark)", color: darkPalette.deepFjord },
+    { media: "(prefers-color-scheme: light)", color: lightPalette.frostSlate },
+    { media: "(prefers-color-scheme: dark)", color: darkPalette.nightSlate },
   ],
 };
 
