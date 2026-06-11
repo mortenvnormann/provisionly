@@ -142,7 +142,7 @@ export function ListsHome({
           <div
             className={`flex flex-col gap-4 p-4 ${floatingDockScrollPadding(showForm)}`}
           >
-            <AppNav active="lists" isGuest={isGuest} />
+            <AppNav isGuest={isGuest} />
 
         {isGuest ? (
           <div className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3">

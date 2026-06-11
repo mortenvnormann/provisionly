@@ -47,26 +47,10 @@ body {
   padding-top: max(0.75rem, env(safe-area-inset-top));
 }
 
-/* Navigation view transitions (tabs + settings) */
+/* Navigation view transitions (settings) */
 @media (prefers-reduced-motion: no-preference) {
   html {
     overflow: clip;
-  }
-
-  ::view-transition-old(.nav-forward) {
-    animation: var(--nav-slide-duration) var(--nav-slide-ease) both nav-slide-out-left;
-  }
-
-  ::view-transition-new(.nav-forward) {
-    animation: var(--nav-slide-duration) var(--nav-slide-ease) both nav-slide-in-right;
-  }
-
-  ::view-transition-old(.nav-back) {
-    animation: var(--nav-slide-duration) var(--nav-slide-ease) both nav-slide-out-right;
-  }
-
-  ::view-transition-new(.nav-back) {
-    animation: var(--nav-slide-duration) var(--nav-slide-ease) both nav-slide-in-left;
   }
 
   ::view-transition-old(.nav-up) {
@@ -83,30 +67,6 @@ body {
 
   ::view-transition-new(.nav-down) {
     animation: none;
-  }
-}
-
-@keyframes nav-slide-out-left {
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes nav-slide-in-right {
-  from {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes nav-slide-out-right {
-  to {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes nav-slide-in-left {
-  from {
-    transform: translateX(-100%);
   }
 }
 

@@ -72,7 +72,7 @@ export function RecipesHome({
           <div
             className={`flex flex-col gap-4 p-4 ${floatingDockScrollPadding()}`}
           >
-            <AppNav active="recipes" />
+            <AppNav />
 
             {recipes.length === 0 ? (
               <p className="py-8 text-center text-sm text-[var(--muted-foreground)]">

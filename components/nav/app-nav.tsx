@@ -1,13 +1,15 @@
-import Link from "next/link";
+"use client";
+
 import { useTranslations } from "next-intl";
+import { useTabShell } from "@/components/layout/tab-shell-context";
 
 type AppNavProps = {
-  active: "lists" | "recipes";
   isGuest?: boolean;
 };
 
-export function AppNav({ active, isGuest = false }: AppNavProps) {
+export function AppNav({ isGuest = false }: AppNavProps) {
   const t = useTranslations("nav");
+  const tabShell = useTabShell();
 
   if (isGuest) {
     return (
@@ -25,32 +27,37 @@ export function AppNav({ active, isGuest = false }: AppNavProps) {
     );
   }
 
+  const active = tabShell?.activeTab ?? "lists";
+  const setActiveTab = tabShell?.setActiveTab;
+
+  const tabClass = (isActive: boolean) =>
+    [
+      "flex-1 rounded-lg px-3 py-2 text-center text-sm font-medium transition-colors",
+      isActive
+        ? "bg-[var(--surface)] text-[var(--foreground)] shadow-sm"
+        : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]",
+    ].join(" ");
+
   return (
-    <nav className="flex gap-1 rounded-xl bg-[var(--muted)] p-1">
-      <Link
-        href="/home"
-        transitionTypes={active === "recipes" ? ["nav-back"] : undefined}
-        className={[
-          "flex-1 rounded-lg px-3 py-2 text-center text-sm font-medium transition-colors",
-          active === "lists"
-            ? "bg-[var(--surface)] text-[var(--foreground)] shadow-sm"
-            : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]",
-        ].join(" ")}
+    <nav className="flex gap-1 rounded-xl bg-[var(--muted)] p-1" role="tablist">
+      <button
+        type="button"
+        role="tab"
+        aria-selected={active === "lists"}
+        onClick={() => setActiveTab?.("lists")}
+        className={tabClass(active === "lists")}
       >
         {t("lists")}
-      </Link>
-      <Link
-        href="/recipes"
-        transitionTypes={active === "lists" ? ["nav-forward"] : undefined}
-        className={[
-          "flex-1 rounded-lg px-3 py-2 text-center text-sm font-medium transition-colors",
-          active === "recipes"
-            ? "bg-[var(--surface)] text-[var(--foreground)] shadow-sm"
-            : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]",
-        ].join(" ")}
+      </button>
+      <button
+        type="button"
+        role="tab"
+        aria-selected={active === "recipes"}
+        onClick={() => setActiveTab?.("recipes")}
+        className={tabClass(active === "recipes")}
       >
         {t("recipes")}
-      </Link>
+      </button>
     </nav>
   );
 }
