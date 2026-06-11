@@ -102,6 +102,7 @@
     "deleteListConfirm": "\"{title}\" verwijderen? Dit kan niet ongedaan worden gemaakt.",
     "removeListConfirm": "\"{title}\" uit je lijsten verwijderen?",
     "deleteItemConfirm": "Dit item verwijderen?",
+    "editItem": "{name} bewerken",
     "shareListTitle": "Lijst delen",
     "couldNotCreateLink": "Kon link niet maken",
     "defaultListTitle": "Shopping list",

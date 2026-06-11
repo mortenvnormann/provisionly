@@ -8,6 +8,7 @@ import {
   parseItemId,
   parseListId,
   parseListItemInput,
+  parseListItemUpdate,
   parseListTitle,
 } from "@/lib/validation/parse";
 import {
@@ -25,6 +26,7 @@ import {
   leaveListForUser,
   setItemCheckedForUser,
   setListGroupByCategoryForUser,
+  updateListItemForUser,
 } from "@/lib/lists/server";
 import type { ListItemRow, ListSummary } from "@/lib/lists/types";
 
@@ -104,6 +106,25 @@ export async function addListItemAction(
     user.id,
     parseListId(listId),
     parseListItemInput(input),
+  );
+  revalidatePath(`/lists/${listId}`);
+  return item;
+}
+
+export async function updateListItemAction(
+  itemId: string,
+  listId: string,
+  input: {
+    name: string;
+    quantity?: number | null;
+    unit?: string | null;
+  },
+): Promise<ListItemRow> {
+  const user = await getVerifiedUser();
+  const item = await updateListItemForUser(
+    user.id,
+    parseItemId(itemId),
+    parseListItemUpdate(input),
   );
   revalidatePath(`/lists/${listId}`);
   return item;

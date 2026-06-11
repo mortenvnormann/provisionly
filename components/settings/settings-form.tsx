@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { DeleteAccountDialog } from "@/components/settings/delete-account-dialog";
@@ -121,13 +120,6 @@ export function SettingsForm({ profile }: SettingsFormProps) {
             {t("deleteAccount")}
           </Button>
         </section>
-
-        <Link
-          href="/home"
-          className="text-center text-sm font-medium text-[var(--brand)] underline-offset-2 hover:underline"
-        >
-          {t("backToLists")}
-        </Link>
       </div>
 
       <DeleteAccountDialog

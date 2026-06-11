@@ -55,7 +55,7 @@ export function ListActionsMenu({
         aria-label={t("listActions")}
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
-        className="px-3"
+        className="px-3 text-[var(--foreground)]"
       >
         ⋯
       </Button>

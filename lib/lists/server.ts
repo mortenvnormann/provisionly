@@ -223,6 +223,66 @@ export async function addListItemForUser(
   };
 }
 
+export async function updateListItemForUser(
+  userId: string,
+  itemId: string,
+  input: {
+    name: string;
+    quantity?: number | null;
+    unit?: string | null;
+  },
+): Promise<ListItemRow> {
+  const service = createServiceClient();
+  const { data: existing, error: fetchError } = await service
+    .from("list_items")
+    .select(
+      "id, list_id, name_original, quantity, unit, category_id, checked, sort_key",
+    )
+    .eq("id", itemId)
+    .maybeSingle();
+
+  if (fetchError || !existing) throw new Error("Item not found");
+  await assertListAccess(userId, existing.list_id);
+
+  const name = input.name.trim();
+  const cookieStore = await cookies();
+  const userClient = createClient(cookieStore);
+  const locale = await getLocaleForUser(userId);
+  const categoryId = await resolveCategoryId(userClient, name, locale).catch(
+    () => null,
+  );
+
+  const { data, error } = await service
+    .from("list_items")
+    .update({
+      name_original: name,
+      name_normalized: normalizeItemName(name),
+      quantity: input.quantity ?? null,
+      unit: input.unit?.trim() || null,
+      category_id: categoryId,
+    })
+    .eq("id", itemId)
+    .select(
+      "id, list_id, name_original, quantity, unit, category_id, checked, sort_key",
+    )
+    .single();
+
+  if (error || !data) {
+    throw new Error(error?.message ?? "Could not update item");
+  }
+
+  return {
+    id: data.id,
+    listId: data.list_id,
+    name: data.name_original,
+    quantity: data.quantity,
+    unit: data.unit,
+    categoryId: data.category_id,
+    checked: data.checked,
+    sortKey: data.sort_key,
+  };
+}
+
 export async function setItemCheckedForUser(
   userId: string,
   itemId: string,

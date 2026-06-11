@@ -6,6 +6,7 @@ import {
   itemIdSchema,
   listIdSchema,
   listItemInputSchema,
+  listItemUpdateSchema,
   listTitleSchema,
   profileUpdateSchema,
   recipeIdSchema,
@@ -47,6 +48,14 @@ export function parseListItemInput(input: {
   existingSortKeys: string[];
 }) {
   return parseOrThrow(listItemInputSchema, input);
+}
+
+export function parseListItemUpdate(input: {
+  name: string;
+  quantity?: number | null;
+  unit?: string | null;
+}) {
+  return parseOrThrow(listItemUpdateSchema, input);
 }
 
 export function parseRecipeInput(input: unknown) {

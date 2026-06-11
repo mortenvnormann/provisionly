@@ -42,6 +42,18 @@ export const listItemInputSchema = z.object({
   existingSortKeys: z.array(z.string().max(32)).max(LIMITS.sortKeys),
 });
 
+export const listItemUpdateSchema = z.object({
+  name: z.string().trim().min(1).max(LIMITS.itemName),
+  quantity: z
+    .number()
+    .finite()
+    .nonnegative()
+    .max(1_000_000)
+    .nullable()
+    .optional(),
+  unit: z.string().trim().max(LIMITS.unit).nullable().optional(),
+});
+
 export const recipeIngredientInputSchema = z.object({
   name: z.string().trim().min(1).max(LIMITS.itemName),
   quantity: z

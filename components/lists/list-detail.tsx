@@ -8,6 +8,7 @@ import { ListActionsMenu } from "@/components/lists/list-actions-menu";
 import { ListItemRowView } from "@/components/lists/list-item-row";
 import { ListMembers } from "@/components/lists/list-members";
 import { ShareListSheet } from "@/components/lists/share-list-sheet";
+import { BackLink } from "@/components/ui/back-link";
 import { SwipeRow } from "@/components/ui/swipe-row";
 import { LoadingState } from "@/components/ui/loading-state";
 import { useConfirm } from "@/components/ui/confirm-dialog";
@@ -32,6 +33,7 @@ import {
   leaveListAction,
   setItemCheckedAction,
   setListGroupByCategoryAction,
+  updateListItemAction,
 } from "@/lib/lists/actions";
 import {
   groupItemsByCategory,
@@ -107,6 +109,7 @@ export function ListDetail({
   );
   const [shareOpen, setShareOpen] = useState(false);
   const [joinedBanner, setJoinedBanner] = useState(showJoinedBanner);
+  const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const { categories, labelFor, error: categoriesError } = useCategories(
     locale,
     tCommon("general"),
@@ -303,6 +306,49 @@ export function ListDetail({
     }
   }
 
+  async function handleUpdateItem(
+    itemId: string,
+    input: { name: string; quantity?: number; unit?: string },
+  ) {
+    if (isGuest) {
+      const supabase = createClient();
+      const categoryId = await resolveCategoryId(supabase, input.name, locale);
+      updateGuestItem(listId, itemId, {
+        name: input.name,
+        quantity: input.quantity,
+        unit: input.unit,
+        categoryId: categoryId ?? undefined,
+      });
+      setItems((prev) => {
+        const next = prev.map((i) =>
+          i.id === itemId
+            ? {
+                ...i,
+                name: input.name,
+                quantity: input.quantity ?? null,
+                unit: input.unit ?? null,
+                categoryId: categoryId ?? null,
+              }
+            : i,
+        );
+        persistCache(title, next);
+        return next;
+      });
+      return;
+    }
+
+    const row = await updateListItemAction(itemId, listId, {
+      name: input.name,
+      quantity: input.quantity ?? null,
+      unit: input.unit ?? null,
+    });
+    setItems((prev) => {
+      const next = prev.map((i) => (i.id === itemId ? row : i));
+      persistCache(title, next);
+      return next;
+    });
+  }
+
   async function handleDeleteItem(itemId: string) {
     if (isGuest) {
       deleteGuestItem(listId, itemId);
@@ -341,13 +387,7 @@ export function ListDetail({
     <div className="flex min-h-full flex-1 flex-col">
       <header className="safe-area-pt sticky top-0 z-10 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-sm">
         <div className="flex items-center gap-2 px-2 py-3">
-          <Link
-            href="/home"
-            className="flex size-10 items-center justify-center rounded-lg text-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
-            aria-label={tCommon("back")}
-          >
-            ‹
-          </Link>
+          <BackLink href="/home" label={tCommon("back")} />
           <h1 className="min-w-0 flex-1 truncate text-lg font-semibold text-[var(--foreground)]">
             {title}
           </h1>
@@ -413,7 +453,11 @@ export function ListDetail({
                     >
                       <ListItemRowView
                         item={item}
+                        editing={editingItemId === item.id}
+                        onStartEdit={(id) => setEditingItemId(id)}
+                        onCancelEdit={() => setEditingItemId(null)}
                         onToggle={(id, checked) => void handleToggle(id, checked)}
+                        onUpdate={(id, input) => handleUpdateItem(id, input)}
                       />
                     </SwipeRow>
                   </li>

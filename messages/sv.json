@@ -102,6 +102,7 @@
     "deleteListConfirm": "Ta bort \"{title}\"? Detta kan inte ångras.",
     "removeListConfirm": "Ta bort \"{title}\" från dina listor?",
     "deleteItemConfirm": "Ta bort den här varan?",
+    "editItem": "Redigera {name}",
     "shareListTitle": "Dela lista",
     "couldNotCreateLink": "Kunde inte skapa länk",
     "defaultListTitle": "Shopping list",

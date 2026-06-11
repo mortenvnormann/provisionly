@@ -102,6 +102,7 @@
     "deleteListConfirm": "Poistetaanko \"{title}\"? Tätä ei voi perua.",
     "removeListConfirm": "Poistetaanko \"{title}\" listoistasi?",
     "deleteItemConfirm": "Poistetaanko tämä tuote?",
+    "editItem": "Muokkaa: {name}",
     "shareListTitle": "Jaa lista",
     "couldNotCreateLink": "Linkin luonti epäonnistui",
     "defaultListTitle": "Shopping list",

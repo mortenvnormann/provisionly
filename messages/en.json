@@ -102,6 +102,7 @@
     "deleteListConfirm": "Delete \"{title}\"? This cannot be undone.",
     "removeListConfirm": "Remove \"{title}\" from your lists?",
     "deleteItemConfirm": "Delete this item?",
+    "editItem": "Edit {name}",
     "shareListTitle": "Share list",
     "couldNotCreateLink": "Could not create link",
     "defaultListTitle": "Shopping list",

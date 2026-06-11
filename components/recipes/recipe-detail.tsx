@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AddToListSheet } from "@/components/recipes/add-to-list-sheet";
@@ -16,6 +15,7 @@ import {
 } from "@/lib/recipes/actions";
 import { scaleQuantity } from "@/lib/recipes/scale";
 import type { RecipeDetail, RecipeInput } from "@/lib/recipes/types";
+import { BackLink } from "@/components/ui/back-link";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 
@@ -132,13 +132,7 @@ export function RecipeDetailView({
     <div className="flex min-h-full flex-1 flex-col">
       <header className="sticky top-0 z-10 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-sm">
         <div className="flex items-center gap-2 px-2 py-3">
-          <Link
-            href="/recipes"
-            className="flex size-10 items-center justify-center rounded-lg text-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
-            aria-label={tCommon("back")}
-          >
-            ‹
-          </Link>
+          <BackLink href="/recipes" label={tCommon("back")} />
           <h1 className="min-w-0 flex-1 truncate text-lg font-semibold text-[var(--foreground)]">
             {recipe.title}
           </h1>

@@ -102,6 +102,7 @@
     "deleteListConfirm": "Supprimer « {title} » ? Cette action est irréversible.",
     "removeListConfirm": "Retirer « {title} » de vos listes ?",
     "deleteItemConfirm": "Supprimer cet article ?",
+    "editItem": "Modifier {name}",
     "shareListTitle": "Partager la liste",
     "couldNotCreateLink": "Impossible de créer le lien",
     "defaultListTitle": "Shopping list",

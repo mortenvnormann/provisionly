@@ -102,6 +102,7 @@
     "deleteListConfirm": "Slet \"{title}\"? Dette kan ikke fortrydes.",
     "removeListConfirm": "Fjern \"{title}\" fra dine lister?",
     "deleteItemConfirm": "Slet denne vare?",
+    "editItem": "Rediger {name}",
     "shareListTitle": "Del liste",
     "couldNotCreateLink": "Kunne ikke oprette link",
     "defaultListTitle": "Shopping list",

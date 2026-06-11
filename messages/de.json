@@ -102,6 +102,7 @@
     "deleteListConfirm": "\"{title}\" löschen? Das kann nicht rückgängig gemacht werden.",
     "removeListConfirm": "\"{title}\" aus deinen Listen entfernen?",
     "deleteItemConfirm": "Diesen Artikel löschen?",
+    "editItem": "{name} bearbeiten",
     "shareListTitle": "Liste teilen",
     "couldNotCreateLink": "Link konnte nicht erstellt werden",
     "defaultListTitle": "Shopping list",
