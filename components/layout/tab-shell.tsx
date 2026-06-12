@@ -105,7 +105,10 @@ export function TabShell({
             style={{ transform: `translateX(${translateX})` }}
           >
             <div
-              className="flex h-full w-1/2 flex-col overflow-hidden"
+              className={[
+                "flex h-full w-1/2 flex-col overflow-hidden",
+                activeTab !== "lists" ? "pointer-events-none" : "",
+              ].join(" ")}
               aria-hidden={activeTab !== "lists"}
             >
               <ListsHome
@@ -118,7 +121,10 @@ export function TabShell({
               />
             </div>
             <div
-              className="flex h-full w-1/2 flex-col overflow-hidden"
+              className={[
+                "flex h-full w-1/2 flex-col overflow-hidden",
+                activeTab !== "recipes" ? "pointer-events-none" : "",
+              ].join(" ")}
               aria-hidden={activeTab !== "recipes"}
             >
               <RecipesHome
