@@ -13,7 +13,6 @@ const ROOT = process.cwd();
 const ALLOWLIST = new Set([
   "app/design-tokens.css",
   "lib/design/palette.ts",
-  "lib/pwa/icon-markup.tsx",
   "scripts/check-colors.mjs",
   "scripts/check-secrets.mjs",
 ]);
@@ -90,7 +89,7 @@ for (const file of [...files].sort()) {
 if (failed) {
   console.error(
     "\nUse CSS variables from app/design-tokens.css (e.g. var(--accent)).\n" +
-      "Exceptions: lib/design/palette.ts, lib/pwa/icon-markup.tsx, app/design-tokens.css\n",
+      "Exceptions: lib/design/palette.ts, app/design-tokens.css\n",
   );
   process.exit(1);
 }

@@ -1,0 +1,190 @@
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+import sharp from "sharp";
+import toIco from "to-ico";
+import { lightPalette } from "../lib/design/palette";
+import { ICON_ROUTE_SIZES } from "../lib/pwa/icon-sizes";
+
+const ROOT = path.resolve(import.meta.dirname, "..");
+const MASTER_PATH = path.join(ROOT, "assets/icon-master-512.png");
+const PUBLIC_ICONS = path.join(ROOT, "public", "icons");
+const APP_DIR = path.join(ROOT, "app");
+const FAVICON_SIZES = [16, 32, 48] as const;
+const MASKABLE_INNER_SCALE = 0.82;
+const CONTENT_THRESHOLD = 18;
+const CONTENT_PAD_RATIO = 0.04;
+
+type Bounds = {
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
+};
+
+async function sampleBackgroundColor(): Promise<string> {
+  const { data } = await sharp(MASTER_PATH)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+
+  const r = data[0] ?? 240;
+  const g = data[1] ?? 244;
+  const b = data[2] ?? 248;
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+async function detectContentBounds(): Promise<Bounds> {
+  const { data, info } = await sharp(MASTER_PATH)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+
+  const { width, height, channels } = info;
+  const bg = [data[0], data[1], data[2]];
+
+  let minX = width;
+  let minY = height;
+  let maxX = 0;
+  let maxY = 0;
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const i = (y * width + x) * channels;
+      const delta =
+        Math.abs(data[i] - bg[0]) +
+        Math.abs(data[i + 1] - bg[1]) +
+        Math.abs(data[i + 2] - bg[2]);
+
+      if (delta > CONTENT_THRESHOLD) {
+        if (x < minX) minX = x;
+        if (y < minY) minY = y;
+        if (x > maxX) maxX = x;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+
+  if (maxX <= minX || maxY <= minY) {
+    throw new Error("Could not detect icon content in master PNG");
+  }
+
+  return { minX, minY, maxX, maxY };
+}
+
+/** Use square master directly, or detect/center content in legacy masters. */
+async function loadMasterSquare(): Promise<Buffer> {
+  const meta = await sharp(MASTER_PATH).metadata();
+  if (!meta.width || !meta.height) {
+    throw new Error("Could not read icon master dimensions");
+  }
+
+  if (meta.width === meta.height) {
+    return sharp(MASTER_PATH).png().toBuffer();
+  }
+
+  const bounds = await detectContentBounds();
+  const background = await sampleBackgroundColor();
+
+  const contentWidth = bounds.maxX - bounds.minX + 1;
+  const contentHeight = bounds.maxY - bounds.minY + 1;
+  const pad = Math.round(Math.max(contentWidth, contentHeight) * CONTENT_PAD_RATIO);
+  const side = Math.max(contentWidth, contentHeight) + pad * 2;
+
+  const cropped = await sharp(MASTER_PATH)
+    .extract({
+      left: bounds.minX,
+      top: bounds.minY,
+      width: contentWidth,
+      height: contentHeight,
+    })
+    .png()
+    .toBuffer();
+
+  const offsetX = Math.floor((side - contentWidth) / 2);
+  const offsetY = Math.floor((side - contentHeight) / 2);
+
+  return sharp({
+    create: {
+      width: side,
+      height: side,
+      channels: 3,
+      background,
+    },
+  })
+    .composite([{ input: cropped, left: offsetX, top: offsetY }])
+    .png()
+    .toBuffer();
+}
+
+async function renderPng(size: number) {
+  const master = await loadMasterSquare();
+  return sharp(master)
+    .resize(size, size, { kernel: sharp.kernel.lanczos3 })
+    .png()
+    .toBuffer();
+}
+
+async function renderMaskable512() {
+  const inner = Math.round(512 * MASKABLE_INNER_SCALE);
+  const master = await loadMasterSquare();
+  const mark = await sharp(master)
+    .resize(inner, inner, { kernel: sharp.kernel.lanczos3 })
+    .png()
+    .toBuffer();
+
+  return sharp({
+    create: {
+      width: 512,
+      height: 512,
+      channels: 3,
+      background: lightPalette.mistWhite,
+    },
+  })
+    .composite([{ input: mark, gravity: "center" }])
+    .png()
+    .toBuffer();
+}
+
+async function main() {
+  await mkdir(PUBLIC_ICONS, { recursive: true });
+
+  const faviconBuffers: Buffer[] = [];
+  for (const size of FAVICON_SIZES) {
+    faviconBuffers.push(await renderPng(size));
+  }
+
+  await writeFile(
+    path.join(ROOT, "public", "favicon.ico"),
+    await toIco(faviconBuffers),
+  );
+
+  for (const size of ICON_ROUTE_SIZES) {
+    await writeFile(
+      path.join(PUBLIC_ICONS, `icon-${size}.png`),
+      await renderPng(size),
+    );
+  }
+
+  await writeFile(
+    path.join(PUBLIC_ICONS, "icon-512-maskable.png"),
+    await renderMaskable512(),
+  );
+
+  await writeFile(path.join(APP_DIR, "icon.png"), await renderPng(32));
+  await writeFile(path.join(APP_DIR, "apple-icon.png"), await renderPng(180));
+
+  // Normalized square master for easier future edits.
+  await writeFile(
+    path.join(ROOT, "assets/icon-source-square.png"),
+    await renderPng(512),
+  );
+
+  console.log(
+    `Scaled ${path.relative(ROOT, MASTER_PATH)} → app/icon.png, app/apple-icon.png, public/favicon.ico (${FAVICON_SIZES.join(", ")}px), and ${ICON_ROUTE_SIZES.length + 1} PNGs in public/icons/`,
+  );
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
