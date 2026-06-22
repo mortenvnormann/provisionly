@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { lightPalette } from "@/lib/design/palette";
+import { iconAssetUrl } from "@/lib/pwa/icon-url";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -16,25 +17,25 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ["shopping", "food", "productivity"],
     icons: [
       {
-        src: "/icons/icon-192.png",
+        src: iconAssetUrl("/icons/icon-192.png"),
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icons/icon-512.png",
+        src: iconAssetUrl("/icons/icon-512.png"),
         sizes: "512x512",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icons/icon-512-maskable.png",
+        src: iconAssetUrl("/icons/icon-512-maskable.png"),
         sizes: "512x512",
         type: "image/png",
         purpose: "maskable",
       },
       {
-        src: "/icons/icon-180.png",
+        src: iconAssetUrl("/icons/icon-180.png"),
         sizes: "180x180",
         type: "image/png",
         purpose: "any",

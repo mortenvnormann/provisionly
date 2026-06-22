@@ -6,6 +6,7 @@ import { InstallBanner } from "@/components/pwa/install-banner";
 import { AppShell } from "@/components/layout/app-shell";
 import { AppProviders } from "@/components/providers/app-providers";
 import { darkPalette, lightPalette } from "@/lib/design/palette";
+import { iconAssetUrl } from "@/lib/pwa/icon-url";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -35,6 +36,11 @@ export const metadata: Metadata = {
   },
   other: {
     "mobile-web-app-capable": "yes",
+  },
+  icons: {
+    icon: [{ url: iconAssetUrl("/icon.png"), type: "image/png" }],
+    apple: [{ url: iconAssetUrl("/apple-icon.png"), type: "image/png" }],
+    shortcut: iconAssetUrl("/favicon.ico"),
   },
 };
 
