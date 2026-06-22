@@ -188,6 +188,12 @@
   "errors": {
     "deleteAccountConfirm": "Typ \"delete my account\" om te bevestigen.",
     "listNotFound": "Lijst niet gevonden",
-    "itemNotFound": "Item niet gevonden"
+    "itemNotFound": "Item niet gevonden",
+    "pageNotFoundTitle": "Pagina niet gevonden",
+    "pageNotFoundDescription": "Deze pagina bestaat niet of je hebt geen toegang.",
+    "somethingWrongTitle": "Er ging iets mis",
+    "somethingWrongDescription": "Er is een onverwachte fout opgetreden. Probeer het opnieuw of ga terug naar je lijsten.",
+    "tryAgain": "Opnieuw proberen",
+    "goHome": "Naar je lijsten"
   }
 }

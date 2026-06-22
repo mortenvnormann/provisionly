@@ -132,12 +132,26 @@ export async function setListGroupByCategoryForUser(
 export async function fetchListSyncForUser(
   userId: string,
   listId: string,
-): Promise<{ items: ListItemRow[]; groupByCategory: boolean }> {
-  const [items, settings] = await Promise.all([
+): Promise<{ items: ListItemRow[]; groupByCategory: boolean; title: string }> {
+  await assertListAccess(userId, listId);
+  const service = createServiceClient();
+
+  const [items, listResult] = await Promise.all([
     fetchListItemsForUser(userId, listId),
-    fetchListSettingsForUser(userId, listId),
+    service
+      .from("lists")
+      .select("title, group_by_category")
+      .eq("id", listId)
+      .single(),
   ]);
-  return { items, groupByCategory: settings.groupByCategory };
+
+  if (listResult.error) throw new Error(listResult.error.message);
+
+  return {
+    items,
+    groupByCategory: listResult.data.group_by_category ?? true,
+    title: listResult.data.title,
+  };
 }
 
 export async function fetchListItemsForUser(

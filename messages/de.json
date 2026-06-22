@@ -188,6 +188,12 @@
   "errors": {
     "deleteAccountConfirm": "Gib zur Bestätigung \"delete my account\" ein.",
     "listNotFound": "Liste nicht gefunden",
-    "itemNotFound": "Artikel nicht gefunden"
+    "itemNotFound": "Artikel nicht gefunden",
+    "pageNotFoundTitle": "Seite nicht gefunden",
+    "pageNotFoundDescription": "Diese Seite existiert nicht oder du hast keinen Zugriff.",
+    "somethingWrongTitle": "Etwas ist schiefgelaufen",
+    "somethingWrongDescription": "Ein unerwarteter Fehler ist aufgetreten. Versuche es erneut oder kehre zu deinen Listen zurück.",
+    "tryAgain": "Erneut versuchen",
+    "goHome": "Zu deinen Listen"
   }
 }

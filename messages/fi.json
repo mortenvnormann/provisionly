@@ -188,6 +188,12 @@
   "errors": {
     "deleteAccountConfirm": "Kirjoita \"delete my account\" vahvistaaksesi.",
     "listNotFound": "Listaa ei löytynyt",
-    "itemNotFound": "Tuotetta ei löytynyt"
+    "itemNotFound": "Tuotetta ei löytynyt",
+    "pageNotFoundTitle": "Sivua ei löytynyt",
+    "pageNotFoundDescription": "Sivua ei ole tai sinulla ei ole käyttöoikeutta.",
+    "somethingWrongTitle": "Jokin meni pieleen",
+    "somethingWrongDescription": "Odottamaton virhe. Voit yrittää uudelleen tai palata listoihin.",
+    "tryAgain": "Yritä uudelleen",
+    "goHome": "Siirry listoihin"
   }
 }

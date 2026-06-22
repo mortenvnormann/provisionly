@@ -54,6 +54,14 @@ Your database password is asked during `supabase link` (find it under **Project 
 | All items still "General" | Run the `count(*)` queries above; if 0 rows, migrations did not run |
 | Red banner in the app | Read the message — usually means empty `categories` table |
 
-## Enable Realtime (for shared lists later)
+## Enable Realtime (for shared lists)
 
 In Supabase → **Database** → **Replication**, ensure `lists`, `list_items`, and `list_members` are enabled for Realtime (the migration adds them to the publication; toggle on if needed).
+
+Verify from the repo:
+
+```bash
+npm run check:realtime
+```
+
+You should see `websocket SUBSCRIBED`. If it times out or errors, open **Database → Replication** and enable the three tables above.

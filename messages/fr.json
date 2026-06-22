@@ -188,6 +188,12 @@
   "errors": {
     "deleteAccountConfirm": "Saisissez \"delete my account\" pour confirmer.",
     "listNotFound": "Liste introuvable",
-    "itemNotFound": "Article introuvable"
+    "itemNotFound": "Article introuvable",
+    "pageNotFoundTitle": "Page introuvable",
+    "pageNotFoundDescription": "Cette page n'existe pas ou vous n'y avez pas accès.",
+    "somethingWrongTitle": "Une erreur s'est produite",
+    "somethingWrongDescription": "Une erreur inattendue s'est produite. Réessayez ou retournez à vos listes.",
+    "tryAgain": "Réessayer",
+    "goHome": "Aller à vos listes"
   }
 }

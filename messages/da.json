@@ -188,6 +188,12 @@
   "errors": {
     "deleteAccountConfirm": "Skriv \"delete my account\" for at bekræfte.",
     "listNotFound": "Liste ikke fundet",
-    "itemNotFound": "Vare ikke fundet"
+    "itemNotFound": "Vare ikke fundet",
+    "pageNotFoundTitle": "Siden blev ikke fundet",
+    "pageNotFoundDescription": "Siden findes ikke, eller du har ikke adgang.",
+    "somethingWrongTitle": "Noget gik galt",
+    "somethingWrongDescription": "Der opstod en uventet fejl. Du kan prøve igen eller gå tilbage til dine lister.",
+    "tryAgain": "Prøv igen",
+    "goHome": "Gå til dine lister"
   }
 }

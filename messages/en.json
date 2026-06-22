@@ -188,6 +188,12 @@
   "errors": {
     "deleteAccountConfirm": "Type \"delete my account\" to confirm.",
     "listNotFound": "List not found",
-    "itemNotFound": "Item not found"
+    "itemNotFound": "Item not found",
+    "pageNotFoundTitle": "Page not found",
+    "pageNotFoundDescription": "This page doesn't exist or you don't have access.",
+    "somethingWrongTitle": "Something went wrong",
+    "somethingWrongDescription": "An unexpected error occurred. You can try again or go back to your lists.",
+    "tryAgain": "Try again",
+    "goHome": "Go to your lists"
   }
 }

@@ -188,6 +188,12 @@
   "errors": {
     "deleteAccountConfirm": "Skriv \"delete my account\" för att bekräfta.",
     "listNotFound": "Listan hittades inte",
-    "itemNotFound": "Varan hittades inte"
+    "itemNotFound": "Varan hittades inte",
+    "pageNotFoundTitle": "Sidan hittades inte",
+    "pageNotFoundDescription": "Sidan finns inte eller du har inte åtkomst.",
+    "somethingWrongTitle": "Något gick fel",
+    "somethingWrongDescription": "Ett oväntat fel inträffade. Du kan försöka igen eller gå tillbaka till listorna.",
+    "tryAgain": "Försök igen",
+    "goHome": "Gå till dina listor"
   }
 }

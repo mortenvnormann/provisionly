@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AddItemBar } from "@/components/lists/add-item-bar";
@@ -8,6 +7,7 @@ import { ListActionsMenu } from "@/components/lists/list-actions-menu";
 import { ListItemRowView } from "@/components/lists/list-item-row";
 import { ListMembers } from "@/components/lists/list-members";
 import { ShareListSheet } from "@/components/lists/share-list-sheet";
+import { ProblemPage } from "@/components/layout/problem-page";
 import { BackLink } from "@/components/ui/back-link";
 import { SwipeRow } from "@/components/ui/swipe-row";
 import { LoadingState } from "@/components/ui/loading-state";
@@ -91,6 +91,7 @@ export function ListDetail({
 }: ListDetailProps) {
   const tLists = useTranslations("lists");
   const tCommon = useTranslations("common");
+  const tErrors = useTranslations("errors");
   const router = useRouter();
   const confirmDialog = useConfirm();
   const cached = !isGuest ? readListCache(listId) : null;
@@ -172,11 +173,16 @@ export function ListDetail({
     listId,
     enabled: !isGuest,
     initialGroupByCategory: groupByCategory,
+    initialTitle: title,
     onItemsChange: (nextItems) => {
       setItems(nextItems);
       persistCache(title, nextItems);
     },
     onGroupByCategoryChange: setGroupByCategory,
+    onTitleChange: (nextTitle) => {
+      setTitle(nextTitle);
+      persistCache(nextTitle, items, groupByCategory);
+    },
   });
 
   useEffect(() => {
@@ -374,12 +380,13 @@ export function ListDetail({
 
   if (isGuest && !getGuestList(listId)) {
     return (
-      <div className="flex min-h-full flex-1 flex-col items-center justify-center gap-4 p-4">
-        <p className="text-sm text-[var(--muted-foreground)]">{tLists("notFound")}</p>
-        <Link href="/home" className="text-sm font-medium text-[var(--brand)]">
-          {tLists("backToLists")}
-        </Link>
-      </div>
+      <ProblemPage
+        appName={tCommon("appName")}
+        title={tErrors("listNotFound")}
+        description={tErrors("pageNotFoundDescription")}
+        primaryLabel={tErrors("goHome")}
+        primaryHref="/home"
+      />
     );
   }
 

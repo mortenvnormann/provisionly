@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "check:secrets": "node scripts/check-secrets.mjs",
+    "check:realtime": "node scripts/check-realtime-replication.mjs",
     "check:colors": "node scripts/check-colors.mjs",
     "setup:hooks": "node scripts/setup-pre-commit.mjs",
     "prelaunch": "npm run check:secrets && npm run check:colors && npm run lint && npm run build",

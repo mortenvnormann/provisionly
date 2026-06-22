@@ -74,6 +74,7 @@ export async function fetchListSettingsAction(
 export async function fetchListSyncAction(listId: string): Promise<{
   items: ListItemRow[];
   groupByCategory: boolean;
+  title: string;
 }> {
   const user = await getVerifiedUser();
   return fetchListSyncForUser(user.id, parseListId(listId));
