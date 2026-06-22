@@ -18,7 +18,11 @@
     "pleaseWait": "Bitte warten…",
     "somethingWrong": "Etwas ist schiefgelaufen",
     "member": "Mitglied",
-    "offline": "Du bist offline — zwischengespeicherte Daten werden angezeigt, wenn verfügbar.",
+    "offline": "Du bist offline",
+    "offlineSyncPending": "Änderungen werden synchronisiert, sobald du wieder online bist",
+    "offlineSyncPendingCount": "{count} Änderungen werden synchronisiert, sobald du wieder online bist",
+    "offlineSyncFailed": "Einige Änderungen konnten nicht synchronisiert werden. Erneuter Versuch, wenn du online bist.",
+    "offlineSyncing": "Synchronisiere…",
     "offlineTitle": "Du bist offline",
     "offlineDescription": "Verbinde dich mit dem Internet, um dich anzumelden und Listen zu synchronisieren.",
     "offlineRetry": "Erneut versuchen"

@@ -18,7 +18,11 @@
     "pleaseWait": "Even geduld…",
     "somethingWrong": "Er is iets misgegaan",
     "member": "Lid",
-    "offline": "Je bent offline — cached gegevens worden getoond waar beschikbaar.",
+    "offline": "Je bent offline",
+    "offlineSyncPending": "Wijzigingen worden gesynchroniseerd zodra je weer online bent",
+    "offlineSyncPendingCount": "{count} wijzigingen worden gesynchroniseerd zodra je weer online bent",
+    "offlineSyncFailed": "Sommige wijzigingen konden niet worden gesynchroniseerd. Opnieuw proberen wanneer je online bent.",
+    "offlineSyncing": "Synchroniseren…",
     "offlineTitle": "Je bent offline",
     "offlineDescription": "Maak verbinding met internet om in te loggen en lijsten te synchroniseren.",
     "offlineRetry": "Opnieuw proberen"

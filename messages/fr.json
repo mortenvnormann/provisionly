@@ -18,7 +18,11 @@
     "pleaseWait": "Veuillez patienter…",
     "somethingWrong": "Un problème est survenu",
     "member": "Membre",
-    "offline": "Vous êtes hors ligne — affichage des données en cache lorsque disponibles.",
+    "offline": "Vous êtes hors ligne",
+    "offlineSyncPending": "Les modifications seront synchronisées lorsque vous serez de nouveau en ligne",
+    "offlineSyncPendingCount": "{count} modifications seront synchronisées lorsque vous serez de nouveau en ligne",
+    "offlineSyncFailed": "Certaines modifications n'ont pas pu être synchronisées. Nouvelle tentative en ligne.",
+    "offlineSyncing": "Synchronisation…",
     "offlineTitle": "Vous êtes hors ligne",
     "offlineDescription": "Connectez-vous à Internet pour vous connecter et synchroniser vos listes.",
     "offlineRetry": "Réessayer"

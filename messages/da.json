@@ -18,7 +18,11 @@
     "pleaseWait": "Vent venligst…",
     "somethingWrong": "Noget gik galt",
     "member": "Medlem",
-    "offline": "Du er offline — viser cachede data hvor det findes.",
+    "offline": "Du er offline",
+    "offlineSyncPending": "Ændringer synkroniseres, når du er online igen",
+    "offlineSyncPendingCount": "{count} ændringer synkroniseres, når du er online igen",
+    "offlineSyncFailed": "Nogle ændringer kunne ikke synkroniseres. Prøver igen, når du er online.",
+    "offlineSyncing": "Synkroniserer…",
     "offlineTitle": "Du er offline",
     "offlineDescription": "Opret forbindelse til internettet for at logge ind og synkronisere lister.",
     "offlineRetry": "Prøv igen"

@@ -18,7 +18,11 @@
     "pleaseWait": "Vänta…",
     "somethingWrong": "Något gick fel",
     "member": "Medlem",
-    "offline": "Du är offline — visar cachad data där det finns.",
+    "offline": "Du är offline",
+    "offlineSyncPending": "Ändringar synkas när du är online igen",
+    "offlineSyncPendingCount": "{count} ändringar synkas när du är online igen",
+    "offlineSyncFailed": "Vissa ändringar kunde inte synkas. Försöker igen när du är online.",
+    "offlineSyncing": "Synkar…",
     "offlineTitle": "Du är offline",
     "offlineDescription": "Anslut till internet för att logga in och synka dina listor.",
     "offlineRetry": "Försök igen"

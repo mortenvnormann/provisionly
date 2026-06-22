@@ -18,7 +18,11 @@
     "pleaseWait": "Please wait…",
     "somethingWrong": "Something went wrong",
     "member": "Member",
-    "offline": "You're offline — showing cached data where available.",
+    "offline": "You're offline",
+    "offlineSyncPending": "Changes will sync when you're back online",
+    "offlineSyncPendingCount": "{count} changes will sync when you're back online",
+    "offlineSyncFailed": "Some changes couldn't sync. Will retry when online.",
+    "offlineSyncing": "Syncing…",
     "offlineTitle": "You're offline",
     "offlineDescription": "Connect to the internet to sign in and sync your lists.",
     "offlineRetry": "Try again"

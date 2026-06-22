@@ -9,6 +9,7 @@ type ListActionsMenuProps = {
   isOwner: boolean;
   hasChecked: boolean;
   groupByCategory: boolean;
+  offlineRestricted?: boolean;
   onShare: () => void;
   onClearChecked: () => void;
   onToggleGroupByCategory: () => void;
@@ -20,6 +21,7 @@ export function ListActionsMenu({
   isOwner,
   hasChecked,
   groupByCategory,
+  offlineRestricted = false,
   onShare,
   onClearChecked,
   onToggleGroupByCategory,
@@ -64,7 +66,7 @@ export function ListActionsMenu({
           role="menu"
           className="absolute right-0 top-full z-20 mt-1 min-w-52 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] py-1 shadow-lg"
         >
-          {!isGuest ? (
+          {!isGuest && !offlineRestricted ? (
             <button
               type="button"
               role="menuitem"
@@ -77,7 +79,11 @@ export function ListActionsMenu({
           <div
             role="menuitemcheckbox"
             aria-checked={groupByCategory}
-            className="flex w-full items-center justify-between gap-3 px-4 py-2.5 text-sm text-[var(--foreground)] hover:bg-[var(--muted)]"
+            aria-disabled={offlineRestricted}
+            className={[
+              "flex w-full items-center justify-between gap-3 px-4 py-2.5 text-sm text-[var(--foreground)]",
+              offlineRestricted ? "opacity-50" : "hover:bg-[var(--muted)]",
+            ].join(" ")}
             onClick={(event) => event.stopPropagation()}
           >
             <span>{t("groupByCategory")}</span>
@@ -86,7 +92,10 @@ export function ListActionsMenu({
               role="switch"
               aria-checked={groupByCategory}
               aria-label={t("groupByCategory")}
-              onClick={() => onToggleGroupByCategory()}
+              disabled={offlineRestricted}
+              onClick={() => {
+                if (!offlineRestricted) onToggleGroupByCategory();
+              }}
               className={[
                 "relative h-7 w-12 shrink-0 rounded-full transition-colors",
                 groupByCategory ? "bg-[var(--primary)]" : "bg-[var(--muted)]",
@@ -100,7 +109,7 @@ export function ListActionsMenu({
               />
             </button>
           </div>
-          {hasChecked ? (
+          {hasChecked && !offlineRestricted ? (
             <button
               type="button"
               role="menuitem"
@@ -113,8 +122,16 @@ export function ListActionsMenu({
           <button
             type="button"
             role="menuitem"
-            className="flex w-full px-4 py-2.5 text-left text-sm text-[var(--destructive)] hover:bg-[var(--destructive)]/10"
-            onClick={() => run(onDelete)}
+            disabled={offlineRestricted}
+            className={[
+              "flex w-full px-4 py-2.5 text-left text-sm text-[var(--destructive)]",
+              offlineRestricted
+                ? "cursor-not-allowed opacity-50"
+                : "hover:bg-[var(--destructive)]/10",
+            ].join(" ")}
+            onClick={() => {
+              if (!offlineRestricted) run(onDelete);
+            }}
           >
             {isGuest || isOwner ? t("deleteList") : t("removeList")}
           </button>

@@ -44,8 +44,16 @@ import {
   readListCache,
   writeListCache,
 } from "@/lib/lists/list-cache";
+import {
+  applyQueuedMutations,
+  countPendingMutations,
+  createLocalItemId,
+  enqueue,
+} from "@/lib/lists/offline-queue";
+import { nextSortKey } from "@/lib/lists/normalize";
 import { repairListItemCategories } from "@/lib/lists/repair-categories";
 import type { ListItemRow } from "@/lib/lists/types";
+import { useOfflineQueue } from "@/lib/lists/use-offline-queue";
 import { useListSync } from "@/lib/lists/use-list-sync";
 import { useOnline } from "@/lib/pwa/use-online";
 import type { ListMemberRow } from "@/lib/share/types";
@@ -96,20 +104,27 @@ export function ListDetail({
   const router = useRouter();
   const confirmDialog = useConfirm();
   const cached = !isGuest ? readListCache(listId) : null;
+  const hasPendingQueue = !isGuest && countPendingMutations(listId) > 0;
   const [title, setTitle] = useState(
     initialTitle ?? cached?.title ?? tLists("defaultListTitle"),
   );
-  const [items, setItems] = useState<ListItemRow[]>(
-    initialItems ?? cached?.items ?? [],
-  );
+  const [items, setItems] = useState<ListItemRow[]>(() => {
+    if (isGuest) return initialItems ?? [];
+    if (hasPendingQueue && cached?.items) {
+      return cached.items;
+    }
+    const base = initialItems ?? cached?.items ?? [];
+    return applyQueuedMutations(listId, base);
+  });
   const [groupByCategory, setGroupByCategory] = useState(
     initialGroupByCategory ?? cached?.groupByCategory ?? true,
   );
   const [members, setMembers] = useState<ListMemberRow[]>(initialMembers);
   const online = useOnline();
-  const readOnly = !isGuest && !online;
+  const authOffline = !isGuest && !online;
+  const [syncError, setSyncError] = useState(false);
   const [loading, setLoading] = useState(
-    !isGuest && !initialItems && !cached?.items.length,
+    !isGuest && !initialItems && !(cached?.items?.length ?? 0),
   );
   const [shareOpen, setShareOpen] = useState(false);
   const [joinedBanner, setJoinedBanner] = useState(showJoinedBanner);
@@ -177,14 +192,14 @@ export function ListDetail({
   useEffect(() => {
     if (isGuest || !initialItems) {
       void load();
-    } else {
+    } else if (!hasPendingQueue) {
       persistCache(initialTitle ?? title, initialItems, groupByCategory);
     }
-  }, [load, isGuest, initialItems, initialTitle, persistCache, title, groupByCategory]);
+  }, [load, isGuest, initialItems, initialTitle, persistCache, title, groupByCategory, hasPendingQueue]);
 
   useListSync({
     listId,
-    enabled: !isGuest,
+    enabled: !isGuest && online,
     initialGroupByCategory: groupByCategory,
     initialTitle: title,
     onItemsChange: (nextItems) => {
@@ -198,6 +213,22 @@ export function ListDetail({
     },
     onMembersChange: setMembers,
   });
+
+  const { syncing } = useOfflineQueue({
+    listId,
+    enabled: !isGuest,
+    locale,
+    onSynced: ({ items: nextItems, title: nextTitle, groupByCategory: nextGroup }) => {
+      setSyncError(false);
+      setTitle(nextTitle);
+      setItems(nextItems);
+      setGroupByCategory(nextGroup);
+      persistCache(nextTitle, nextItems, nextGroup);
+    },
+    onSyncError: () => setSyncError(true),
+  });
+
+  const writesBlocked = syncing;
 
   useEffect(() => {
     if (!showJoinedBanner) return;
@@ -229,7 +260,7 @@ export function ListDetail({
     quantity?: number;
     unit?: string;
   }) {
-    if (readOnly) return;
+    if (writesBlocked) return;
     if (isGuest) {
       const supabase = createClient();
       const categoryId = await resolveCategoryId(supabase, input.name, locale);
@@ -241,6 +272,40 @@ export function ListDetail({
         categoryId: categoryId ?? undefined,
       });
       void load();
+      return;
+    }
+
+    if (authOffline) {
+      const tempItemId = createLocalItemId();
+      const sortKey = nextSortKey(items.map((item) => item.sortKey));
+      enqueue({
+        type: "add_item",
+        listId,
+        tempItemId,
+        payload: {
+          name: input.name,
+          quantity: input.quantity ?? null,
+          unit: input.unit ?? null,
+          sortKey,
+        },
+      });
+      setItems((prev) => {
+        const next = [
+          ...prev,
+          {
+            id: tempItemId,
+            listId,
+            name: input.name,
+            quantity: input.quantity ?? null,
+            unit: input.unit ?? null,
+            categoryId: null,
+            checked: false,
+            sortKey,
+          },
+        ];
+        persistCache(title, next);
+        return next;
+      });
       return;
     }
 
@@ -258,12 +323,29 @@ export function ListDetail({
   }
 
   async function handleToggle(itemId: string, checked: boolean) {
-    if (readOnly) return;
+    if (writesBlocked) return;
     if (isGuest) {
       updateGuestItem(listId, itemId, { checked });
       setItems((prev) =>
         prev.map((i) => (i.id === itemId ? { ...i, checked } : i)),
       );
+      return;
+    }
+
+    if (authOffline) {
+      enqueue({
+        type: "toggle_checked",
+        listId,
+        itemId,
+        checked,
+      });
+      setItems((prev) => {
+        const next = prev.map((item) =>
+          item.id === itemId ? { ...item, checked } : item,
+        );
+        persistCache(title, next);
+        return next;
+      });
       return;
     }
 
@@ -276,6 +358,7 @@ export function ListDetail({
   }
 
   async function handleClearChecked() {
+    if (authOffline) return;
     if (isGuest) {
       clearCheckedGuestItems(listId);
       void load();
@@ -291,6 +374,7 @@ export function ListDetail({
   }
 
   async function handleDeleteList() {
+    if (authOffline) return;
     const ok = await confirmDialog(
       isGuest || isOwner
         ? tLists("deleteListConfirm", { title })
@@ -311,6 +395,7 @@ export function ListDetail({
   }
 
   async function handleToggleGroupByCategory() {
+    if (authOffline) return;
     const next = !groupByCategory;
     setGroupByCategory(next);
     persistCache(title, items, next);
@@ -332,6 +417,7 @@ export function ListDetail({
     itemId: string,
     input: { name: string; quantity?: number; unit?: string },
   ) {
+    if (authOffline) return;
     if (isGuest) {
       const supabase = createClient();
       const categoryId = await resolveCategoryId(supabase, input.name, locale);
@@ -372,10 +458,25 @@ export function ListDetail({
   }
 
   async function handleDeleteItem(itemId: string) {
+    if (writesBlocked) return;
     if (isGuest) {
       deleteGuestItem(listId, itemId);
       setItems((prev) => {
         const next = prev.filter((i) => i.id !== itemId);
+        persistCache(title, next);
+        return next;
+      });
+      return;
+    }
+
+    if (authOffline) {
+      enqueue({
+        type: "delete_item",
+        listId,
+        itemId,
+      });
+      setItems((prev) => {
+        const next = prev.filter((item) => item.id !== itemId);
         persistCache(title, next);
         return next;
       });
@@ -419,6 +520,7 @@ export function ListDetail({
             isOwner={isOwner}
             hasChecked={hasChecked}
             groupByCategory={groupByCategory}
+            offlineRestricted={authOffline}
             onShare={() => setShareOpen(true)}
             onClearChecked={() => void handleClearChecked()}
             onToggleGroupByCategory={() => void handleToggleGroupByCategory()}
@@ -428,11 +530,21 @@ export function ListDetail({
         {!isGuest ? (
           <ListMembers members={members} currentUserId={currentUserId} />
         ) : null}
-        <AddItemBar onAdd={handleAdd} disabled={readOnly} />
+        <AddItemBar onAdd={handleAdd} disabled={writesBlocked} />
       </header>
 
       <div className="relative flex min-h-0 flex-1 flex-col">
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        {syncing ? (
+          <div className="mx-4 mt-3 rounded-xl border border-[var(--border)] bg-[var(--muted)] px-4 py-3 text-sm text-[var(--foreground)]">
+            {tCommon("offlineSyncing")}
+          </div>
+        ) : null}
+        {syncError ? (
+          <div className="mx-4 mt-3 rounded-xl border border-[var(--destructive)]/40 bg-[var(--destructive)]/10 px-4 py-3 text-sm text-[var(--destructive)]">
+            {tCommon("offlineSyncFailed")}
+          </div>
+        ) : null}
         {joinedBanner ? (
           <div className="mx-4 mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
             {tLists("joinedBanner")}
@@ -467,17 +579,6 @@ export function ListDetail({
                     key={item.id}
                     className="border-b border-[var(--border)]/60 last:border-b-0"
                   >
-                    {readOnly ? (
-                      <ListItemRowView
-                        item={item}
-                        editing={false}
-                        readOnly
-                        onStartEdit={() => {}}
-                        onCancelEdit={() => {}}
-                        onToggle={() => {}}
-                        onUpdate={async () => {}}
-                      />
-                    ) : (
                     <SwipeRow
                       className="rounded-none"
                       requireConfirm
@@ -489,13 +590,14 @@ export function ListDetail({
                       <ListItemRowView
                         item={item}
                         editing={editingItemId === item.id}
-                        onStartEdit={(id) => setEditingItemId(id)}
+                        onStartEdit={(id) => {
+                          if (!authOffline) setEditingItemId(id);
+                        }}
                         onCancelEdit={() => setEditingItemId(null)}
                         onToggle={(id, checked) => void handleToggle(id, checked)}
                         onUpdate={(id, input) => handleUpdateItem(id, input)}
                       />
                     </SwipeRow>
-                    )}
                   </li>
                 ))}
               </ul>

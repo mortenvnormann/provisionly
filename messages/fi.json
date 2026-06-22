@@ -18,7 +18,11 @@
     "pleaseWait": "Odota hetki…",
     "somethingWrong": "Jokin meni pieleen",
     "member": "Jäsen",
-    "offline": "Olet offline-tilassa — näytetään välimuistissa olevaa dataa saatavuuden mukaan.",
+    "offline": "Olet offline-tilassa",
+    "offlineSyncPending": "Muutokset synkronoidaan, kun yhteys palaa",
+    "offlineSyncPendingCount": "{count} muutosta synkronoidaan, kun yhteys palaa",
+    "offlineSyncFailed": "Joitakin muutoksia ei voitu synkronoida. Yritetään uudelleen verkossa.",
+    "offlineSyncing": "Synkronoidaan…",
     "offlineTitle": "Olet offline-tilassa",
     "offlineDescription": "Yhdistä internetiin kirjautuaksesi ja synkronoidaksesi listat.",
     "offlineRetry": "Yritä uudelleen"
