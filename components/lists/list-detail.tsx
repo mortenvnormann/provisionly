@@ -47,6 +47,7 @@ import {
 import { repairListItemCategories } from "@/lib/lists/repair-categories";
 import type { ListItemRow } from "@/lib/lists/types";
 import { useListSync } from "@/lib/lists/use-list-sync";
+import { useOnline } from "@/lib/pwa/use-online";
 import type { ListMemberRow } from "@/lib/share/types";
 import { createClient } from "@/utils/supabase/client";
 import { useTranslations } from "next-intl";
@@ -104,7 +105,9 @@ export function ListDetail({
   const [groupByCategory, setGroupByCategory] = useState(
     initialGroupByCategory ?? cached?.groupByCategory ?? true,
   );
-  const [members] = useState<ListMemberRow[]>(initialMembers);
+  const [members, setMembers] = useState<ListMemberRow[]>(initialMembers);
+  const online = useOnline();
+  const readOnly = !isGuest && !online;
   const [loading, setLoading] = useState(
     !isGuest && !initialItems && !cached?.items.length,
   );
@@ -142,21 +145,31 @@ export function ListDetail({
       return;
     }
 
-    const listItems = await fetchListItemsAction(listId);
-    setItems(listItems);
-    setLoading(false);
-    writeListCache(
-      listId,
-      initialTitle ?? cached?.title ?? tLists("defaultListTitle"),
-      listItems,
-      groupByCategory,
-    );
+    try {
+      const listItems = await fetchListItemsAction(listId);
+      setItems(listItems);
+      writeListCache(
+        listId,
+        initialTitle ?? cached?.title ?? tLists("defaultListTitle"),
+        listItems,
+        groupByCategory,
+      );
+    } catch {
+      const fallback = readListCache(listId);
+      if (fallback) {
+        setTitle(fallback.title);
+        setItems(fallback.items);
+        setGroupByCategory(fallback.groupByCategory ?? true);
+      }
+    } finally {
+      setLoading(false);
+    }
   }, [
     isGuest,
     listId,
     locale,
     initialTitle,
-    cached?.title,
+    cached,
     groupByCategory,
     tLists,
   ]);
@@ -183,6 +196,7 @@ export function ListDetail({
       setTitle(nextTitle);
       persistCache(nextTitle, items, groupByCategory);
     },
+    onMembersChange: setMembers,
   });
 
   useEffect(() => {
@@ -215,6 +229,7 @@ export function ListDetail({
     quantity?: number;
     unit?: string;
   }) {
+    if (readOnly) return;
     if (isGuest) {
       const supabase = createClient();
       const categoryId = await resolveCategoryId(supabase, input.name, locale);
@@ -243,6 +258,7 @@ export function ListDetail({
   }
 
   async function handleToggle(itemId: string, checked: boolean) {
+    if (readOnly) return;
     if (isGuest) {
       updateGuestItem(listId, itemId, { checked });
       setItems((prev) =>
@@ -412,7 +428,7 @@ export function ListDetail({
         {!isGuest ? (
           <ListMembers members={members} currentUserId={currentUserId} />
         ) : null}
-        <AddItemBar onAdd={handleAdd} />
+        <AddItemBar onAdd={handleAdd} disabled={readOnly} />
       </header>
 
       <div className="relative flex min-h-0 flex-1 flex-col">
@@ -451,6 +467,17 @@ export function ListDetail({
                     key={item.id}
                     className="border-b border-[var(--border)]/60 last:border-b-0"
                   >
+                    {readOnly ? (
+                      <ListItemRowView
+                        item={item}
+                        editing={false}
+                        readOnly
+                        onStartEdit={() => {}}
+                        onCancelEdit={() => {}}
+                        onToggle={() => {}}
+                        onUpdate={async () => {}}
+                      />
+                    ) : (
                     <SwipeRow
                       className="rounded-none"
                       requireConfirm
@@ -468,6 +495,7 @@ export function ListDetail({
                         onUpdate={(id, input) => handleUpdateItem(id, input)}
                       />
                     </SwipeRow>
+                    )}
                   </li>
                 ))}
               </ul>

@@ -12,11 +12,14 @@ Run from the repo root:
 npm run prelaunch
 ```
 
-This runs `check:secrets`, `lint`, and `build`. All must pass.
+This runs `check:secrets`, `check:colors`, `lint`, and `build`. All must pass.
 
 | Check | What it verifies |
 |-------|------------------|
 | `npm run check:secrets` | No Supabase keys committed to git |
+| `npm run check:colors` | No hardcoded hex colors in UI source |
+| `npm run check:realtime` | Supabase Realtime websocket connects |
+| `npm run verify:security` | Linked DB has security migration applied |
 | `npm run lint` | ESLint passes |
 | `npm run build` | TypeScript + production build succeeds |
 
@@ -30,7 +33,7 @@ Apply every migration to your **production** Supabase project. Easiest: paste ne
 npm run db:push
 ```
 
-Confirm these columns/tables exist:
+Confirm these migrations exist:
 
 | Migration | Purpose |
 |-----------|---------|
@@ -38,6 +41,8 @@ Confirm these columns/tables exist:
 | `20260526100300_account_deletion.sql` | `delete_own_account()` |
 | `20260527100000_recipe_description.sql` | Recipe notes field |
 | `20260528100000_list_grouping_and_profile_names.sql` | List grouping + profile names |
+| `20260602100000_security_hardening.sql` | Owner-only member insert + RPC confirmation |
+| `20260622100000_recipe_realtime.sql` | Realtime for shared recipes |
 
 Quick sanity query:
 
@@ -45,12 +50,13 @@ Quick sanity query:
 select column_name from information_schema.columns
 where table_schema = 'public' and table_name = 'lists' and column_name = 'group_by_category';
 
-select column_name from information_schema.columns
-where table_schema = 'public' and table_name = 'profiles'
-  and column_name in ('first_name', 'last_name');
+select proname, pg_get_function_arguments(oid) as args
+from pg_proc where proname = 'delete_own_account';
 ```
 
-Both should return rows.
+Enable Realtime in **Database → Replication** for: `lists`, `list_items`, `list_members`, `recipes`, `recipe_ingredients`.
+
+Verify: `npm run check:realtime`
 
 ---
 
@@ -122,7 +128,7 @@ These are the main risks and how the app mitigates them.
 
 ### Account deletion
 
-**Mitigation:** `delete_own_account()` runs as the authenticated user via RPC (`auth.uid()`). UI requires typing `delete my account` in a dialog.
+**Mitigation:** `delete_own_account(p_confirmation text)` runs as the authenticated user via RPC (`auth.uid()`). RPC rejects wrong confirmation phrase; UI also requires typing `delete my account`.
 
 ### HTTP headers
 
@@ -150,57 +156,73 @@ Test on a **real phone** (PWA install flow matters).
 - [ ] Toggle **Group by category** off/on
 - [ ] Check items → **Clear done** from ⋯ menu
 - [ ] Swipe delete item (no second confirm)
-- [ ] Share list → open link in second account/browser → collaborator sees changes (~4s poll)
+- [ ] Share list → open link in second account/browser → collaborator sees changes within ~1s (Realtime)
+- [ ] New collaborator appears in member chips without refresh
 
 ### Recipes
 
 - [ ] Create recipe, share, clone, add to list with servings scale
+- [ ] Two accounts on shared recipe → edit on A appears on B within ~1s
 
 ### Settings
 
 - [ ] Save first/last name → greeting updates
+- [ ] Change language → UI updates
 - [ ] Email shown read-only
 - [ ] Delete account dialog → typed confirmation (use a **throwaway** test account)
 
-### PWA
+### PWA & offline
 
 - [ ] Install banner / Add to Home Screen works
 - [ ] `/manifest.webmanifest` loads (not redirected to login)
 - [ ] Icons render after install
+- [ ] Open a list → airplane mode → cached list visible, offline banner shown, edits blocked
 
 ### Share links
 
 - [ ] List share URL uses `NEXT_PUBLIC_APP_URL` (not localhost)
 - [ ] Expired list link shows clear error
 
+### Health
+
+- [ ] `GET /api/health` returns `{"ok":true}`
+
 ---
 
 ## 7. Post-deploy monitoring
 
-- [ ] Supabase **Logs → Auth / API** — watch for unusual spikes after launch
-- [ ] Vercel **Functions** — no repeated 500s on server actions
+Weekly 5-minute review:
+
+- [ ] [Vercel → Analytics](https://vercel.com/dashboard) — traffic and Web Vitals (Speed Insights enabled in app)
+- [ ] [Vercel → Logs / Functions](https://vercel.com/dashboard) — no repeated 500s on server actions
+- [ ] [Supabase → Logs](https://supabase.com/dashboard) → Auth / API — unusual spikes
+- [ ] `GET https://your-domain/api/health` — uptime check
 - [ ] Set up Supabase **billing alerts** if on a paid plan
+
+Client errors are logged to the browser console via `reportClientError` in error boundaries (check Vercel function logs for server-side failures).
 
 ---
 
-## 8. Known limitations (v1 — document for users)
+## 8. Known limitations (v1)
 
 | Item | Status |
 |------|--------|
-| Realtime sync | 4-second polling (not Supabase Realtime) |
-| Offline | No service worker yet — needs network for auth lists |
+| Realtime sync | Supabase Realtime for lists + recipes; refetch-on-event |
+| Offline auth lists | Read-only from session cache; no write queue |
+| Offline guest lists | Full read/write via localStorage |
 | Social login | Email/password only |
-| Auto-clear checked items | Not implemented |
-| Theme/locale in Settings UI | Schema exists; UI not exposed yet |
+| Theme in Settings UI | Schema exists; UI not exposed yet |
+| iOS home screen icon | May need remove + re-add after icon updates |
 
 ---
 
 ## 9. Launch day
 
 1. Run `npm run prelaunch` locally one last time
-2. Confirm Supabase migrations + Auth URLs
-3. Confirm Vercel env vars + redeploy
-4. Complete smoke tests on production URL
-5. Install PWA on your phone and use it for a real shopping trip
+2. Run `npm run verify:security` and `npm run check:realtime`
+3. Confirm Supabase migrations + Realtime toggles + Auth URLs
+4. Confirm Vercel env vars + redeploy
+5. Complete smoke tests on production URL
+6. Install PWA on your phone and use it for a real shopping trip
 
 When all boxes are checked, you are ready to launch.

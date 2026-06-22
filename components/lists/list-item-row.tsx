@@ -10,6 +10,7 @@ const TAP_SLOP = 8;
 type ListItemRowProps = {
   item: ListItemRow;
   editing: boolean;
+  readOnly?: boolean;
   onStartEdit: (id: string) => void;
   onCancelEdit: () => void;
   onToggle: (id: string, checked: boolean) => void;
@@ -32,6 +33,7 @@ function formatItemLabel(item: ListItemRow): string {
 export function ListItemRowView({
   item,
   editing,
+  readOnly = false,
   onStartEdit,
   onCancelEdit,
   onToggle,
@@ -136,18 +138,21 @@ export function ListItemRowView({
         <input
           type="checkbox"
           checked={item.checked}
+          disabled={readOnly}
           onChange={() => onToggle(item.id, !item.checked)}
-          className="size-5 rounded border-[var(--border)] accent-[var(--accent)]"
+          className="size-5 rounded border-[var(--border)] accent-[var(--accent)] disabled:cursor-not-allowed"
         />
       </label>
       <div
-        role="button"
-        tabIndex={0}
-        aria-label={tLists("editItem", { name: item.name })}
+        role={readOnly ? undefined : "button"}
+        tabIndex={readOnly ? undefined : 0}
+        aria-label={readOnly ? undefined : tLists("editItem", { name: item.name })}
         onPointerDown={(event) => {
+          if (readOnly) return;
           tapStart.current = { x: event.clientX, y: event.clientY };
         }}
         onPointerUp={(event) => {
+          if (readOnly) return;
           const dx = Math.abs(event.clientX - tapStart.current.x);
           const dy = Math.abs(event.clientY - tapStart.current.y);
           if (dx < TAP_SLOP && dy < TAP_SLOP) {
@@ -155,6 +160,7 @@ export function ListItemRowView({
           }
         }}
         onKeyDown={(event) => {
+          if (readOnly) return;
           if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
             onStartEdit(item.id);

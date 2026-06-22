@@ -1,16 +1,22 @@
 "use client";
 
+import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { ProblemPage } from "@/components/layout/problem-page";
+import { reportClientError } from "@/lib/monitoring/report-client-error";
 
 type ErrorPageProps = {
   error: Error & { digest?: string };
   reset: () => void;
 };
 
-export default function ErrorPage({ reset }: ErrorPageProps) {
+export default function ErrorPage({ error, reset }: ErrorPageProps) {
   const tCommon = useTranslations("common");
   const tErrors = useTranslations("errors");
+
+  useEffect(() => {
+    reportClientError(error, { boundary: "error" });
+  }, [error]);
 
   return (
     <ProblemPage

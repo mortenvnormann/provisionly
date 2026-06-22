@@ -20,6 +20,9 @@ function isAuthPath(pathname: string) {
 function isPublicPath(pathname: string) {
   if (PUBLIC_PATHS.has(pathname)) return true;
   if (pathname.startsWith("/icons/")) return true;
+  if (pathname.startsWith("/serwist/")) return true;
+  if (pathname === "/~offline") return true;
+  if (pathname === "/api/health") return true;
   return false;
 }
 

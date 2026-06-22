@@ -17,7 +17,11 @@
     "general": "General",
     "pleaseWait": "Please wait…",
     "somethingWrong": "Something went wrong",
-    "member": "Member"
+    "member": "Member",
+    "offline": "You're offline — showing cached data where available.",
+    "offlineTitle": "You're offline",
+    "offlineDescription": "Connect to the internet to sign in and sync your lists.",
+    "offlineRetry": "Try again"
   },
   "nav": {
     "lists": "Lists",

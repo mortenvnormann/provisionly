@@ -17,7 +17,11 @@
     "general": "Général",
     "pleaseWait": "Veuillez patienter…",
     "somethingWrong": "Un problème est survenu",
-    "member": "Membre"
+    "member": "Membre",
+    "offline": "Vous êtes hors ligne — affichage des données en cache lorsque disponibles.",
+    "offlineTitle": "Vous êtes hors ligne",
+    "offlineDescription": "Connectez-vous à Internet pour vous connecter et synchroniser vos listes.",
+    "offlineRetry": "Réessayer"
   },
   "nav": {
     "lists": "Listes",

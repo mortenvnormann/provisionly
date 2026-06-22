@@ -17,7 +17,11 @@
     "general": "Allgemein",
     "pleaseWait": "Bitte warten…",
     "somethingWrong": "Etwas ist schiefgelaufen",
-    "member": "Mitglied"
+    "member": "Mitglied",
+    "offline": "Du bist offline — zwischengespeicherte Daten werden angezeigt, wenn verfügbar.",
+    "offlineTitle": "Du bist offline",
+    "offlineDescription": "Verbinde dich mit dem Internet, um dich anzumelden und Listen zu synchronisieren.",
+    "offlineRetry": "Erneut versuchen"
   },
   "nav": {
     "lists": "Listen",

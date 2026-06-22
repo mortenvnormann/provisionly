@@ -17,7 +17,11 @@
     "general": "Generelt",
     "pleaseWait": "Vennligst vent…",
     "somethingWrong": "Noe gikk galt",
-    "member": "Medlem"
+    "member": "Medlem",
+    "offline": "Du er offline — viser cachede data der det finnes.",
+    "offlineTitle": "Du er offline",
+    "offlineDescription": "Koble til internett for å logge inn og synkronisere listene.",
+    "offlineRetry": "Prøv igjen"
   },
   "nav": {
     "lists": "Lister",

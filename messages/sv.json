@@ -17,7 +17,11 @@
     "general": "Allmänt",
     "pleaseWait": "Vänta…",
     "somethingWrong": "Något gick fel",
-    "member": "Medlem"
+    "member": "Medlem",
+    "offline": "Du är offline — visar cachad data där det finns.",
+    "offlineTitle": "Du är offline",
+    "offlineDescription": "Anslut till internet för att logga in och synka dina listor.",
+    "offlineRetry": "Försök igen"
   },
   "nav": {
     "lists": "Listor",

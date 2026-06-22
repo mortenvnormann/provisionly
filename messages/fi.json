@@ -17,7 +17,11 @@
     "general": "Yleiset",
     "pleaseWait": "Odota hetki…",
     "somethingWrong": "Jokin meni pieleen",
-    "member": "Jäsen"
+    "member": "Jäsen",
+    "offline": "Olet offline-tilassa — näytetään välimuistissa olevaa dataa saatavuuden mukaan.",
+    "offlineTitle": "Olet offline-tilassa",
+    "offlineDescription": "Yhdistä internetiin kirjautuaksesi ja synkronoidaksesi listat.",
+    "offlineRetry": "Yritä uudelleen"
   },
   "nav": {
     "lists": "Listat",

@@ -14,6 +14,7 @@ import {
   updateRecipeAction,
 } from "@/lib/recipes/actions";
 import { scaleQuantity } from "@/lib/recipes/scale";
+import { useRecipeSync } from "@/lib/recipes/use-recipe-sync";
 import type { RecipeDetail, RecipeInput } from "@/lib/recipes/types";
 import { BackLink } from "@/components/ui/back-link";
 import { Button } from "@/components/ui/button";
@@ -57,6 +58,15 @@ export function RecipeDetailView({
     const timer = setTimeout(() => setJoinedBanner(false), 5000);
     return () => clearTimeout(timer);
   }, [showJoinedBanner]);
+
+  useRecipeSync({
+    recipeId: recipe.id,
+    enabled: true,
+    onRecipeChange: (nextRecipe) => {
+      setRecipe(nextRecipe);
+      setServings(nextRecipe.defaultServings);
+    },
+  });
 
   async function handleUpdate(input: RecipeInput) {
     await updateRecipeAction(recipe.id, input);

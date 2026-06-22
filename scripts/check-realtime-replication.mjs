@@ -9,7 +9,13 @@ import { join } from "node:path";
 import { createClient } from "@supabase/supabase-js";
 
 const ROOT = join(import.meta.dirname, "..");
-const REQUIRED_TABLES = ["lists", "list_items", "list_members"];
+const REQUIRED_TABLES = [
+  "lists",
+  "list_items",
+  "list_members",
+  "recipes",
+  "recipe_ingredients",
+];
 
 function loadEnvLocal() {
   try {

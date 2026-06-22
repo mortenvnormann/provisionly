@@ -10,6 +10,7 @@
     "check:secrets": "node scripts/check-secrets.mjs",
     "check:realtime": "node scripts/check-realtime-replication.mjs",
     "check:colors": "node scripts/check-colors.mjs",
+    "verify:security": "node scripts/verify-security-migration.mjs",
     "setup:hooks": "node scripts/setup-pre-commit.mjs",
     "prelaunch": "npm run check:secrets && npm run check:colors && npm run lint && npm run build",
     "prepare": "node scripts/setup-pre-commit.mjs",
@@ -23,6 +24,8 @@
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.106.2",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "next": "16.2.6",
     "next-intl": "^4.13.0",
     "react": "19.2.4",
@@ -34,12 +37,15 @@
     "@swc/helpers": "0.5.23"
   },
   "devDependencies": {
+    "@serwist/turbopack": "^9.5.11",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "esbuild": "^0.28.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "serwist": "^9.5.11",
     "sharp": "^0.35.1",
     "supabase": "^2.101.0",
     "tailwindcss": "^4",

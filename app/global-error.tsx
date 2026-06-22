@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect } from "react";
 import { ProblemPage } from "@/components/layout/problem-page";
+import { reportClientError } from "@/lib/monitoring/report-client-error";
 import "./globals.css";
 
 type GlobalErrorProps = {
@@ -8,7 +10,11 @@ type GlobalErrorProps = {
   reset: () => void;
 };
 
-export default function GlobalError({ reset }: GlobalErrorProps) {
+export default function GlobalError({ error, reset }: GlobalErrorProps) {
+  useEffect(() => {
+    reportClientError(error, { boundary: "global-error" });
+  }, [error]);
+
   return (
     <html lang="en">
       <body className="min-h-screen bg-[var(--background)] font-sans text-[var(--foreground)] antialiased">

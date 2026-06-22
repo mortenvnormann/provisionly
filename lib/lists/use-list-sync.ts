@@ -3,8 +3,10 @@
 import { useEffect, useRef } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { fetchListSyncAction } from "@/lib/lists/actions";
+import { fetchListMembersAction } from "@/lib/share/actions";
 import { itemsFingerprint } from "@/lib/lists/list-cache";
 import type { ListItemRow } from "@/lib/lists/types";
+import type { ListMemberRow } from "@/lib/share/types";
 
 type UseListSyncOptions = {
   listId: string;
@@ -14,6 +16,7 @@ type UseListSyncOptions = {
   onItemsChange: (items: ListItemRow[]) => void;
   onGroupByCategoryChange?: (groupByCategory: boolean) => void;
   onTitleChange?: (title: string) => void;
+  onMembersChange?: (members: ListMemberRow[]) => void;
 };
 
 export function useListSync({
@@ -24,18 +27,22 @@ export function useListSync({
   onItemsChange,
   onGroupByCategoryChange,
   onTitleChange,
+  onMembersChange,
 }: UseListSyncOptions) {
   const fingerprintRef = useRef<string>("");
   const groupByCategoryRef = useRef<boolean>(initialGroupByCategory);
   const titleRef = useRef<string>(initialTitle);
+  const membersFingerprintRef = useRef<string>("");
   const onItemsChangeRef = useRef(onItemsChange);
   const onGroupByCategoryChangeRef = useRef(onGroupByCategoryChange);
   const onTitleChangeRef = useRef(onTitleChange);
+  const onMembersChangeRef = useRef(onMembersChange);
 
   useEffect(() => {
     onItemsChangeRef.current = onItemsChange;
     onGroupByCategoryChangeRef.current = onGroupByCategoryChange;
     onTitleChangeRef.current = onTitleChange;
+    onMembersChangeRef.current = onMembersChange;
   });
 
   useEffect(() => {
@@ -73,7 +80,30 @@ export function useListSync({
       }
     }
 
-    void sync();
+    async function syncMembers() {
+      if (document.visibilityState !== "visible") return;
+      if (!onMembersChangeRef.current) return;
+      try {
+        const members = await fetchListMembersAction(listId);
+        if (cancelled) return;
+
+        const fingerprint = members
+          .map((m) => `${m.userId}:${m.role}:${m.displayName}`)
+          .join("|");
+        if (fingerprint !== membersFingerprintRef.current) {
+          membersFingerprintRef.current = fingerprint;
+          onMembersChangeRef.current(members);
+        }
+      } catch {
+        // Ignore transient network errors during sync
+      }
+    }
+
+    async function syncAll() {
+      await Promise.all([sync(), syncMembers()]);
+    }
+
+    void syncAll();
 
     const supabase = createClient();
     const channel = supabase
@@ -102,10 +132,22 @@ export function useListSync({
           void sync();
         },
       )
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "list_members",
+          filter: `list_id=eq.${listId}`,
+        },
+        () => {
+          void syncMembers();
+        },
+      )
       .subscribe();
 
     function onVisibilityChange() {
-      if (document.visibilityState === "visible") void sync();
+      if (document.visibilityState === "visible") void syncAll();
     }
 
     document.addEventListener("visibilitychange", onVisibilityChange);
@@ -117,4 +159,3 @@ export function useListSync({
     };
   }, [enabled, listId]);
 }
-
