@@ -15,10 +15,77 @@ export type CategoryCatalog = {
 };
 
 let cache: { catalog: CategoryCatalog; expiresAt: number } | null = null;
+let categoriesOnlyCache: {
+  categories: CategoryRow[];
+  generalId: string;
+  expiresAt: number;
+} | null = null;
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
 export function clearCategoryCatalogCache() {
   cache = null;
+  categoriesOnlyCache = null;
+}
+
+function mapCategoryRows(
+  data: {
+    id: string;
+    slug: string;
+    sort_order: number;
+    color: string;
+    labels: unknown;
+  }[],
+): CategoryRow[] {
+  return data.map((row) => ({
+    id: row.id,
+    slug: row.slug,
+    sortOrder: row.sort_order,
+    color: row.color,
+    labels: row.labels as Record<string, string>,
+  }));
+}
+
+function resolveGeneralId(categories: CategoryRow[]): string {
+  return (
+    categories.find((category) => category.slug === "general")?.id ??
+    categories[categories.length - 1].id
+  );
+}
+
+export async function getCategoriesOnly(
+  supabase: SupabaseClient,
+): Promise<{ categories: CategoryRow[]; generalId: string }> {
+  if (categoriesOnlyCache && Date.now() < categoriesOnlyCache.expiresAt) {
+    return {
+      categories: categoriesOnlyCache.categories,
+      generalId: categoriesOnlyCache.generalId,
+    };
+  }
+
+  const { data, error } = await supabase
+    .from("categories")
+    .select("id, slug, sort_order, color, labels")
+    .order("sort_order");
+
+  if (error) {
+    throw new Error(`categories: ${error.message}`);
+  }
+
+  const categories = mapCategoryRows(data ?? []);
+  if (categories.length === 0) {
+    throw new Error(
+      "No categories in database. Run Supabase migrations (supabase db push).",
+    );
+  }
+
+  const generalId = resolveGeneralId(categories);
+  categoriesOnlyCache = {
+    categories,
+    generalId,
+    expiresAt: Date.now() + CACHE_TTL_MS,
+  };
+
+  return { categories, generalId };
 }
 
 export async function getCategoryCatalog(
@@ -28,40 +95,16 @@ export async function getCategoryCatalog(
     return cache.catalog;
   }
 
-  const [categoriesRes, aliasesRes] = await Promise.all([
-    supabase
-      .from("categories")
-      .select("id, slug, sort_order, color, labels")
-      .order("sort_order"),
+  const [{ categories, generalId }, aliasesRes] = await Promise.all([
+    getCategoriesOnly(supabase),
     supabase
       .from("category_aliases")
       .select("alias_normalized, category_id, language"),
   ]);
 
-  if (categoriesRes.error) {
-    throw new Error(`categories: ${categoriesRes.error.message}`);
-  }
   if (aliasesRes.error) {
     throw new Error(`category_aliases: ${aliasesRes.error.message}`);
   }
-
-  const categories: CategoryRow[] = (categoriesRes.data ?? []).map((row) => ({
-    id: row.id,
-    slug: row.slug,
-    sortOrder: row.sort_order,
-    color: row.color,
-    labels: row.labels as Record<string, string>,
-  }));
-
-  if (categories.length === 0) {
-    throw new Error(
-      "No categories in database. Run Supabase migrations (supabase db push).",
-    );
-  }
-
-  const generalId =
-    categories.find((c) => c.slug === "general")?.id ??
-    categories[categories.length - 1].id;
 
   const catalog: CategoryCatalog = {
     categories,

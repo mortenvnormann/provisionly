@@ -2,6 +2,10 @@
 
 import { useTranslations } from "next-intl";
 import { useTabShell } from "@/components/layout/tab-shell-context";
+import {
+  prefetchListsHome,
+  prefetchRecipesHome,
+} from "@/lib/tabs/prefetch";
 
 type AppNavProps = {
   isGuest?: boolean;
@@ -45,6 +49,8 @@ export function AppNav({ isGuest = false }: AppNavProps) {
         role="tab"
         aria-selected={active === "lists"}
         onClick={() => setActiveTab?.("lists")}
+        onPointerEnter={() => prefetchListsHome()}
+        onFocus={() => prefetchListsHome()}
         className={tabClass(active === "lists")}
       >
         {t("lists")}
@@ -54,6 +60,8 @@ export function AppNav({ isGuest = false }: AppNavProps) {
         role="tab"
         aria-selected={active === "recipes"}
         onClick={() => setActiveTab?.("recipes")}
+        onPointerEnter={() => prefetchRecipesHome()}
+        onFocus={() => prefetchRecipesHome()}
         className={tabClass(active === "recipes")}
       >
         {t("recipes")}

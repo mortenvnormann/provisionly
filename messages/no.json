@@ -52,6 +52,7 @@
   "recipes": {
     "newRecipe": "Ny oppskrift",
     "noRecipes": "Ingen oppskrifter ennå. Opprett din første oppskrift nedenfor.",
+    "loadingRecipes": "Laster oppskrifter…",
     "deleteRecipeConfirm": "Slette \"{title}\"? Dette kan ikke angres.",
     "removeRecipeConfirm": "Fjerne \"{title}\" fra oppskriftene dine?",
     "servingsCount": "{count} porsjoner",

@@ -1,11 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { AddToListSheet } from "@/components/recipes/add-to-list-sheet";
-import { RecipeForm } from "@/components/recipes/recipe-form";
 import { ServingsScaler } from "@/components/recipes/servings-scaler";
-import { ShareRecipeSheet } from "@/components/recipes/share-recipe-sheet";
 import { useConfirm } from "@/components/ui/confirm-dialog";
 import {
   cloneRecipeAction,
@@ -19,6 +17,30 @@ import type { RecipeDetail, RecipeInput } from "@/lib/recipes/types";
 import { BackLink } from "@/components/ui/back-link";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+
+const RecipeForm = dynamic(
+  () =>
+    import("@/components/recipes/recipe-form").then((m) => ({
+      default: m.RecipeForm,
+    })),
+  { ssr: false },
+);
+
+const ShareRecipeSheet = dynamic(
+  () =>
+    import("@/components/recipes/share-recipe-sheet").then((m) => ({
+      default: m.ShareRecipeSheet,
+    })),
+  { ssr: false },
+);
+
+const AddToListSheet = dynamic(
+  () =>
+    import("@/components/recipes/add-to-list-sheet").then((m) => ({
+      default: m.AddToListSheet,
+    })),
+  { ssr: false },
+);
 
 type RecipeDetailViewProps = {
   recipe: RecipeDetail;
@@ -290,20 +312,24 @@ export function RecipeDetailView({
         </div>
       </div>
 
-      <ShareRecipeSheet
-        recipeId={recipe.id}
-        recipeTitle={recipe.title}
-        open={shareOpen}
-        onClose={() => setShareOpen(false)}
-      />
+      {shareOpen ? (
+        <ShareRecipeSheet
+          recipeId={recipe.id}
+          recipeTitle={recipe.title}
+          open={shareOpen}
+          onClose={() => setShareOpen(false)}
+        />
+      ) : null}
 
-      <AddToListSheet
-        recipeId={recipe.id}
-        defaultServings={recipe.defaultServings}
-        ingredients={recipe.ingredients}
-        open={addOpen}
-        onClose={() => setAddOpen(false)}
-      />
+      {addOpen ? (
+        <AddToListSheet
+          recipeId={recipe.id}
+          defaultServings={recipe.defaultServings}
+          ingredients={recipe.ingredients}
+          open={addOpen}
+          onClose={() => setAddOpen(false)}
+        />
+      ) : null}
     </div>
   );
 }

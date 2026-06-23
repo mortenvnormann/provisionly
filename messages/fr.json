@@ -52,6 +52,7 @@
   "recipes": {
     "newRecipe": "Nouvelle recette",
     "noRecipes": "Aucune recette pour le moment. Créez votre première recette ci-dessous.",
+    "loadingRecipes": "Chargement des recettes…",
     "deleteRecipeConfirm": "Supprimer « {title} » ? Cette action est irréversible.",
     "removeRecipeConfirm": "Retirer « {title} » de vos recettes ?",
     "servingsCount": "{count} portions",

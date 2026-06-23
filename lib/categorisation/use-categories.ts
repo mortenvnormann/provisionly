@@ -1,25 +1,34 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  getCategoryCatalog,
-  type CategoryCatalog,
-} from "@/lib/categorisation/catalog";
+import { getCategoriesOnly } from "@/lib/categorisation/catalog";
 import { getCategoryLabel } from "@/lib/categorisation/resolve";
 import type { CategoryRow } from "@/lib/lists/types";
 import { createClient } from "@/utils/supabase/client";
 
-export function useCategories(locale = "en", generalLabel = "General") {
-  const [categories, setCategories] = useState<CategoryRow[]>([]);
-  const [loading, setLoading] = useState(true);
+export function useCategories(
+  locale = "en",
+  generalLabel = "General",
+  initialCategories?: CategoryRow[],
+) {
+  const hasInitial = (initialCategories?.length ?? 0) > 0;
+  const [categories, setCategories] = useState<CategoryRow[]>(
+    initialCategories ?? [],
+  );
+  const [loading, setLoading] = useState(!hasInitial);
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
+    if (hasInitial) {
+      setLoading(false);
+      return;
+    }
+
     setError(null);
     try {
       const supabase = createClient();
-      const catalog: CategoryCatalog = await getCategoryCatalog(supabase);
-      setCategories(catalog.categories);
+      const { categories: rows } = await getCategoriesOnly(supabase);
+      setCategories(rows);
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to load categories";
@@ -28,13 +37,13 @@ export function useCategories(locale = "en", generalLabel = "General") {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [hasInitial]);
 
   useEffect(() => {
     void load();
   }, [load]);
 
-  const categoryMap = new Map(categories.map((c) => [c.id, c]));
+  const categoryMap = new Map(categories.map((category) => [category.id, category]));
 
   function labelFor(categoryId: string | null): string {
     if (!categoryId) return generalLabel;

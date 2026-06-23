@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "eslint",
     "check:secrets": "node scripts/check-secrets.mjs",
@@ -37,6 +38,7 @@
     "@swc/helpers": "0.5.23"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.2.9",
     "@serwist/turbopack": "^9.5.11",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

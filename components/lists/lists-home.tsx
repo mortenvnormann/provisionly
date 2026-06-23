@@ -37,6 +37,7 @@ type ListsHomeProps = {
   displayName: string | null;
   email: string | null;
   initialLists?: ListSummary[];
+  onListsReady?: () => void;
 };
 
 export function ListsHome({
@@ -46,6 +47,7 @@ export function ListsHome({
   displayName,
   email,
   initialLists = [],
+  onListsReady,
 }: ListsHomeProps) {
   const router = useRouter();
   const tHome = useTranslations("home");
@@ -65,11 +67,13 @@ export function ListsHome({
           isOwner: true,
         })),
       );
+      onListsReady?.();
       return;
     }
     const data = await fetchListsAction();
     setLists(data);
-  }, [isGuest]);
+    onListsReady?.();
+  }, [isGuest, onListsReady]);
 
   const { result: migrationResult, isMigrating } = useGuestMigrationOnLogin({
     enabled: !isGuest,
@@ -91,8 +95,10 @@ export function ListsHome({
     }
     if (isGuest || initialLists.length === 0) {
       void loadLists();
+    } else {
+      onListsReady?.();
     }
-  }, [loadLists, isGuest, initialLists.length]);
+  }, [loadLists, isGuest, initialLists.length, onListsReady]);
 
   async function handleCreate(event: React.FormEvent) {
     event.preventDefault();

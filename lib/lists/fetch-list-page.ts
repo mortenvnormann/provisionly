@@ -1,6 +1,7 @@
 import "server-only";
 
-import type { ListItemRow } from "@/lib/lists/types";
+import { getCategoriesOnly } from "@/lib/categorisation/catalog";
+import type { CategoryRow, ListItemRow } from "@/lib/lists/types";
 import type { ListMemberRow } from "@/lib/share/types";
 import { createServiceClient } from "@/lib/supabase/service";
 
@@ -11,6 +12,7 @@ export type ListPageData = {
   isOwner: boolean;
   groupByCategory: boolean;
   locale: string;
+  categories: CategoryRow[];
 };
 
 async function assertListAccessOnce(
@@ -45,6 +47,7 @@ export async function fetchListPageData(
     { data: items, error: itemsError },
     { data: members, error: membersError },
     { data: profile, error: profileError },
+    categoriesResult,
   ] = await Promise.all([
     service
       .from("lists")
@@ -60,6 +63,7 @@ export async function fetchListPageData(
       .order("sort_key"),
     service.from("list_members").select("user_id, role").eq("list_id", listId),
     service.from("profiles").select("locale").eq("id", userId).maybeSingle(),
+    getCategoriesOnly(service).catch(() => ({ categories: [], generalId: "" })),
   ]);
 
   if (listError) throw new Error(listError.message);
@@ -112,5 +116,6 @@ export async function fetchListPageData(
     isOwner: list.owner_id === userId,
     groupByCategory: list.group_by_category ?? true,
     locale: profile?.locale ?? "en",
+    categories: categoriesResult.categories,
   };
 }

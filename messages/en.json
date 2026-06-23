@@ -52,6 +52,7 @@
   "recipes": {
     "newRecipe": "New recipe",
     "noRecipes": "No recipes yet. Create your first recipe below.",
+    "loadingRecipes": "Loading recipes…",
     "deleteRecipeConfirm": "Delete \"{title}\"? This cannot be undone.",
     "removeRecipeConfirm": "Remove \"{title}\" from your recipes?",
     "servingsCount": "{count} servings",

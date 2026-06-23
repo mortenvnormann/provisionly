@@ -1,15 +1,10 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import { RecipeForm } from "@/components/recipes/recipe-form";
+import { getTranslations } from "next-intl/server";
+import { NewRecipeForm } from "@/components/recipes/new-recipe-form";
 import { BackLink } from "@/components/ui/back-link";
-import { createRecipeAction } from "@/lib/recipes/actions";
-import { useTranslations } from "next-intl";
 
-export default function NewRecipePage() {
-  const tCommon = useTranslations("common");
-  const tRecipes = useTranslations("recipes");
-  const router = useRouter();
+export default async function NewRecipePage() {
+  const tCommon = await getTranslations("common");
+  const tRecipes = await getTranslations("recipes");
 
   return (
     <div className="flex min-h-full flex-1 flex-col">
@@ -20,14 +15,7 @@ export default function NewRecipePage() {
         </h1>
       </header>
       <div className="p-4">
-        <RecipeForm
-          submitLabel={tRecipes("createRecipe")}
-          onSubmit={async (input) => {
-            const recipe = await createRecipeAction(input);
-            router.push(`/recipes/${recipe.id}`);
-            router.refresh();
-          }}
-        />
+        <NewRecipeForm />
       </div>
     </div>
   );

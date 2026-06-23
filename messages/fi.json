@@ -52,6 +52,7 @@
   "recipes": {
     "newRecipe": "Uusi resepti",
     "noRecipes": "Ei reseptejä vielä. Luo ensimmäinen reseptisi alla.",
+    "loadingRecipes": "Ladataan reseptejä…",
     "deleteRecipeConfirm": "Poistetaanko \"{title}\"? Tätä ei voi perua.",
     "removeRecipeConfirm": "Poistetaanko \"{title}\" resepteistäsi?",
     "servingsCount": "{count} annosta",

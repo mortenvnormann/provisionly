@@ -17,10 +17,9 @@ import {
   type OfflineMutation,
 } from "@/lib/lists/offline-queue";
 import { writeListCache } from "@/lib/lists/list-cache";
-import { repairListItemCategories } from "@/lib/lists/repair-categories";
+import { repairListItemCategoriesAction } from "@/lib/categorisation/actions";
 import type { ListItemRow } from "@/lib/lists/types";
 import { useOnline } from "@/lib/pwa/use-online";
-import { createClient } from "@/utils/supabase/client";
 
 type UseOfflineQueueOptions = {
   listId: string;
@@ -118,14 +117,10 @@ export function useOfflineQueue({
       }
 
       const sync = await fetchListSyncAction(listId);
-      let items = sync.items;
-      const supabase = createClient();
-      items = await repairListItemCategories(
-        supabase,
+      const items = await repairListItemCategoriesAction(
         listId,
-        items,
+        sync.items,
         locale,
-        false,
       );
 
       writeListCache(listId, sync.title, items, sync.groupByCategory);

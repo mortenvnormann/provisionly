@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { TabShell } from "@/components/layout/tab-shell";
 import { getSessionState } from "@/lib/auth/session";
 import { fetchListSummariesForUser } from "@/lib/lists/server";
@@ -24,6 +25,10 @@ export default async function TabsLayout({
     [];
 
   if (user) {
+    const headerStore = await headers();
+    const pathname = headerStore.get("x-pathname") ?? "/home";
+    const prefetchRecipes = pathname.startsWith("/recipes");
+
     const service = createServiceClient();
     const [{ data: profile }, lists, recipes] = await Promise.all([
       service
@@ -32,7 +37,7 @@ export default async function TabsLayout({
         .eq("id", user.id)
         .maybeSingle(),
       fetchListSummariesForUser(user.id).catch(() => []),
-      isGuest
+      isGuest || !prefetchRecipes
         ? Promise.resolve([])
         : fetchRecipeSummariesForUser(user.id).catch(() => []),
     ]);

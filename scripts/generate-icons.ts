@@ -122,7 +122,7 @@ async function renderPng(size: number) {
   const master = await loadMasterSquare();
   return sharp(master)
     .resize(size, size, { kernel: sharp.kernel.lanczos3 })
-    .png()
+    .png({ compressionLevel: 9, effort: 10 })
     .toBuffer();
 }
 
@@ -143,7 +143,7 @@ async function renderMaskable512() {
     },
   })
     .composite([{ input: mark, gravity: "center" }])
-    .png()
+    .png({ compressionLevel: 9, effort: 10 })
     .toBuffer();
 }
 

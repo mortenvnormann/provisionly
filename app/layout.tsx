@@ -1,25 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
-import { InstallBanner } from "@/components/pwa/install-banner";
+import { DeferredBanners } from "@/components/ui/deferred-banners";
 import { AppShell } from "@/components/layout/app-shell";
 import { AppProviders } from "@/components/providers/app-providers";
 import { AppSerwistProvider } from "@/components/providers/serwist-provider";
-import { OfflineBanner } from "@/components/ui/offline-banner";
 import { darkPalette, lightPalette } from "@/lib/design/palette";
 import { iconAssetUrl } from "@/lib/pwa/icon-url";
 import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -70,15 +64,14 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} h-full antialiased`}
     >
       <body className="flex h-dvh min-h-0 flex-col overflow-hidden">
         <AppSerwistProvider>
           <NextIntlClientProvider messages={messages}>
             <AppProviders>
               <AppShell>
-                <OfflineBanner />
-                <InstallBanner />
+                <DeferredBanners />
                 <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
                   {children}
                 </div>

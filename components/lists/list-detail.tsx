@@ -1,18 +1,21 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AddItemBar } from "@/components/lists/add-item-bar";
 import { ListActionsMenu } from "@/components/lists/list-actions-menu";
 import { ListItemRowView } from "@/components/lists/list-item-row";
 import { ListMembers } from "@/components/lists/list-members";
-import { ShareListSheet } from "@/components/lists/share-list-sheet";
 import { ProblemPage } from "@/components/layout/problem-page";
 import { BackLink } from "@/components/ui/back-link";
 import { SwipeRow } from "@/components/ui/swipe-row";
 import { LoadingState } from "@/components/ui/loading-state";
 import { useConfirm } from "@/components/ui/confirm-dialog";
-import { resolveCategoryId } from "@/lib/categorisation/resolve";
+import {
+  resolveCategoryIdAction,
+  suggestItemCategoryRepairsAction,
+} from "@/lib/categorisation/actions";
 import { useCategories } from "@/lib/categorisation/use-categories";
 import {
   addGuestItem,
@@ -51,14 +54,20 @@ import {
   enqueue,
 } from "@/lib/lists/offline-queue";
 import { nextSortKey } from "@/lib/lists/normalize";
-import { repairListItemCategories } from "@/lib/lists/repair-categories";
-import type { ListItemRow } from "@/lib/lists/types";
+import type { CategoryRow, ListItemRow } from "@/lib/lists/types";
 import { useOfflineQueue } from "@/lib/lists/use-offline-queue";
 import { useListSync } from "@/lib/lists/use-list-sync";
 import { useOnline } from "@/lib/pwa/use-online";
 import type { ListMemberRow } from "@/lib/share/types";
-import { createClient } from "@/utils/supabase/client";
 import { useTranslations } from "next-intl";
+
+const ShareListSheet = dynamic(
+  () =>
+    import("@/components/lists/share-list-sheet").then((m) => ({
+      default: m.ShareListSheet,
+    })),
+  { ssr: false },
+);
 
 type ListDetailProps = {
   listId: string;
@@ -71,6 +80,7 @@ type ListDetailProps = {
   showJoinedBanner?: boolean;
   locale?: string;
   initialGroupByCategory?: boolean;
+  initialCategories?: CategoryRow[];
 };
 
 function guestItemToRow(item: GuestListItem, listId: string): ListItemRow {
@@ -97,6 +107,7 @@ export function ListDetail({
   showJoinedBanner = false,
   locale = "en",
   initialGroupByCategory = true,
+  initialCategories,
 }: ListDetailProps) {
   const tLists = useTranslations("lists");
   const tCommon = useTranslations("common");
@@ -132,6 +143,7 @@ export function ListDetail({
   const { categories, labelFor, error: categoriesError } = useCategories(
     locale,
     tCommon("general"),
+    initialCategories,
   );
 
   const persistCache = useCallback(
@@ -145,7 +157,6 @@ export function ListDetail({
 
   const load = useCallback(async () => {
     if (isGuest) {
-      const supabase = createClient();
       const list = getGuestList(listId);
       if (!list) {
         setLoading(false);
@@ -153,9 +164,18 @@ export function ListDetail({
       }
       setTitle(list.title);
       setGroupByCategory(list.groupByCategory !== false);
-      let rows = list.items.map((i) => guestItemToRow(i, listId));
-      rows = await repairListItemCategories(supabase, listId, rows, locale, true);
-      setItems(rows);
+      const rows = list.items.map((item) => guestItemToRow(item, listId));
+      const repaired = await suggestItemCategoryRepairsAction(rows, locale);
+      for (let i = 0; i < repaired.length; i++) {
+        const before = rows[i];
+        const after = repaired[i];
+        if (after.categoryId !== before.categoryId) {
+          updateGuestItem(listId, after.id, {
+            categoryId: after.categoryId ?? undefined,
+          });
+        }
+      }
+      setItems(repaired);
       setLoading(false);
       return;
     }
@@ -262,8 +282,7 @@ export function ListDetail({
   }) {
     if (writesBlocked) return;
     if (isGuest) {
-      const supabase = createClient();
-      const categoryId = await resolveCategoryId(supabase, input.name, locale);
+      const categoryId = await resolveCategoryIdAction(input.name, locale);
       addGuestItem(listId, {
         name: input.name,
         quantity: input.quantity,
@@ -419,8 +438,7 @@ export function ListDetail({
   ) {
     if (authOffline) return;
     if (isGuest) {
-      const supabase = createClient();
-      const categoryId = await resolveCategoryId(supabase, input.name, locale);
+      const categoryId = await resolveCategoryIdAction(input.name, locale);
       updateGuestItem(listId, itemId, {
         name: input.name,
         quantity: input.quantity,
@@ -607,7 +625,7 @@ export function ListDetail({
         </div>
       </div>
 
-      {!isGuest ? (
+      {!isGuest && shareOpen ? (
         <ShareListSheet
           listId={listId}
           listTitle={title}

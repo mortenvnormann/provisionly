@@ -52,6 +52,7 @@
   "recipes": {
     "newRecipe": "Neues Rezept",
     "noRecipes": "Noch keine Rezepte. Erstelle unten dein erstes Rezept.",
+    "loadingRecipes": "Rezepte werden geladen…",
     "deleteRecipeConfirm": "\"{title}\" löschen? Das kann nicht rückgängig gemacht werden.",
     "removeRecipeConfirm": "\"{title}\" aus deinen Rezepten entfernen?",
     "servingsCount": "{count} Portionen",

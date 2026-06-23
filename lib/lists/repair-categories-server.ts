@@ -1,20 +1,25 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
+import "server-only";
+
 import {
   getCategoryCatalog,
   resolveCategoryFromCatalog,
 } from "@/lib/categorisation/catalog";
-import { updateGuestItem } from "@/lib/guest/storage";
 import { normalizeItemName } from "@/lib/lists/normalize";
+import { assertListAccess } from "@/lib/lists/server";
 import type { ListItemRow } from "@/lib/lists/types";
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
 
 /** Fix items saved without a category (or stuck on General when an alias exists). */
-export async function repairListItemCategories(
-  supabase: SupabaseClient,
+export async function repairListItemCategoriesForUser(
+  userId: string,
   listId: string,
   items: ListItemRow[],
   locale: string,
-  isGuest: boolean,
 ): Promise<ListItemRow[]> {
+  await assertListAccess(userId, listId);
+
+  const supabase = createClient(await cookies());
   let catalog;
   try {
     catalog = await getCategoryCatalog(supabase);
@@ -34,19 +39,17 @@ export async function repairListItemCategories(
       (item.categoryId === generalId &&
         resolved !== generalId &&
         catalog.aliases.some(
-          (a) => a.alias_normalized === normalizeItemName(item.name),
+          (alias) => alias.alias_normalized === normalizeItemName(item.name),
         ));
 
     if (!needsRepair || resolved === item.categoryId) continue;
 
-    if (isGuest) {
-      updateGuestItem(listId, item.id, { categoryId: resolved });
-    } else {
-      await supabase
-        .from("list_items")
-        .update({ category_id: resolved })
-        .eq("id", item.id);
-    }
+    const { error } = await supabase
+      .from("list_items")
+      .update({ category_id: resolved })
+      .eq("id", item.id);
+
+    if (error) continue;
 
     next[i] = { ...item, categoryId: resolved };
     changed = true;

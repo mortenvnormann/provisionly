@@ -50,6 +50,7 @@ export default async function ListPage({ params, searchParams }: ListPageProps) 
         showJoinedBanner={joined === "1"}
         locale={data.locale}
         initialGroupByCategory={data.groupByCategory}
+        initialCategories={data.categories}
       />
     );
   } catch {

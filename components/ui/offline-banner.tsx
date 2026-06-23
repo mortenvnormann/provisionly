@@ -1,7 +1,7 @@
 "use client";
 
 import { useOnline } from "@/lib/pwa/use-online";
-import { countPendingMutations } from "@/lib/lists/offline-queue";
+import { countPendingMutations } from "@/lib/lists/offline-queue-count";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 

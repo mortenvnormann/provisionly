@@ -52,6 +52,7 @@
   "recipes": {
     "newRecipe": "Nieuw recept",
     "noRecipes": "Nog geen recepten. Maak hieronder je eerste recept.",
+    "loadingRecipes": "Recepten laden…",
     "deleteRecipeConfirm": "\"{title}\" verwijderen? Dit kan niet ongedaan worden gemaakt.",
     "removeRecipeConfirm": "\"{title}\" uit je recepten verwijderen?",
     "servingsCount": "{count} porties",

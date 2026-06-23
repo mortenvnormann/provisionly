@@ -52,6 +52,7 @@
   "recipes": {
     "newRecipe": "Nytt recept",
     "noRecipes": "Inga recept ännu. Skapa ditt första recept nedan.",
+    "loadingRecipes": "Laddar recept…",
     "deleteRecipeConfirm": "Ta bort \"{title}\"? Detta kan inte ångras.",
     "removeRecipeConfirm": "Ta bort \"{title}\" från dina recept?",
     "servingsCount": "{count} portioner",
