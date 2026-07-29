@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
-import { TabShell } from "@/components/layout/tab-shell";
+import { TabsDataProvider } from "@/components/layout/tabs-data-context";
 import { getSessionState } from "@/lib/auth/session";
 import { fetchListSummariesForUser } from "@/lib/lists/server";
 import { fetchRecipeSummariesForUser } from "@/lib/recipes/server";
@@ -49,17 +49,18 @@ export default async function TabsLayout({
   }
 
   return (
-    <>
-      <TabShell
-        isGuest={isGuest}
-        firstName={firstName}
-        lastName={lastName}
-        displayName={displayName}
-        email={user?.email ?? null}
-        initialLists={initialLists}
-        initialRecipes={initialRecipes}
-      />
+    <TabsDataProvider
+      value={{
+        isGuest,
+        firstName,
+        lastName,
+        displayName,
+        email: user?.email ?? null,
+        initialLists,
+        initialRecipes,
+      }}
+    >
       {children}
-    </>
+    </TabsDataProvider>
   );
 }

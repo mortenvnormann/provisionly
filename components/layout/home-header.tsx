@@ -1,18 +1,16 @@
-import { SettingsLink } from "@/components/nav/settings-link";
 import { useTranslations } from "next-intl";
 
 type HomeHeaderProps = {
   greetingName: string;
-  showSettings?: boolean;
 };
 
-export function HomeHeader({ greetingName, showSettings = true }: HomeHeaderProps) {
+export function HomeHeader({ greetingName }: HomeHeaderProps) {
   const tCommon = useTranslations("common");
   const tHome = useTranslations("home");
 
   return (
-    <header className="safe-area-pt sticky top-0 z-10 shrink-0 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-sm">
-      <div className="flex items-center justify-between gap-3 px-4 py-3">
+    <header className="safe-area-pt font-ui sticky top-0 z-10 shrink-0 bg-[var(--background)]/90 backdrop-blur-sm">
+      <div className="flex items-center justify-between gap-3 px-4 py-4">
         <div>
           <p className="text-xs font-medium tracking-wide text-[var(--brand)] uppercase">
             {tCommon("appName")}
@@ -21,7 +19,6 @@ export function HomeHeader({ greetingName, showSettings = true }: HomeHeaderProp
             {tHome("greeting", { name: greetingName })}
           </h1>
         </div>
-        {showSettings ? <SettingsLink /> : null}
       </div>
     </header>
   );
