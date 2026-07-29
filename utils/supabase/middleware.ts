@@ -2,6 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import { GUEST_COOKIE } from "@/lib/guest/constants";
 import { getSupabaseEnv } from "@/lib/env";
+import { getSupabaseStorageKey } from "@/lib/supabase/storage-key";
 
 const AUTH_PATHS = ["/login", "/auth/callback"];
 
@@ -47,6 +48,9 @@ export async function updateSession(request: NextRequest) {
   });
 
   const supabase = createServerClient(url, key, {
+    auth: {
+      storageKey: getSupabaseStorageKey(),
+    },
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -67,12 +71,24 @@ export async function updateSession(request: NextRequest) {
     },
   });
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // Supabase auth calls can fail in the Edge runtime (e.g. `fetch failed`).
+  // If that happens, do not redirect here—let server components (Node runtime)
+  // validate auth instead to avoid login redirect loops.
+  let user: unknown = null;
+  let authChecked = true;
+  try {
+    const result = await supabase.auth.getUser();
+    user = result.data.user;
+  } catch {
+    authChecked = false;
+  }
 
   const isGuest = request.cookies.get(GUEST_COOKIE)?.value === "1";
-  const hasAccess = !!user || isGuest;
+  const hasAccess = (!!user as boolean) || isGuest;
+
+  if (!authChecked) {
+    return supabaseResponse;
+  }
 
   if (isServerAction(request)) {
     if (user && request.cookies.get(GUEST_COOKIE)) {
@@ -101,7 +117,7 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (hasAccess && pathname === "/login") {
+  if (hasAccess && pathname === "/login" && user) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/home";
     return NextResponse.redirect(redirectUrl);
