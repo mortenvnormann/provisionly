@@ -45,8 +45,8 @@ export function SettingsForm({ profile }: SettingsFormProps) {
 
   return (
     <>
-      <div className="flex flex-1 flex-col gap-6 p-4 pb-24">
-        <section className="flex flex-col gap-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4">
+      <div className="font-ui flex flex-1 flex-col gap-6 p-4">
+        <section className="shadow-token-sm flex flex-col gap-4 rounded-2xl bg-[var(--surface)] p-4">
           <h2 className="text-sm font-semibold text-[var(--foreground)]">{t("profile")}</h2>
           <form onSubmit={handleSaveProfile} className="flex flex-col gap-4">
             <Input
@@ -101,7 +101,7 @@ export function SettingsForm({ profile }: SettingsFormProps) {
           </form>
         </section>
 
-        <section className="flex flex-col gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4">
+        <section className="shadow-token-sm flex flex-col gap-3 rounded-2xl bg-[var(--surface)] p-4">
           <h2 className="text-sm font-semibold text-[var(--foreground)]">{t("account")}</h2>
           <form action={signOut}>
             <Button type="submit" variant="secondary" fullWidth>

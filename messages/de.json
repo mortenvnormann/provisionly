@@ -30,6 +30,9 @@
   "nav": {
     "lists": "Listen",
     "recipes": "Rezepte",
+    "sort": "Sortieren",
+    "sortRecent": "Neueste",
+    "sortAlpha": "A–Z",
     "guestRecipesHint": "Erstelle ein Konto, um Rezepte zu nutzen"
   },
   "home": {
@@ -91,7 +94,19 @@
     "recipeDefaultServings": "Recipe default: {count}",
     "fewerServings": "Fewer servings",
     "moreServings": "More servings",
-    "resetServings": "Reset to {count} servings"
+    "resetServings": "Reset to {count} servings",
+    "photo": "Foto",
+    "addPhoto": "Foto hinzufügen",
+    "changePhoto": "Foto ändern",
+    "photoUploading": "Foto wird hochgeladen…",
+    "photoUploadFailed": "Foto konnte nicht hochgeladen werden",
+    "removePhotoConfirm": "Dieses Rezeptfoto entfernen?",
+    "timing": "Zeit",
+    "prepTime": "Vorbereitung",
+    "cookTime": "Kochen",
+    "totalTime": "Gesamt",
+    "minutesShort": "{count} Min.",
+    "hoursMinutesShort": "{hours} Std. {minutes} Min."
   },
   "lists": {
     "loadingList": "Liste wird geladen…",

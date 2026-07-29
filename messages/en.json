@@ -30,6 +30,9 @@
   "nav": {
     "lists": "Lists",
     "recipes": "Recipes",
+    "sort": "Sort",
+    "sortRecent": "Recent",
+    "sortAlpha": "A–Z",
     "guestRecipesHint": "Create an account to use recipes"
   },
   "home": {
@@ -91,7 +94,19 @@
     "recipeDefaultServings": "Recipe default: {count}",
     "fewerServings": "Fewer servings",
     "moreServings": "More servings",
-    "resetServings": "Reset to {count} servings"
+    "resetServings": "Reset to {count} servings",
+    "photo": "Photo",
+    "addPhoto": "Add photo",
+    "changePhoto": "Change photo",
+    "photoUploading": "Uploading photo…",
+    "photoUploadFailed": "Could not upload photo",
+    "removePhotoConfirm": "Remove this recipe photo?",
+    "timing": "Timing",
+    "prepTime": "Prep",
+    "cookTime": "Cook",
+    "totalTime": "Total",
+    "minutesShort": "{count} min",
+    "hoursMinutesShort": "{hours} h {minutes} min"
   },
   "lists": {
     "loadingList": "Loading list…",
@@ -150,6 +165,9 @@
     "deleting": "Deleting…",
     "couldNotDelete": "Could not delete account.",
     "account": "Account",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use",
     "deleteConfirmInput": "Type \"{phrase}\" to confirm"
   },
   "share": {

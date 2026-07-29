@@ -2,9 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRegisterDock } from "@/components/layout/dock-context";
+import type { RecipeFormHandle } from "@/components/recipes/recipe-form";
+import { ProblemPage } from "@/components/layout/problem-page";
 import { ServingsScaler } from "@/components/recipes/servings-scaler";
+import { RecipePhotoField } from "@/components/recipes/recipe-photo-field";
+import { RecipeTiming } from "@/components/recipes/recipe-timing";
 import { useConfirm } from "@/components/ui/confirm-dialog";
+import { LoadingState } from "@/components/ui/loading-state";
 import {
   cloneRecipeAction,
   deleteRecipeAction,
@@ -12,10 +18,15 @@ import {
   updateRecipeAction,
 } from "@/lib/recipes/actions";
 import { scaleQuantity } from "@/lib/recipes/scale";
+import {
+  getPrefetchedRecipeDetail,
+  prefetchRecipeDetailData,
+} from "@/lib/recipes/recipe-detail-prefetch-cache";
 import { useRecipeSync } from "@/lib/recipes/use-recipe-sync";
 import type { RecipeDetail, RecipeInput } from "@/lib/recipes/types";
 import { BackLink } from "@/components/ui/back-link";
 import { Button } from "@/components/ui/button";
+import { ShareIcon } from "@/components/ui/icons";
 import { useTranslations } from "next-intl";
 
 const RecipeForm = dynamic(
@@ -43,7 +54,8 @@ const AddToListSheet = dynamic(
 );
 
 type RecipeDetailViewProps = {
-  recipe: RecipeDetail;
+  recipeId: string;
+  recipe?: RecipeDetail;
   showJoinedBanner?: boolean;
 };
 
@@ -53,27 +65,58 @@ function formatQty(qty: number | null, unit: string | null): string {
 }
 
 export function RecipeDetailView({
-  recipe: initialRecipe,
+  recipeId,
+  recipe: recipeProp,
   showJoinedBanner = false,
 }: RecipeDetailViewProps) {
   const tRecipes = useTranslations("recipes");
   const tCommon = useTranslations("common");
+  const tErrors = useTranslations("errors");
   const tShare = useTranslations("share");
   const tAddToList = useTranslations("addToList");
   const router = useRouter();
   const confirmDialog = useConfirm();
-  const [recipe, setRecipe] = useState(initialRecipe);
-  const [servings, setServings] = useState(initialRecipe.defaultServings);
+  const bootstrapRecipe = recipeProp ?? getPrefetchedRecipeDetail(recipeId);
+  const [recipe, setRecipe] = useState<RecipeDetail | null>(bootstrapRecipe);
+  const [servings, setServings] = useState(
+    bootstrapRecipe?.defaultServings ?? 4,
+  );
+  const [loading, setLoading] = useState(!bootstrapRecipe);
+  const [notFound, setNotFound] = useState(false);
   const [editing, setEditing] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [joinedBanner, setJoinedBanner] = useState(showJoinedBanner);
   const [cloning, setCloning] = useState(false);
+  const [formSaving, setFormSaving] = useState(false);
+  const recipeFormRef = useRef<RecipeFormHandle>(null);
 
   useEffect(() => {
-    setRecipe(initialRecipe);
-    setServings(initialRecipe.defaultServings);
-  }, [initialRecipe]);
+    if (bootstrapRecipe) {
+      setRecipe(bootstrapRecipe);
+      setServings(bootstrapRecipe.defaultServings);
+      setLoading(false);
+      return;
+    }
+
+    let cancelled = false;
+    void prefetchRecipeDetailData(recipeId)
+      .then((data) => {
+        if (cancelled) return;
+        setRecipe(data);
+        setServings(data.defaultServings);
+      })
+      .catch(() => {
+        if (!cancelled) setNotFound(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [bootstrapRecipe, recipeId]);
 
   useEffect(() => {
     if (!showJoinedBanner) return;
@@ -82,8 +125,9 @@ export function RecipeDetailView({
   }, [showJoinedBanner]);
 
   useRecipeSync({
-    recipeId: recipe.id,
-    enabled: true,
+    recipeId,
+    enabled: !!recipe,
+    skipInitialSync: !!bootstrapRecipe,
     onRecipeChange: (nextRecipe) => {
       setRecipe(nextRecipe);
       setServings(nextRecipe.defaultServings);
@@ -91,12 +135,14 @@ export function RecipeDetailView({
   });
 
   async function handleUpdate(input: RecipeInput) {
+    if (!recipe) return;
     await updateRecipeAction(recipe.id, input);
     setEditing(false);
     router.refresh();
   }
 
   async function handleClone() {
+    if (!recipe) return;
     setCloning(true);
     try {
       const cloned = await cloneRecipeAction(recipe.id);
@@ -108,6 +154,7 @@ export function RecipeDetailView({
   }
 
   async function handleDelete() {
+    if (!recipe) return;
     const ok = await confirmDialog(
       tRecipes("deleteRecipeConfirm", { title: recipe.title }),
       tCommon("delete"),
@@ -119,6 +166,7 @@ export function RecipeDetailView({
   }
 
   async function handleRemove() {
+    if (!recipe) return;
     const ok = await confirmDialog(
       tRecipes("removeRecipeConfirm", { title: recipe.title }),
       tCommon("remove"),
@@ -129,6 +177,55 @@ export function RecipeDetailView({
     router.refresh();
   }
 
+  const openAddToList = useCallback(() => setAddOpen(true), []);
+
+  const dockHandlers = useMemo(
+    () =>
+      editing
+        ? {
+            formActions: {
+              visible: true,
+              cancelLabel: tCommon("cancel"),
+              saveLabel: formSaving
+                ? tRecipes("saving")
+                : tRecipes("saveChanges"),
+              saving: formSaving,
+              onCancel: () => setEditing(false),
+              onSave: () => recipeFormRef.current?.submit(),
+            },
+            sortVisible: false,
+            addVisible: false,
+          }
+        : {
+            sortVisible: false,
+            action: {
+              visible: true,
+              label: tAddToList("addToList"),
+              onPress: openAddToList,
+            },
+            addVisible: false,
+          },
+    [editing, formSaving, openAddToList, tAddToList, tCommon, tRecipes],
+  );
+
+  useRegisterDock(dockHandlers);
+
+  if (loading) {
+    return <LoadingState label={tCommon("loading")} />;
+  }
+
+  if (notFound || !recipe) {
+    return (
+      <ProblemPage
+        appName={tCommon("appName")}
+        title={tErrors("pageNotFoundTitle")}
+        description={tErrors("pageNotFoundDescription")}
+        primaryLabel={tErrors("goHome")}
+        primaryHref="/recipes"
+      />
+    );
+  }
+
   if (editing && recipe.isOwner) {
     return (
       <div className="flex min-h-full flex-1 flex-col">
@@ -137,14 +234,37 @@ export function RecipeDetailView({
             {tRecipes("editRecipe")}
           </h1>
         </header>
-        <div className="p-4">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-dock p-4">
           <RecipeForm
+            ref={recipeFormRef}
+            hideFixedFooter
+            onSavingChange={setFormSaving}
+            photoSlot={
+              <RecipePhotoField
+                recipeId={recipe.id}
+                imageUrl={recipe.imageUrl}
+                editable
+                onPhotoUpdated={(result) =>
+                  setRecipe((current) =>
+                    current
+                      ? {
+                          ...current,
+                          imagePath: result?.imagePath ?? null,
+                          imageUrl: result?.imageUrl ?? null,
+                        }
+                      : current,
+                  )
+                }
+              />
+            }
             initial={{
               title: recipe.title,
               description: recipe.description,
               instructions: recipe.instructions,
               tags: recipe.tags,
               defaultServings: recipe.defaultServings,
+              prepMinutes: recipe.prepMinutes,
+              cookMinutes: recipe.cookMinutes,
               ingredients: recipe.ingredients.map((item) => ({
                 name: item.name,
                 quantity: item.quantity,
@@ -162,19 +282,42 @@ export function RecipeDetailView({
 
   return (
     <div className="flex min-h-full flex-1 flex-col">
-      <header className="sticky top-0 z-10 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-sm">
+      <header className="font-ui sticky top-0 z-10 bg-[var(--background)]/90 backdrop-blur-sm">
         <div className="flex items-center gap-2 px-2 py-3">
           <BackLink href="/recipes" label={tCommon("back")} />
           <h1 className="min-w-0 flex-1 truncate text-lg font-semibold text-[var(--foreground)]">
             {recipe.title}
           </h1>
-          <Button variant="ghost" type="button" onClick={() => setShareOpen(true)}>
-            {tShare("shareRecipe")}
-          </Button>
+          <button
+            type="button"
+            aria-label={tShare("shareRecipe")}
+            onClick={() => setShareOpen(true)}
+            className="pressable flex size-10 items-center justify-center rounded-lg text-[var(--foreground)] hover:bg-[var(--muted)]"
+          >
+            <ShareIcon className="size-5" />
+          </button>
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto pb-28">
+      <RecipePhotoField
+        recipeId={recipe.id}
+        imageUrl={recipe.imageUrl}
+        editable={recipe.isOwner}
+        variant="hero"
+        onPhotoUpdated={(result) =>
+          setRecipe((current) =>
+            current
+              ? {
+                  ...current,
+                  imagePath: result?.imagePath ?? null,
+                  imageUrl: result?.imageUrl ?? null,
+                }
+              : current,
+          )
+        }
+      />
+
+      <div className="flex-1 overflow-y-auto pb-dock">
         {joinedBanner ? (
           <div className="mx-4 mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
             {tRecipes("joinedBanner")}
@@ -201,12 +344,17 @@ export function RecipeDetailView({
             </div>
           ) : null}
 
+          <RecipeTiming
+            prepMinutes={recipe.prepMinutes}
+            cookMinutes={recipe.cookMinutes}
+          />
+
           {recipe.description ? (
             <section>
-              <h2 className="mb-2 text-xs font-semibold tracking-wide text-[var(--muted-foreground)] uppercase">
+              <h2 className="font-ui mb-2 text-xs font-semibold tracking-wide text-[var(--label)] uppercase">
                 {tRecipes("notes")}
               </h2>
-              <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm whitespace-pre-wrap text-[var(--foreground)]">
+              <div className="font-reading shadow-token-sm rounded-2xl bg-[var(--surface)] px-4 py-3 text-sm whitespace-pre-wrap text-[var(--foreground)]">
                 {recipe.description}
               </div>
             </section>
@@ -220,10 +368,10 @@ export function RecipeDetailView({
           />
 
           <section>
-            <h2 className="mb-2 text-xs font-semibold tracking-wide text-[var(--muted-foreground)] uppercase">
+            <h2 className="font-ui mb-2 text-xs font-semibold tracking-wide text-[var(--label)] uppercase">
               {tRecipes("ingredients")}
             </h2>
-            <ul className="divide-y divide-[var(--border)]/60 rounded-xl border border-[var(--border)] bg-[var(--surface)]">
+            <ul className="font-reading shadow-token-sm divide-y divide-[var(--border)]/60 rounded-2xl bg-[var(--surface)]">
               {recipe.ingredients.map((item) => {
                 const scaled = scaleQuantity(
                   item.quantity,
@@ -247,10 +395,10 @@ export function RecipeDetailView({
 
           {recipe.instructions ? (
             <section>
-              <h2 className="mb-2 text-xs font-semibold tracking-wide text-[var(--muted-foreground)] uppercase">
+              <h2 className="font-ui mb-2 text-xs font-semibold tracking-wide text-[var(--label)] uppercase">
                 {tRecipes("instructions")}
               </h2>
-              <ol className="list-decimal space-y-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 pl-8 text-sm text-[var(--foreground)]">
+              <ol className="font-reading shadow-token-sm list-decimal space-y-2 rounded-2xl bg-[var(--surface)] px-4 py-3 pl-8 text-sm text-[var(--foreground)]">
                 {recipe.instructions
                   .split("\n")
                   .map((line) => line.trim())
@@ -261,54 +409,49 @@ export function RecipeDetailView({
               </ol>
             </section>
           ) : null}
-        </div>
-      </div>
 
-      <div className="safe-area-pb fixed inset-x-0 bottom-0 flex flex-col gap-2 border-t border-[var(--border)] bg-[var(--surface)] p-4">
-        <Button fullWidth onClick={() => setAddOpen(true)}>
-          {tAddToList("addToList")}
-        </Button>
-        <div className="flex gap-2">
-          {recipe.isOwner ? (
-            <>
-              <Button
-                variant="secondary"
-                fullWidth
-                type="button"
-                onClick={() => setEditing(true)}
-              >
-                {tRecipes("edit")}
-              </Button>
-              <Button
-                variant="destructive"
-                fullWidth
-                type="button"
-                onClick={() => void handleDelete()}
-              >
-                {tCommon("delete")}
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button
-                variant="secondary"
-                fullWidth
-                type="button"
-                disabled={cloning}
-                onClick={() => void handleClone()}
-              >
-                {cloning ? tRecipes("cloning") : tRecipes("cloneRecipe")}
-              </Button>
-              <Button
-                variant="secondary"
-                fullWidth
-                type="button"
-                onClick={() => void handleRemove()}
-              >
-                {tCommon("remove")}
-              </Button>
-            </>
-          )}
+          <div className="font-ui flex flex-col gap-2 pt-2">
+            {recipe.isOwner ? (
+              <>
+                <Button
+                  variant="secondary"
+                  fullWidth
+                  type="button"
+                  onClick={() => setEditing(true)}
+                >
+                  {tRecipes("edit")}
+                </Button>
+                <Button
+                  variant="destructive"
+                  fullWidth
+                  type="button"
+                  onClick={() => void handleDelete()}
+                >
+                  {tCommon("delete")}
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="secondary"
+                  fullWidth
+                  type="button"
+                  disabled={cloning}
+                  onClick={() => void handleClone()}
+                >
+                  {cloning ? tRecipes("cloning") : tRecipes("cloneRecipe")}
+                </Button>
+                <Button
+                  variant="secondary"
+                  fullWidth
+                  type="button"
+                  onClick={() => void handleRemove()}
+                >
+                  {tCommon("remove")}
+                </Button>
+              </>
+            )}
+          </div>
         </div>
       </div>
 

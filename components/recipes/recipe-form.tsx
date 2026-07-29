@@ -1,8 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { useRouter } from "next/navigation";
 import type { RecipeInput } from "@/lib/recipes/types";
+import {
+  parseRecipeMinutes,
+  totalRecipeMinutes,
+  formatRecipeMinutes,
+} from "@/lib/recipes/timing";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
@@ -22,8 +34,15 @@ type InstructionStepDraft = {
 type RecipeFormProps = {
   initial?: RecipeInput;
   submitLabel?: string;
+  photoSlot?: ReactNode;
+  hideFixedFooter?: boolean;
+  onSavingChange?: (saving: boolean) => void;
   onSubmit: (input: RecipeInput) => Promise<void>;
   onCancel?: () => void;
+};
+
+export type RecipeFormHandle = {
+  submit: () => void;
 };
 
 function emptyIngredient(): IngredientDraft {
@@ -65,6 +84,8 @@ function toInput(
   steps: InstructionStepDraft[],
   tagsText: string,
   defaultServings: number,
+  prepMinutesText: string,
+  cookMinutesText: string,
   ingredients: IngredientDraft[],
 ): RecipeInput {
   return {
@@ -76,6 +97,8 @@ function toInput(
       .map((t) => t.trim())
       .filter(Boolean),
     defaultServings,
+    prepMinutes: parseRecipeMinutes(prepMinutesText),
+    cookMinutes: parseRecipeMinutes(cookMinutesText),
     ingredients: ingredients
       .filter((item) => item.name.trim())
       .map((item) => ({
@@ -88,15 +111,23 @@ function toInput(
   };
 }
 
-export function RecipeForm({
-  initial,
-  submitLabel,
-  onSubmit,
-  onCancel,
-}: RecipeFormProps) {
+export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
+  function RecipeForm(
+    {
+      initial,
+      submitLabel,
+      photoSlot,
+      hideFixedFooter = false,
+      onSavingChange,
+      onSubmit,
+      onCancel,
+    },
+    ref,
+  ) {
   const tRecipes = useTranslations("recipes");
   const tCommon = useTranslations("common");
   const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
   const ingredientRefs = useRef(new Map<string, HTMLInputElement>());
   const stepRefs = useRef(new Map<string, HTMLInputElement>());
   const pendingIngredientFocus = useRef<string | null>(null);
@@ -111,6 +142,12 @@ export function RecipeForm({
   const [defaultServings, setDefaultServings] = useState(
     initial?.defaultServings ?? 4,
   );
+  const [prepMinutesText, setPrepMinutesText] = useState(
+    initial?.prepMinutes != null ? String(initial.prepMinutes) : "",
+  );
+  const [cookMinutesText, setCookMinutesText] = useState(
+    initial?.cookMinutes != null ? String(initial.cookMinutes) : "",
+  );
   const [ingredients, setIngredients] = useState<IngredientDraft[]>(() =>
     initial?.ingredients.length
       ? initial.ingredients.map((item) => ({
@@ -123,6 +160,24 @@ export function RecipeForm({
   );
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+
+  const prepMinutes = parseRecipeMinutes(prepMinutesText);
+  const cookMinutes = parseRecipeMinutes(cookMinutesText);
+  const totalMinutes = totalRecipeMinutes(prepMinutes, cookMinutes);
+  const formatMinutes = (count: number) =>
+    tRecipes("minutesShort", { count });
+  const formatHoursMinutes = (hours: number, minutes: number) =>
+    tRecipes("hoursMinutesShort", { hours, minutes });
+
+  useImperativeHandle(ref, () => ({
+    submit: () => {
+      formRef.current?.requestSubmit();
+    },
+  }));
+
+  useEffect(() => {
+    onSavingChange?.(saving);
+  }, [onSavingChange, saving]);
 
   useEffect(() => {
     const key = pendingIngredientFocus.current;
@@ -250,6 +305,8 @@ export function RecipeForm({
         steps,
         tagsText,
         defaultServings,
+        prepMinutesText,
+        cookMinutesText,
         ingredients,
       );
       if (input.ingredients.length === 0) {
@@ -264,7 +321,12 @@ export function RecipeForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 pb-24">
+    <form
+      ref={formRef}
+      onSubmit={handleSubmit}
+      className={`flex flex-col gap-4 ${hideFixedFooter ? "" : "pb-form-actions"}`}
+    >
+      {photoSlot}
       <Input
         label={tRecipes("title")}
         value={title}
@@ -287,6 +349,49 @@ export function RecipeForm({
           className="h-11 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base"
         />
       </label>
+
+      <div className="flex flex-col gap-2">
+        <span className="text-sm font-medium text-[var(--foreground)]">
+          {tRecipes("timing")}
+        </span>
+        <div className="grid grid-cols-2 gap-2">
+          <label className="flex flex-col gap-1">
+            <span className="text-xs text-[var(--muted-foreground)]">
+              {tRecipes("prepTime")}
+            </span>
+            <input
+              type="number"
+              min={1}
+              value={prepMinutesText}
+              onChange={(e) => setPrepMinutesText(e.target.value)}
+              placeholder={tRecipes("minutesShort", { count: 15 })}
+              className="h-11 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base"
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="text-xs text-[var(--muted-foreground)]">
+              {tRecipes("cookTime")}
+            </span>
+            <input
+              type="number"
+              min={1}
+              value={cookMinutesText}
+              onChange={(e) => setCookMinutesText(e.target.value)}
+              placeholder={tRecipes("minutesShort", { count: 30 })}
+              className="h-11 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base"
+            />
+          </label>
+        </div>
+        {totalMinutes != null ? (
+          <p className="text-xs text-[var(--muted-foreground)]">
+            {tRecipes("totalTime")}:{" "}
+            {formatRecipeMinutes(totalMinutes, {
+              formatMinutes,
+              formatHoursMinutes,
+            })}
+          </p>
+        ) : null}
+      </div>
 
       <label className="flex flex-col gap-1">
         <span className="text-sm font-medium text-[var(--foreground)]">{tRecipes("tags")}</span>
@@ -445,25 +550,28 @@ export function RecipeForm({
         </p>
       ) : null}
 
-      <div className="safe-area-pb fixed inset-x-0 bottom-0 flex gap-2 border-t border-[var(--border)] bg-[var(--surface)] p-4">
-        {onCancel ? (
-          <Button type="button" variant="secondary" fullWidth onClick={onCancel}>
-            {tCommon("cancel")}
+      {!hideFixedFooter ? (
+        <div className="safe-area-pb fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t border-[var(--border)] bg-[var(--surface)] p-4">
+          {onCancel ? (
+            <Button type="button" variant="secondary" fullWidth onClick={onCancel}>
+              {tCommon("cancel")}
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              variant="secondary"
+              fullWidth
+              onClick={() => router.back()}
+            >
+              {tCommon("cancel")}
+            </Button>
+          )}
+          <Button type="submit" fullWidth disabled={saving}>
+            {saving ? tRecipes("saving") : (submitLabel ?? tRecipes("createRecipe"))}
           </Button>
-        ) : (
-          <Button
-            type="button"
-            variant="secondary"
-            fullWidth
-            onClick={() => router.back()}
-          >
-            {tCommon("cancel")}
-          </Button>
-        )}
-        <Button type="submit" fullWidth disabled={saving}>
-          {saving ? tRecipes("saving") : (submitLabel ?? tRecipes("createRecipe"))}
-        </Button>
-      </div>
+        </div>
+      ) : null}
     </form>
   );
-}
+},
+);

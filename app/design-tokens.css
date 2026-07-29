@@ -1,26 +1,28 @@
 /**
  * Provisionly design tokens — single source of truth.
- * Light: "Fresh Nordic Garden" · Dark: "Midnight Frost"
+ * Light: "Soft Nordic" · Dark: "Midnight Frost"
  * See docs/DESIGN.md for palette roles and usage rules.
  */
 
 :root {
-  /* Light palette — Fresh Nordic Garden (raw) */
-  --color-mist-white: #f0f4f8;
+  /* Light palette — Soft Nordic (raw) */
+  --color-linen-white: #f3f5f8;
   --color-haze-blue: #e0e7ff;
   --color-frost-slate: #2b354f;
   --color-driftwood: #d8dee9;
   --color-sea-mint: #a1dbc2;
-  --color-cloud-blue: #cbd5e1;
+  --color-slate-muted: #6b7a94;
   --color-lingonberry-red: #e13c33;
   --color-pure-white: #ffffff;
 
   /* Light semantic */
-  --background: var(--color-mist-white);
+  --background: var(--color-linen-white);
   --foreground: var(--color-frost-slate);
   --surface: var(--color-pure-white);
-  --muted: color-mix(in srgb, var(--color-driftwood) 35%, var(--color-mist-white));
-  --muted-foreground: var(--color-cloud-blue);
+  --surface-elevated: var(--color-pure-white);
+  --muted: color-mix(in srgb, var(--color-driftwood) 35%, var(--color-linen-white));
+  --muted-foreground: color-mix(in srgb, var(--color-frost-slate) 58%, var(--color-linen-white));
+  --label: color-mix(in srgb, var(--color-frost-slate) 72%, var(--color-linen-white));
   --border: var(--color-driftwood);
   --primary: var(--color-frost-slate);
   --primary-foreground: var(--color-pure-white);
@@ -33,6 +35,8 @@
   --brand: var(--accent);
   --focus-ring: var(--accent);
   --overlay: color-mix(in srgb, var(--color-frost-slate) 40%, transparent);
+  --shadow-sm: 0 1px 3px color-mix(in srgb, var(--color-frost-slate) 8%, transparent);
+  --shadow-md: 0 4px 16px color-mix(in srgb, var(--color-frost-slate) 10%, transparent);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -50,8 +54,10 @@
     --background: var(--color-night-slate);
     --foreground: var(--color-icy-white);
     --surface: var(--color-midnight-black);
+    --surface-elevated: color-mix(in srgb, var(--color-deep-frost) 25%, var(--color-midnight-black));
     --muted: color-mix(in srgb, var(--color-deep-frost) 80%, var(--color-night-slate));
     --muted-foreground: var(--color-glacier-gray);
+    --label: color-mix(in srgb, var(--color-icy-white) 75%, var(--color-night-slate));
     --border: var(--color-deep-frost);
     --primary: var(--color-icy-white);
     --primary-foreground: var(--color-night-slate);
@@ -64,5 +70,7 @@
     --brand: var(--accent);
     --focus-ring: var(--accent);
     --overlay: color-mix(in srgb, var(--color-night-slate) 55%, transparent);
+    --shadow-sm: 0 1px 3px color-mix(in srgb, var(--color-night-slate) 50%, transparent);
+    --shadow-md: 0 4px 16px color-mix(in srgb, var(--color-night-slate) 60%, transparent);
   }
 }

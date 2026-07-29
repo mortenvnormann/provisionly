@@ -28,6 +28,7 @@ import {
   setListGroupByCategoryForUser,
   updateListItemForUser,
 } from "@/lib/lists/server";
+import { fetchListPageData, type ListPageData } from "@/lib/lists/fetch-list-page";
 import type { ListItemRow, ListSummary } from "@/lib/lists/types";
 
 export type GuestMigrationResult = {
@@ -78,6 +79,13 @@ export async function fetchListSyncAction(listId: string): Promise<{
 }> {
   const user = await getVerifiedUser();
   return fetchListSyncForUser(user.id, parseListId(listId));
+}
+
+export async function fetchListPageAction(
+  listId: string,
+): Promise<ListPageData | null> {
+  const user = await getVerifiedUser();
+  return fetchListPageData(user.id, parseListId(listId));
 }
 
 export async function setListGroupByCategoryAction(
@@ -137,8 +145,12 @@ export async function setItemCheckedAction(
   listId: string,
 ): Promise<void> {
   const user = await getVerifiedUser();
-  await setItemCheckedForUser(user.id, parseItemId(itemId), checked);
-  revalidatePath(`/lists/${parseListId(listId)}`);
+  await setItemCheckedForUser(
+    user.id,
+    parseItemId(itemId),
+    checked,
+    parseListId(listId),
+  );
 }
 
 export async function deleteCheckedItemsAction(

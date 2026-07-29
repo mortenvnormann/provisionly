@@ -23,10 +23,19 @@ export type RecipeDetail = {
   instructions: string;
   tags: string[];
   defaultServings: number;
+  prepMinutes: number | null;
+  cookMinutes: number | null;
   updatedAt: string;
   ownerId: string;
   isOwner: boolean;
+  imagePath: string | null;
+  imageUrl: string | null;
   ingredients: RecipeIngredientRow[];
+};
+
+export type RecipePhotoResult = {
+  imagePath: string;
+  imageUrl: string;
 };
 
 export type RecipeIngredientInput = {
@@ -41,6 +50,8 @@ export type RecipeInput = {
   instructions: string;
   tags: string[];
   defaultServings: number;
+  prepMinutes?: number | null;
+  cookMinutes?: number | null;
   ingredients: RecipeIngredientInput[];
 };
 

@@ -1,6 +1,11 @@
 import type { CategoryRow, ListItemRow } from "@/lib/lists/types";
+import { compareSortKeys } from "@/lib/lists/normalize";
 
 /** Client-safe grouping helpers (no database access). */
+
+function sortBySortKey(items: ListItemRow[]): ListItemRow[] {
+  return [...items].sort((a, b) => compareSortKeys(a.sortKey, b.sortKey));
+}
 
 export function groupItemsByCategory(
   items: ListItemRow[],
@@ -30,7 +35,10 @@ export function groupItemsByCategory(
       const ob = b ? (order.get(b) ?? 999) : 999;
       return oa - ob;
     })
-    .map(([categoryId, grouped]) => ({ categoryId, items: grouped }));
+    .map(([categoryId, grouped]) => ({
+      categoryId,
+      items: sortBySortKey(grouped),
+    }));
 }
 
 /** Group by item.category_id even before the categories table has loaded in the UI. */
@@ -46,6 +54,6 @@ export function groupItemsByCategoryId(
   }
   return [...buckets.entries()].map(([categoryId, grouped]) => ({
     categoryId,
-    items: grouped,
+    items: sortBySortKey(grouped),
   }));
 }

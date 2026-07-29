@@ -13,7 +13,7 @@ type ListItemRowProps = {
   readOnly?: boolean;
   onStartEdit: (id: string) => void;
   onCancelEdit: () => void;
-  onToggle: (id: string, checked: boolean) => void;
+  onToggle: (id: string) => void;
   onUpdate: (
     id: string,
     input: { name: string; quantity?: number; unit?: string },
@@ -139,7 +139,7 @@ export function ListItemRowView({
           type="checkbox"
           checked={item.checked}
           disabled={readOnly}
-          onChange={() => onToggle(item.id, !item.checked)}
+          onChange={() => onToggle(item.id)}
           className="size-5 rounded border-[var(--border)] accent-[var(--accent)] disabled:cursor-not-allowed"
         />
       </label>
@@ -167,7 +167,7 @@ export function ListItemRowView({
           }
         }}
         className={[
-          "min-w-0 flex-1 touch-pan-y rounded-lg px-2 py-1 text-left text-base text-[var(--foreground)] transition-colors active:bg-[var(--muted)]",
+          "font-reading min-w-0 flex-1 touch-pan-y rounded-lg px-2 py-1 text-left text-base text-[var(--foreground)] transition-colors active:bg-[var(--muted)]",
           item.checked ? "line-through decoration-[var(--muted-foreground)]" : "",
         ].join(" ")}
       >

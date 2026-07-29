@@ -30,6 +30,9 @@
   "nav": {
     "lists": "Listat",
     "recipes": "Reseptit",
+    "sort": "Järjestä",
+    "sortRecent": "Viimeisimmät",
+    "sortAlpha": "A–Ö",
     "guestRecipesHint": "Luo tili käyttääksesi reseptejä"
   },
   "home": {
@@ -91,7 +94,19 @@
     "recipeDefaultServings": "Recipe default: {count}",
     "fewerServings": "Fewer servings",
     "moreServings": "More servings",
-    "resetServings": "Reset to {count} servings"
+    "resetServings": "Reset to {count} servings",
+    "photo": "Kuva",
+    "addPhoto": "Lisää kuva",
+    "changePhoto": "Vaihda kuva",
+    "photoUploading": "Ladataan kuvaa…",
+    "photoUploadFailed": "Kuvan lataus epäonnistui",
+    "removePhotoConfirm": "Poistetaanko tämän reseptin kuva?",
+    "timing": "Aika",
+    "prepTime": "Valmistelu",
+    "cookTime": "Kypsennys",
+    "totalTime": "Yhteensä",
+    "minutesShort": "{count} min",
+    "hoursMinutesShort": "{hours} t {minutes} min"
   },
   "lists": {
     "loadingList": "Ladataan listaa…",

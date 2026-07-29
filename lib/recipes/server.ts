@@ -5,11 +5,20 @@ import { getLocaleForUser } from "@/lib/i18n/user-locale";
 import { assertListAccess } from "@/lib/lists/server";
 import { normalizeItemName, nextSortKey } from "@/lib/lists/normalize";
 import { scaleQuantity } from "@/lib/recipes/scale";
+import {
+  copyRecipePhotoObject,
+  deleteRecipePhotoObjects,
+  processRecipePhoto,
+  removeRecipePhotoObject,
+  uploadRecipePhotoBytes,
+} from "@/lib/storage/recipe-photo";
+import { getRecipePhotoSignedUrl } from "@/lib/storage/urls";
 import type {
   AddToListResult,
   RecipeDetail,
   RecipeInput,
   RecipeIngredientRow,
+  RecipePhotoResult,
   RecipeSummary,
 } from "@/lib/recipes/types";
 import { createServiceClient } from "@/lib/supabase/service";
@@ -60,6 +69,92 @@ export async function assertRecipeViewAccess(
 async function assertRecipeOwner(userId: string, recipeId: string): Promise<void> {
   const access = await getRecipeAccess(userId, recipeId);
   if (!access.isOwner) throw new Error("Recipe not found");
+}
+
+async function mapRecipeImage(
+  imagePath: string | null | undefined,
+): Promise<{ imagePath: string | null; imageUrl: string | null }> {
+  const path = imagePath ?? null;
+  return {
+    imagePath: path,
+    imageUrl: await getRecipePhotoSignedUrl(path),
+  };
+}
+
+async function mapRecipeDetail(
+  recipe: {
+    id: string;
+    title: string;
+    description: string | null;
+    instructions: string;
+    tags: string[] | null;
+    default_servings: number;
+    prep_minutes: number | null;
+    cook_minutes: number | null;
+    updated_at: string;
+    owner_id: string;
+    image_path: string | null;
+  },
+  userId: string,
+  isOwner: boolean,
+  ingredients: RecipeIngredientRow[],
+): Promise<RecipeDetail> {
+  const image = await mapRecipeImage(recipe.image_path);
+  return {
+    id: recipe.id,
+    title: recipe.title,
+    description: recipe.description ?? "",
+    instructions: recipe.instructions,
+    tags: recipe.tags ?? [],
+    defaultServings: recipe.default_servings,
+    prepMinutes: recipe.prep_minutes,
+    cookMinutes: recipe.cook_minutes,
+    updatedAt: recipe.updated_at,
+    ownerId: recipe.owner_id,
+    isOwner,
+    imagePath: image.imagePath,
+    imageUrl: image.imageUrl,
+    ingredients,
+  };
+}
+
+export async function uploadRecipePhotoForUser(
+  userId: string,
+  recipeId: string,
+  file: Blob,
+): Promise<RecipePhotoResult> {
+  await assertRecipeOwner(userId, recipeId);
+  const bytes = await processRecipePhoto(file);
+  const imagePath = await uploadRecipePhotoBytes(recipeId, bytes);
+
+  const service = createServiceClient();
+  const { error } = await service
+    .from("recipes")
+    .update({ image_path: imagePath })
+    .eq("id", recipeId);
+
+  if (error) throw new Error(error.message);
+
+  const imageUrl = await getRecipePhotoSignedUrl(imagePath);
+  if (!imageUrl) throw new Error("Could not create photo URL");
+
+  return { imagePath, imageUrl };
+}
+
+export async function removeRecipePhotoForUser(
+  userId: string,
+  recipeId: string,
+): Promise<void> {
+  await assertRecipeOwner(userId, recipeId);
+  await removeRecipePhotoObject(recipeId);
+
+  const service = createServiceClient();
+  const { error } = await service
+    .from("recipes")
+    .update({ image_path: null })
+    .eq("id", recipeId);
+
+  if (error) throw new Error(error.message);
 }
 
 function mapIngredient(row: {
@@ -118,42 +213,44 @@ export async function fetchRecipeDetailForUser(
   userId: string,
   recipeId: string,
 ): Promise<RecipeDetail> {
-  const access = await assertRecipeView(userId, recipeId);
   const service = createServiceClient();
 
-  const [{ data: recipe, error: recipeError }, { data: ingredients, error: ingError }] =
-    await Promise.all([
-      service
-        .from("recipes")
-        .select(
-          "id, title, description, instructions, tags, default_servings, updated_at, owner_id",
-        )
-        .eq("id", recipeId)
-        .single(),
-      service
-        .from("recipe_ingredients")
-        .select(
-          "id, recipe_id, name_original, quantity, unit, category_id, position",
-        )
-        .eq("recipe_id", recipeId)
-        .order("position"),
-    ]);
+  const [
+    { data: recipe, error: recipeError },
+    { data: ingredients, error: ingError },
+    { data: access },
+  ] = await Promise.all([
+    service
+      .from("recipes")
+      .select(
+        "id, title, description, instructions, tags, default_servings, prep_minutes, cook_minutes, updated_at, owner_id, image_path",
+      )
+      .eq("id", recipeId)
+      .maybeSingle(),
+    service
+      .from("recipe_ingredients")
+      .select(
+        "id, recipe_id, name_original, quantity, unit, category_id, position",
+      )
+      .eq("recipe_id", recipeId)
+      .order("position"),
+    service
+      .from("recipe_access")
+      .select("recipe_id")
+      .eq("recipe_id", recipeId)
+      .eq("user_id", userId)
+      .maybeSingle(),
+  ]);
 
-  if (recipeError || !recipe) throw new Error("Recipe not found");
+  if (recipeError) throw new Error(recipeError.message);
+  if (!recipe) throw new Error("Recipe not found");
   if (ingError) throw new Error(ingError.message);
 
-  return {
-    id: recipe.id,
-    title: recipe.title,
-    description: recipe.description ?? "",
-    instructions: recipe.instructions,
-    tags: recipe.tags ?? [],
-    defaultServings: recipe.default_servings,
-    updatedAt: recipe.updated_at,
-    ownerId: recipe.owner_id,
-    isOwner: access.isOwner,
-    ingredients: (ingredients ?? []).map(mapIngredient),
-  };
+  const isOwner = recipe.owner_id === userId;
+  const canView = isOwner || !!access;
+  if (!canView) throw new Error("Recipe not found");
+
+  return mapRecipeDetail(recipe, userId, isOwner, (ingredients ?? []).map(mapIngredient));
 }
 
 async function insertRecipeIngredients(
@@ -205,6 +302,8 @@ export async function createRecipeForUser(
       instructions: input.instructions.trim(),
       tags: input.tags.filter(Boolean),
       default_servings: Math.max(1, input.defaultServings),
+      prep_minutes: input.prepMinutes ?? null,
+      cook_minutes: input.cookMinutes ?? null,
     })
     .select("id, title, default_servings, updated_at, owner_id")
     .single();
@@ -238,6 +337,8 @@ export async function updateRecipeForUser(
       instructions: input.instructions.trim(),
       tags: input.tags.filter(Boolean),
       default_servings: Math.max(1, input.defaultServings),
+      prep_minutes: input.prepMinutes ?? null,
+      cook_minutes: input.cookMinutes ?? null,
     })
     .eq("id", recipeId);
 
@@ -258,6 +359,7 @@ export async function deleteRecipeForUser(
   recipeId: string,
 ): Promise<void> {
   await assertRecipeOwner(userId, recipeId);
+  await deleteRecipePhotoObjects([recipeId]);
   const service = createServiceClient();
 
   const { error } = await service.from("recipes").delete().eq("id", recipeId);
@@ -300,6 +402,8 @@ export async function cloneRecipeForUser(
       instructions: source.instructions,
       tags: source.tags,
       default_servings: source.defaultServings,
+      prep_minutes: source.prepMinutes,
+      cook_minutes: source.cookMinutes,
     })
     .select("id, title, default_servings, updated_at, owner_id")
     .single();
@@ -330,6 +434,17 @@ export async function cloneRecipeForUser(
   });
 
   if (auditError) throw new Error(auditError.message);
+
+  if (source.imagePath) {
+    const copiedPath = await copyRecipePhotoObject(recipeId, clone.id);
+    if (copiedPath) {
+      const { error: imageError } = await service
+        .from("recipes")
+        .update({ image_path: copiedPath })
+        .eq("id", clone.id);
+      if (imageError) throw new Error(imageError.message);
+    }
+  }
 
   return {
     id: clone.id,

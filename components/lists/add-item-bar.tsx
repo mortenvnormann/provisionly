@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 
+export const ADD_ITEM_INPUT_ID = "add-item-name-input";
+
 type AddItemBarProps = {
   onAdd: (input: {
     name: string;
@@ -69,6 +71,7 @@ export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
       <div className="flex gap-2">
         <input
           ref={nameRef}
+          id={ADD_ITEM_INPUT_ID}
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}

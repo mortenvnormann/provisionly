@@ -97,14 +97,14 @@ export function AddToListSheet({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[var(--overlay)] p-4">
+    <div className="fixed inset-0 z-50 flex items-end justify-center p-4">
       <button
         type="button"
-        className="absolute inset-0"
+        className="sheet-backdrop absolute inset-0 bg-[var(--overlay)]"
         aria-label={tCommon("close")}
         onClick={onClose}
       />
-      <div className="relative z-10 flex max-h-[85vh] w-full max-w-md flex-col rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-lg">
+      <div className="sheet-panel font-ui relative z-10 flex max-h-[85vh] w-full max-w-md flex-col rounded-2xl border border-[var(--border)]/50 bg-[var(--surface)] shadow-token-md">
         <div className="border-b border-[var(--border)] p-5">
           <div className="flex items-start justify-between gap-3">
             <div>

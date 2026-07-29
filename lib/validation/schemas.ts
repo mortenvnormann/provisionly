@@ -15,7 +15,19 @@ export const LIMITS = {
   guestItemsPerList: 500,
   sortKeys: 1000,
   ingredientIds: 200,
+  recipePhotoBytes: 2 * 1024 * 1024,
+  recipeMinutes: 24 * 60,
 } as const;
+
+export const RECIPE_PHOTO_MAX_BYTES = LIMITS.recipePhotoBytes;
+
+export const RECIPE_PHOTO_MIME_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/heic",
+  "image/heif",
+]);
 
 const uuid = z.string().uuid();
 
@@ -74,6 +86,20 @@ export const recipeInputSchema = z.object({
     .array(z.string().trim().min(1).max(LIMITS.recipeTag))
     .max(LIMITS.recipeTags),
   defaultServings: z.number().int().min(1).max(1000),
+  prepMinutes: z
+    .number()
+    .int()
+    .min(1)
+    .max(LIMITS.recipeMinutes)
+    .nullable()
+    .optional(),
+  cookMinutes: z
+    .number()
+    .int()
+    .min(1)
+    .max(LIMITS.recipeMinutes)
+    .nullable()
+    .optional(),
   ingredients: z.array(recipeIngredientInputSchema).max(200),
 });
 

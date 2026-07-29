@@ -30,6 +30,9 @@
   "nav": {
     "lists": "Lijsten",
     "recipes": "Recepten",
+    "sort": "Sorteren",
+    "sortRecent": "Recent",
+    "sortAlpha": "A–Z",
     "guestRecipesHint": "Maak een account om recepten te gebruiken"
   },
   "home": {
@@ -91,7 +94,19 @@
     "recipeDefaultServings": "Recipe default: {count}",
     "fewerServings": "Fewer servings",
     "moreServings": "More servings",
-    "resetServings": "Reset to {count} servings"
+    "resetServings": "Reset to {count} servings",
+    "photo": "Foto",
+    "addPhoto": "Foto toevoegen",
+    "changePhoto": "Foto wijzigen",
+    "photoUploading": "Foto uploaden…",
+    "photoUploadFailed": "Foto uploaden mislukt",
+    "removePhotoConfirm": "Deze rezeptfoto verwijderen?",
+    "timing": "Tijd",
+    "prepTime": "Voorbereiding",
+    "cookTime": "Koken",
+    "totalTime": "Totaal",
+    "minutesShort": "{count} min",
+    "hoursMinutesShort": "{hours} u {minutes} min"
   },
   "lists": {
     "loadingList": "Lijst laden…",

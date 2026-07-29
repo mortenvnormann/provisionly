@@ -5,8 +5,10 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-label: var(--label);
   --color-border: var(--border);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
@@ -20,22 +22,71 @@
   --color-focus-ring: var(--focus-ring);
   --color-overlay: var(--overlay);
   --font-sans: var(--font-geist-sans);
+  --font-serif: var(--font-source-serif);
 }
 
 :root {
+  --press-duration: 120ms;
+  --sheet-duration: 280ms;
+  --page-expand-duration: 280ms;
+  --ease-out-soft: cubic-bezier(0.33, 1, 0.68, 1);
   --nav-slide-duration: 450ms;
   --nav-slide-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --dock-height: 5.5rem;
+  --form-action-height: 5rem;
 }
 
 html {
   height: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   min-height: 100%;
   background: var(--background);
   color: var(--foreground);
+  font-family: var(--font-source-serif), Georgia, "Times New Roman", serif;
+}
+
+.font-ui {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.font-reading {
+  font-family: var(--font-source-serif), Georgia, "Times New Roman", serif;
+}
+
+.shadow-token-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow-token-md {
+  box-shadow: var(--shadow-md);
+}
+
+.pressable {
+  transition:
+    transform var(--press-duration) var(--ease-out-soft),
+    opacity var(--press-duration) var(--ease-out-soft),
+    background-color var(--press-duration) ease,
+    color var(--press-duration) ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pressable:active:not(:disabled) {
+    transform: scale(0.97);
+    opacity: 0.9;
+  }
+}
+
+.pb-dock {
+  padding-bottom: calc(var(--dock-height) + env(safe-area-inset-bottom, 0px));
+}
+
+.pb-form-actions {
+  padding-bottom: calc(
+    var(--form-action-height) + env(safe-area-inset-bottom, 0px)
+  );
 }
 
 .safe-area-pb {
@@ -46,46 +97,69 @@ body {
   padding-top: max(0.75rem, env(safe-area-inset-top));
 }
 
-/* Navigation view transitions (settings) */
+/* Expand-from-button animation on each route mount (template.tsx wrapper) */
 @media (prefers-reduced-motion: no-preference) {
   html {
     overflow: clip;
   }
 
-  ::view-transition-old(.nav-up) {
-    animation: none;
-  }
-
-  ::view-transition-new(.nav-up) {
-    animation: var(--nav-slide-duration) var(--nav-slide-ease) both nav-slide-in-up;
-  }
-
-  ::view-transition-old(.nav-down) {
-    animation: var(--nav-slide-duration) var(--nav-slide-ease) both nav-slide-out-down;
-  }
-
-  ::view-transition-new(.nav-down) {
-    animation: none;
+  .route-expand {
+    animation: page-expand-in var(--page-expand-duration) var(--ease-out-soft) both;
   }
 }
 
-@keyframes nav-slide-in-up {
+@keyframes page-expand-in {
   from {
-    transform: translateY(100%);
+    clip-path: circle(0px at var(--nav-origin-x, 50%) var(--nav-origin-y, 100%));
+  }
+  to {
+    clip-path: circle(var(--nav-expand-radius, 150vmax) at var(--nav-origin-x, 50%) var(--nav-origin-y, 100%));
   }
 }
 
-@keyframes nav-slide-out-down {
+/* Sheet animations */
+@keyframes sheet-backdrop-in {
+  from {
+    opacity: 0;
+  }
   to {
-    transform: translateY(100%);
+    opacity: 1;
+  }
+}
+
+@keyframes sheet-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sheet-backdrop {
+  animation: sheet-backdrop-in var(--sheet-duration) var(--ease-out-soft) both;
+}
+
+.sheet-panel {
+  animation: sheet-panel-in var(--sheet-duration) var(--ease-out-soft) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-expand {
+    animation: none;
+  }
+
+  .sheet-backdrop,
+  .sheet-panel {
+    animation: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(*),
-  ::view-transition-new(*),
-  ::view-transition-group(*) {
-    animation-duration: 0s !important;
-    animation-delay: 0s !important;
+  .pressable:active:not(:disabled) {
+    transform: none;
+    opacity: 1;
   }
 }

@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getCategoriesOnly } from "@/lib/categorisation/catalog";
+import { getLocaleCookie } from "@/lib/i18n/cookie";
 import type { CategoryRow, ListItemRow } from "@/lib/lists/types";
 import type { ListMemberRow } from "@/lib/share/types";
 import { createServiceClient } from "@/lib/supabase/service";
@@ -15,38 +16,37 @@ export type ListPageData = {
   categories: CategoryRow[];
 };
 
-async function assertListAccessOnce(
-  userId: string,
-  listId: string,
-): Promise<void> {
-  const service = createServiceClient();
-  const [{ data: owned }, { data: membership }] = await Promise.all([
-    service.from("lists").select("id").eq("id", listId).eq("owner_id", userId).maybeSingle(),
-    service
-      .from("list_members")
-      .select("list_id")
-      .eq("list_id", listId)
-      .eq("user_id", userId)
-      .maybeSingle(),
-  ]);
+type MemberQueryRow = {
+  user_id: string;
+  role: string;
+  profiles:
+    | { display_name: string | null }
+    | { display_name: string | null }[]
+    | null;
+};
 
-  if (!owned && !membership) {
-    throw new Error("List not found");
+function displayNameFromProfiles(
+  profiles: MemberQueryRow["profiles"],
+): string {
+  if (!profiles) return "Member";
+  if (Array.isArray(profiles)) {
+    return profiles[0]?.display_name ?? "Member";
   }
+  return profiles.display_name ?? "Member";
 }
 
 export async function fetchListPageData(
   userId: string,
   listId: string,
 ): Promise<ListPageData | null> {
-  await assertListAccessOnce(userId, listId);
   const service = createServiceClient();
 
   const [
     { data: list, error: listError },
     { data: items, error: itemsError },
     { data: members, error: membersError },
-    { data: profile, error: profileError },
+    { data: membership, error: membershipError },
+    locale,
     categoriesResult,
   ] = await Promise.all([
     service
@@ -61,8 +61,17 @@ export async function fetchListPageData(
       )
       .eq("list_id", listId)
       .order("sort_key"),
-    service.from("list_members").select("user_id, role").eq("list_id", listId),
-    service.from("profiles").select("locale").eq("id", userId).maybeSingle(),
+    service
+      .from("list_members")
+      .select("user_id, role, profiles(display_name)")
+      .eq("list_id", listId),
+    service
+      .from("list_members")
+      .select("list_id")
+      .eq("list_id", listId)
+      .eq("user_id", userId)
+      .maybeSingle(),
+    getLocaleCookie(),
     getCategoriesOnly(service).catch(() => ({ categories: [], generalId: "" })),
   ]);
 
@@ -70,35 +79,24 @@ export async function fetchListPageData(
   if (!list) return null;
   if (itemsError) throw new Error(itemsError.message);
   if (membersError) throw new Error(membersError.message);
-  if (profileError) throw new Error(profileError.message);
+  if (membershipError) throw new Error(membershipError.message);
 
-  const userIds = [...new Set((members ?? []).map((m) => m.user_id))];
-  let memberRows: ListMemberRow[] = [];
-
-  if (userIds.length > 0) {
-    const { data: profiles, error: profilesError } = await service
-      .from("profiles")
-      .select("id, display_name")
-      .in("id", userIds);
-
-    if (profilesError) throw new Error(profilesError.message);
-
-    const nameById = new Map(
-      (profiles ?? []).map((p) => [p.id, p.display_name ?? "Member"]),
-    );
-
-    memberRows = (members ?? [])
-      .map((member) => ({
-        userId: member.user_id,
-        displayName: nameById.get(member.user_id) ?? "Member",
-        role: member.role,
-        isOwner: member.user_id === list.owner_id,
-      }))
-      .sort((a, b) => {
-        if (a.isOwner !== b.isOwner) return a.isOwner ? -1 : 1;
-        return a.displayName.localeCompare(b.displayName);
-      });
+  const isOwner = list.owner_id === userId;
+  if (!isOwner && !membership) {
+    throw new Error("List not found");
   }
+
+  const memberRows: ListMemberRow[] = (members ?? [])
+    .map((member: MemberQueryRow) => ({
+      userId: member.user_id,
+      displayName: displayNameFromProfiles(member.profiles),
+      role: member.role,
+      isOwner: member.user_id === list.owner_id,
+    }))
+    .sort((a, b) => {
+      if (a.isOwner !== b.isOwner) return a.isOwner ? -1 : 1;
+      return a.displayName.localeCompare(b.displayName);
+    });
 
   return {
     title: list.title,
@@ -113,9 +111,9 @@ export async function fetchListPageData(
       sortKey: row.sort_key,
     })),
     members: memberRows,
-    isOwner: list.owner_id === userId,
+    isOwner,
     groupByCategory: list.group_by_category ?? true,
-    locale: profile?.locale ?? "en",
+    locale,
     categories: categoriesResult.categories,
   };
 }

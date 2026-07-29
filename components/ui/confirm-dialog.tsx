@@ -36,10 +36,10 @@ function ConfirmDialog({
   const t = useTranslations("common");
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[var(--overlay)] p-4">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <button
         type="button"
-        className="absolute inset-0"
+        className="sheet-backdrop absolute inset-0 bg-[var(--overlay)]"
         aria-label={t("close")}
         onClick={onCancel}
       />
@@ -47,7 +47,7 @@ function ConfirmDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="confirm-dialog-message"
-        className="relative z-10 w-full max-w-sm rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-lg"
+        className="sheet-panel font-ui relative z-10 w-full max-w-sm rounded-2xl border border-[var(--border)]/50 bg-[var(--surface)] p-5 shadow-token-md"
       >
         <p
           id="confirm-dialog-message"
