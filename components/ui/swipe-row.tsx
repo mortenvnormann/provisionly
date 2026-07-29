@@ -87,10 +87,8 @@ export function SwipeRow({
 
     if (lockedAxis.current === "y") return;
 
-    swipedHorizontally.current = true;
-    if (!dragging) setDragging(true);
-    event.currentTarget.setPointerCapture(event.pointerId);
-    event.preventDefault();
+    const absX = Math.abs(deltaX);
+    if (absX < TAP_SLOP) return;
 
     const next = Math.min(
       0,
@@ -98,6 +96,15 @@ export function SwipeRow({
     );
     liveOffset.current = next;
     setOffset(next);
+
+    if (absX < OPEN_THRESHOLD) return;
+
+    swipedHorizontally.current = true;
+    if (!dragging) setDragging(true);
+    if (!event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
+    event.preventDefault();
   }
 
   function onPointerUp(event: React.PointerEvent) {
@@ -114,6 +121,10 @@ export function SwipeRow({
 
     if (!swipedHorizontally.current) {
       lockedAxis.current = null;
+      if (liveOffset.current !== 0) {
+        liveOffset.current = 0;
+        setOffset(0);
+      }
       return;
     }
 
@@ -168,11 +179,11 @@ export function SwipeRow({
       return;
     }
 
-    if (open || offset < 0) {
-      event.preventDefault();
-      event.stopPropagation();
-      reset();
-    }
+    if (!open && offset >= 0) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    reset();
   }
 
   return (
@@ -199,7 +210,7 @@ export function SwipeRow({
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={reset}
-        onClickCapture={onContentClick}
+        onClick={onContentClick}
       >
         {children}
       </div>

@@ -2,13 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { AddItemBar } from "@/components/lists/add-item-bar";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { AddItemBar, ADD_ITEM_INPUT_ID } from "@/components/lists/add-item-bar";
 import { ListActionsMenu } from "@/components/lists/list-actions-menu";
 import { ListItemRowView } from "@/components/lists/list-item-row";
 import { ListMembers } from "@/components/lists/list-members";
 import { ProblemPage } from "@/components/layout/problem-page";
+import { useRegisterDock } from "@/components/layout/dock-context";
 import { BackLink } from "@/components/ui/back-link";
+import { ShareIcon } from "@/components/ui/icons";
 import { SwipeRow } from "@/components/ui/swipe-row";
 import { LoadingState } from "@/components/ui/loading-state";
 import { useConfirm } from "@/components/ui/confirm-dialog";
@@ -32,18 +34,20 @@ import {
   deleteCheckedItemsAction,
   deleteListAction,
   deleteListItemAction,
-  fetchListItemsAction,
   leaveListAction,
   setItemCheckedAction,
   setListGroupByCategoryAction,
   updateListItemAction,
 } from "@/lib/lists/actions";
 import {
+  getPrefetchedListDetail,
+  prefetchListDetailData,
+} from "@/lib/lists/list-detail-prefetch-cache";
+import {
   groupItemsByCategory,
   groupItemsByCategoryId,
 } from "@/lib/lists/api";
 import {
-  itemsFingerprint,
   readListCache,
   writeListCache,
 } from "@/lib/lists/list-cache";
@@ -53,10 +57,11 @@ import {
   createLocalItemId,
   enqueue,
 } from "@/lib/lists/offline-queue";
+import { mergeListItemsPreservingOrder } from "@/lib/lists/merge-items";
 import { nextSortKey } from "@/lib/lists/normalize";
 import type { CategoryRow, ListItemRow } from "@/lib/lists/types";
 import { useOfflineQueue } from "@/lib/lists/use-offline-queue";
-import { useListSync } from "@/lib/lists/use-list-sync";
+import { useListSync, markListItemsLocallySynced } from "@/lib/lists/use-list-sync";
 import { useOnline } from "@/lib/pwa/use-online";
 import type { ListMemberRow } from "@/lib/share/types";
 import { useTranslations } from "next-intl";
@@ -103,9 +108,9 @@ export function ListDetail({
   initialItems,
   initialMembers = [],
   currentUserId,
-  isOwner = true,
+  isOwner: isOwnerProp = true,
   showJoinedBanner = false,
-  locale = "en",
+  locale: localeProp = "en",
   initialGroupByCategory = true,
   initialCategories,
 }: ListDetailProps) {
@@ -114,37 +119,78 @@ export function ListDetail({
   const tErrors = useTranslations("errors");
   const router = useRouter();
   const confirmDialog = useConfirm();
+  const prefetched = !isGuest ? getPrefetchedListDetail(listId) : null;
   const cached = !isGuest ? readListCache(listId) : null;
   const hasPendingQueue = !isGuest && countPendingMutations(listId) > 0;
+  const bootstrapItems = initialItems ?? prefetched?.items ?? cached?.items;
+  const hasBootstrapData =
+    isGuest || bootstrapItems !== undefined || (cached?.items?.length ?? 0) > 0;
   const [title, setTitle] = useState(
-    initialTitle ?? cached?.title ?? tLists("defaultListTitle"),
+    initialTitle ??
+      prefetched?.title ??
+      cached?.title ??
+      tLists("defaultListTitle"),
   );
   const [items, setItems] = useState<ListItemRow[]>(() => {
     if (isGuest) return initialItems ?? [];
     if (hasPendingQueue && cached?.items) {
       return cached.items;
     }
-    const base = initialItems ?? cached?.items ?? [];
+    const base = bootstrapItems ?? [];
     return applyQueuedMutations(listId, base);
   });
   const [groupByCategory, setGroupByCategory] = useState(
-    initialGroupByCategory ?? cached?.groupByCategory ?? true,
+    initialGroupByCategory ??
+      prefetched?.groupByCategory ??
+      cached?.groupByCategory ??
+      true,
   );
-  const [members, setMembers] = useState<ListMemberRow[]>(initialMembers);
+  const [members, setMembers] = useState<ListMemberRow[]>(
+    initialMembers.length > 0
+      ? initialMembers
+      : (prefetched?.members ?? []),
+  );
+  const [isOwner, setIsOwner] = useState(
+    isOwnerProp ?? prefetched?.isOwner ?? true,
+  );
+  const [locale, setLocale] = useState(
+    localeProp ?? prefetched?.locale ?? "en",
+  );
+  const [categorySeed, setCategorySeed] = useState<CategoryRow[] | undefined>(
+    initialCategories ?? prefetched?.categories,
+  );
   const online = useOnline();
   const authOffline = !isGuest && !online;
   const [syncError, setSyncError] = useState(false);
-  const [loading, setLoading] = useState(
-    !isGuest && !initialItems && !(cached?.items?.length ?? 0),
-  );
+  const [loading, setLoading] = useState(!hasBootstrapData);
+  const [notFound, setNotFound] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [joinedBanner, setJoinedBanner] = useState(showJoinedBanner);
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
+  type PendingToggle = {
+    desired: boolean;
+    inFlight: boolean;
+  };
+  const pendingTogglesRef = useRef<Map<string, PendingToggle>>(new Map());
+  const checkedByIdRef = useRef<Map<string, boolean>>(new Map());
+  const pendingCacheItemsRef = useRef<ListItemRow[] | null>(null);
+  const cacheFlushTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const titleRef = useRef(title);
+  titleRef.current = title;
   const { categories, labelFor, error: categoriesError } = useCategories(
     locale,
     tCommon("general"),
-    initialCategories,
+    categorySeed,
   );
+
+  useEffect(() => {
+    const map = new Map<string, boolean>();
+    for (const item of items) {
+      const pending = pendingTogglesRef.current.get(item.id);
+      map.set(item.id, pending?.desired ?? item.checked);
+    }
+    checkedByIdRef.current = map;
+  }, [items]);
 
   const persistCache = useCallback(
     (nextTitle: string, nextItems: ListItemRow[], nextGroupByCategory = groupByCategory) => {
@@ -153,6 +199,46 @@ export function ListDetail({
       }
     },
     [isGuest, listId, groupByCategory],
+  );
+
+  const scheduleToggleCacheFlush = useCallback(
+    (nextItems: ListItemRow[]) => {
+      pendingCacheItemsRef.current = nextItems;
+      if (cacheFlushTimerRef.current != null) {
+        clearTimeout(cacheFlushTimerRef.current);
+      }
+      cacheFlushTimerRef.current = setTimeout(() => {
+        cacheFlushTimerRef.current = null;
+        const snapshot = pendingCacheItemsRef.current;
+        if (!snapshot) return;
+        pendingCacheItemsRef.current = null;
+        persistCache(titleRef.current, snapshot);
+        markListItemsLocallySynced(listId, snapshot);
+      }, 0);
+    },
+    [persistCache, listId],
+  );
+
+  useEffect(() => {
+    return () => {
+      if (cacheFlushTimerRef.current != null) {
+        clearTimeout(cacheFlushTimerRef.current);
+      }
+    };
+  }, []);
+
+  const applyPageData = useCallback(
+    (data: NonNullable<ReturnType<typeof getPrefetchedListDetail>>) => {
+      setTitle(data.title);
+      setItems(applyQueuedMutations(listId, data.items));
+      setMembers(data.members);
+      setGroupByCategory(data.groupByCategory);
+      setIsOwner(data.isOwner);
+      setLocale(data.locale);
+      setCategorySeed(data.categories);
+      persistCache(data.title, data.items, data.groupByCategory);
+    },
+    [listId, persistCache],
   );
 
   const load = useCallback(async () => {
@@ -181,50 +267,79 @@ export function ListDetail({
     }
 
     try {
-      const listItems = await fetchListItemsAction(listId);
-      setItems(listItems);
-      writeListCache(
-        listId,
-        initialTitle ?? cached?.title ?? tLists("defaultListTitle"),
-        listItems,
-        groupByCategory,
-      );
+      const data = await prefetchListDetailData(listId);
+      if (!data) {
+        setNotFound(true);
+        return;
+      }
+      applyPageData(data);
     } catch {
       const fallback = readListCache(listId);
       if (fallback) {
         setTitle(fallback.title);
         setItems(fallback.items);
         setGroupByCategory(fallback.groupByCategory ?? true);
+      } else {
+        setNotFound(true);
       }
     } finally {
       setLoading(false);
     }
-  }, [
-    isGuest,
-    listId,
-    locale,
-    initialTitle,
-    cached,
-    groupByCategory,
-    tLists,
-  ]);
+  }, [applyPageData, isGuest, listId, locale]);
 
   useEffect(() => {
-    if (isGuest || !initialItems) {
+    if (isGuest) {
       void load();
-    } else if (!hasPendingQueue) {
-      persistCache(initialTitle ?? title, initialItems, groupByCategory);
+      return;
     }
-  }, [load, isGuest, initialItems, initialTitle, persistCache, title, groupByCategory, hasPendingQueue]);
+
+    if (prefetched) {
+      if (!hasPendingQueue) {
+        persistCache(
+          prefetched.title,
+          prefetched.items,
+          prefetched.groupByCategory,
+        );
+      }
+      return;
+    }
+
+    if (initialItems) {
+      if (!hasPendingQueue) {
+        persistCache(initialTitle ?? title, initialItems, groupByCategory);
+      }
+      return;
+    }
+
+    void load();
+  }, [
+    load,
+    isGuest,
+    prefetched,
+    initialItems,
+    initialTitle,
+    persistCache,
+    title,
+    groupByCategory,
+    hasPendingQueue,
+  ]);
+
+  const hasFreshData = !!(prefetched ?? initialItems ?? cached?.items?.length);
 
   useListSync({
     listId,
     enabled: !isGuest && online,
+    skipInitialSync: hasFreshData,
     initialGroupByCategory: groupByCategory,
     initialTitle: title,
-    onItemsChange: (nextItems) => {
-      setItems(nextItems);
-      persistCache(title, nextItems);
+    onItemsChange: (serverItems) => {
+      if (pendingTogglesRef.current.size > 0) return;
+      setItems((prev) => {
+        const next = mergeListItemsPreservingOrder(prev, serverItems);
+        persistCache(title, next);
+        markListItemsLocallySynced(listId, next);
+        return next;
+      });
     },
     onGroupByCategoryChange: setGroupByCategory,
     onTitleChange: (nextTitle) => {
@@ -262,7 +377,7 @@ export function ListDetail({
       return [
         {
           categoryId: null,
-          items: [...items].sort((a, b) => a.sortKey.localeCompare(b.sortKey)),
+          items,
         },
       ];
     }
@@ -273,7 +388,6 @@ export function ListDetail({
   }, [items, categories, groupByCategory]);
 
   const hasChecked = items.some((i) => i.checked);
-  const syncFingerprint = itemsFingerprint(items);
 
   async function handleAdd(input: {
     name: string;
@@ -341,8 +455,16 @@ export function ListDetail({
     });
   }
 
-  async function handleToggle(itemId: string, checked: boolean) {
+  async function handleToggle(itemId: string) {
     if (writesBlocked) return;
+
+    const current =
+      pendingTogglesRef.current.get(itemId)?.desired ??
+      checkedByIdRef.current.get(itemId) ??
+      false;
+    const checked = !current;
+    checkedByIdRef.current.set(itemId, checked);
+
     if (isGuest) {
       updateGuestItem(listId, itemId, { checked });
       setItems((prev) =>
@@ -362,18 +484,59 @@ export function ListDetail({
         const next = prev.map((item) =>
           item.id === itemId ? { ...item, checked } : item,
         );
-        persistCache(title, next);
+        scheduleToggleCacheFlush(next);
         return next;
       });
       return;
     }
 
-    await setItemCheckedAction(itemId, checked, listId);
+    const existing = pendingTogglesRef.current.get(itemId);
+    pendingTogglesRef.current.set(itemId, {
+      desired: checked,
+      inFlight: existing?.inFlight ?? false,
+    });
+
     setItems((prev) => {
       const next = prev.map((i) => (i.id === itemId ? { ...i, checked } : i));
-      persistCache(title, next);
+      scheduleToggleCacheFlush(next);
       return next;
     });
+
+    function flushToggle(id: string) {
+      const entry = pendingTogglesRef.current.get(id);
+      if (!entry || entry.inFlight) return;
+      entry.inFlight = true;
+      const written = entry.desired;
+      void setItemCheckedAction(id, written, listId)
+        .then(() => settleToggle(id, written, null))
+        .catch((err) => settleToggle(id, written, err));
+    }
+
+    function settleToggle(id: string, written: boolean, err: unknown) {
+      const entry = pendingTogglesRef.current.get(id);
+      if (!entry) return;
+      entry.inFlight = false;
+      if (entry.desired !== written) {
+        flushToggle(id);
+        return;
+      }
+      pendingTogglesRef.current.delete(id);
+      if (err) {
+        const reverted = !written;
+        checkedByIdRef.current.set(id, reverted);
+        setItems((prev) => {
+          const next = prev.map((i) =>
+            i.id === id ? { ...i, checked: reverted } : i,
+          );
+          scheduleToggleCacheFlush(next);
+          return next;
+        });
+      }
+    }
+
+    if (!existing?.inFlight) {
+      flushToggle(itemId);
+    }
   }
 
   async function handleClearChecked() {
@@ -431,6 +594,35 @@ export function ListDetail({
       persistCache(title, items, !next);
     }
   }
+
+  const focusAddItem = useCallback(() => {
+    document.getElementById(ADD_ITEM_INPUT_ID)?.focus();
+  }, []);
+
+  const dockHandlers = useMemo(
+    () => ({
+      sortVisible: true,
+      sortActive: groupByCategory,
+      onSort: () => void handleToggleGroupByCategory(),
+      action: {
+        visible: true,
+        label: tLists("clearChecked"),
+        disabled: !hasChecked || authOffline,
+        onPress: () => void handleClearChecked(),
+      },
+      addVisible: true,
+      onAdd: focusAddItem,
+    }),
+    [
+      authOffline,
+      groupByCategory,
+      hasChecked,
+      focusAddItem,
+      tLists,
+    ],
+  );
+
+  useRegisterDock(dockHandlers);
 
   async function handleUpdateItem(
     itemId: string,
@@ -513,7 +705,7 @@ export function ListDetail({
     return <LoadingState label={tLists("loadingList")} />;
   }
 
-  if (isGuest && !getGuestList(listId)) {
+  if (notFound || (isGuest && !getGuestList(listId))) {
     return (
       <ProblemPage
         appName={tCommon("appName")}
@@ -527,21 +719,26 @@ export function ListDetail({
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
-      <header className="safe-area-pt sticky top-0 z-10 shrink-0 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-sm">
+      <header className="safe-area-pt font-ui sticky top-0 z-10 shrink-0 bg-[var(--background)]/90 backdrop-blur-sm">
         <div className="flex items-center gap-2 px-2 py-3">
           <BackLink href="/home" label={tCommon("back")} />
           <h1 className="min-w-0 flex-1 truncate text-lg font-semibold text-[var(--foreground)]">
             {title}
           </h1>
+          {!isGuest && !authOffline ? (
+            <button
+              type="button"
+              aria-label={tLists("shareList")}
+              onClick={() => setShareOpen(true)}
+              className="pressable flex size-10 items-center justify-center rounded-lg text-[var(--foreground)] hover:bg-[var(--muted)]"
+            >
+              <ShareIcon className="size-5" />
+            </button>
+          ) : null}
           <ListActionsMenu
             isGuest={isGuest}
             isOwner={isOwner}
-            hasChecked={hasChecked}
-            groupByCategory={groupByCategory}
             offlineRestricted={authOffline}
-            onShare={() => setShareOpen(true)}
-            onClearChecked={() => void handleClearChecked()}
-            onToggleGroupByCategory={() => void handleToggleGroupByCategory()}
             onDelete={() => void handleDeleteList()}
           />
         </div>
@@ -552,7 +749,7 @@ export function ListDetail({
       </header>
 
       <div className="relative flex min-h-0 flex-1 flex-col">
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-dock">
         {syncing ? (
           <div className="mx-4 mt-3 rounded-xl border border-[var(--border)] bg-[var(--muted)] px-4 py-3 text-sm text-[var(--foreground)]">
             {tCommon("offlineSyncing")}
@@ -584,14 +781,11 @@ export function ListDetail({
               className="px-2 py-3"
             >
               {groupByCategory ? (
-                <h2 className="mb-1 px-2 text-xs font-semibold tracking-wide text-[var(--secondary)] uppercase">
+                <h2 className="font-ui mb-1 px-2 text-xs font-semibold tracking-wide text-[var(--label)] uppercase">
                   {labelFor(categoryId)}
                 </h2>
               ) : null}
-              <ul
-                className="overflow-hidden rounded-xl border border-[var(--border)]/60 bg-[var(--surface)]"
-                data-sync={syncFingerprint}
-              >
+              <ul className="shadow-token-sm overflow-hidden rounded-2xl bg-[var(--surface)]">
                 {sectionItems.map((item) => (
                   <li
                     key={item.id}
@@ -612,7 +806,7 @@ export function ListDetail({
                           if (!authOffline) setEditingItemId(id);
                         }}
                         onCancelEdit={() => setEditingItemId(null)}
-                        onToggle={(id, checked) => void handleToggle(id, checked)}
+                        onToggle={(id) => void handleToggle(id)}
                         onUpdate={(id, input) => handleUpdateItem(id, input)}
                       />
                     </SwipeRow>

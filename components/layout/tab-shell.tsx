@@ -1,16 +1,20 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { ListsHome } from "@/components/lists/lists-home";
-import type { ListSummary } from "@/lib/lists/types";
-import type { RecipeSummary } from "@/lib/recipes/types";
 import {
   TabShellProvider,
   type TabDirection,
   type TabId,
 } from "@/components/layout/tab-shell-context";
+import { useDockOptional } from "@/components/layout/dock-context";
+import { useTabsData } from "@/components/layout/tabs-data-context";
+import {
+  prefetchListsHome,
+  prefetchRecipesHome,
+} from "@/lib/tabs/prefetch";
 import { prefetchRecipesData } from "@/lib/tabs/recipes-prefetch-cache";
 
 const RecipesHome = dynamic(
@@ -25,38 +29,25 @@ function tabFromPathname(pathname: string): TabId {
   return pathname.startsWith("/recipes") ? "recipes" : "lists";
 }
 
-type TabShellProps = {
-  isGuest: boolean;
-  firstName: string | null;
-  lastName: string | null;
-  displayName: string | null;
-  email: string | null;
-  initialLists: ListSummary[];
-  initialRecipes: RecipeSummary[];
-};
-
-export function TabShell({
-  isGuest,
-  firstName,
-  lastName,
-  displayName,
-  email,
-  initialLists,
-  initialRecipes,
-}: TabShellProps) {
-  const router = useRouter();
+export function TabShell() {
+  const {
+    isGuest,
+    firstName,
+    lastName,
+    displayName,
+    email,
+    initialLists,
+    initialRecipes,
+  } = useTabsData();
   const pathname = usePathname();
+  const dock = useDockOptional();
   const [activeTab, setActiveTabState] = useState<TabId>(() =>
     tabFromPathname(pathname),
-  );
-  const [listsMounted, setListsMounted] = useState(
-    () => tabFromPathname(pathname) === "lists",
   );
   const [recipesMounted, setRecipesMounted] = useState(
     () => tabFromPathname(pathname) === "recipes",
   );
   const [direction, setDirection] = useState<TabDirection>("forward");
-  const [reduceMotion, setReduceMotion] = useState(false);
   const [listsReady, setListsReady] = useState(initialLists.length > 0);
 
   const handleListsReady = useCallback(() => {
@@ -68,8 +59,7 @@ export function TabShell({
     if (tabFromPathname(pathname) !== "lists") return;
 
     const startPrefetch = () => {
-      void import("@/components/recipes/recipes-home");
-      void prefetchRecipesData();
+      prefetchRecipesHome();
     };
 
     if (typeof requestIdleCallback !== "undefined") {
@@ -80,47 +70,55 @@ export function TabShell({
     startPrefetch();
   }, [isGuest, initialRecipes.length, listsReady, pathname]);
 
+  const setDockIsGuest = dock?.setIsGuest;
   useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReduceMotion(media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
-
-  useEffect(() => {
-    router.prefetch("/settings");
-  }, [router]);
+    if (!setDockIsGuest) return;
+    setDockIsGuest(isGuest);
+  }, [isGuest, setDockIsGuest]);
 
   useEffect(() => {
     setActiveTabState(tabFromPathname(pathname));
   }, [pathname]);
 
   useEffect(() => {
+    if (activeTab === "recipes") setRecipesMounted(true);
+  }, [activeTab]);
+
+  useEffect(() => {
     const onPopState = () => {
-      setActiveTabState(tabFromPathname(window.location.pathname));
+      const tab = tabFromPathname(window.location.pathname);
+      setActiveTabState(tab);
+      if (tab === "recipes") setRecipesMounted(true);
     };
+
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
 
-  useEffect(() => {
-    if (activeTab === "lists") setListsMounted(true);
-    if (activeTab === "recipes") setRecipesMounted(true);
-  }, [activeTab]);
-
   const setActiveTab = useCallback(
     (tab: TabId) => {
       if (tab === activeTab) return;
-      if (tab === "recipes") setRecipesMounted(true);
-      if (tab === "lists") setListsMounted(true);
+      if (tab === "recipes") {
+        setRecipesMounted(true);
+        prefetchRecipesHome();
+        void prefetchRecipesData();
+      } else {
+        prefetchListsHome();
+      }
       setDirection(tab === "recipes" ? "forward" : "back");
       setActiveTabState(tab);
       const url = tab === "lists" ? "/home" : "/recipes";
-      window.history.pushState(null, "", url);
+      window.history.replaceState(window.history.state, "", url);
     },
     [activeTab],
   );
+
+  const setDockTabNavigation = dock?.setTabNavigation;
+  useEffect(() => {
+    if (isGuest || !setDockTabNavigation) return;
+    setDockTabNavigation({ activeTab, setActiveTab });
+    return () => setDockTabNavigation(null);
+  }, [isGuest, setDockTabNavigation, activeTab, setActiveTab]);
 
   if (isGuest) {
     return (
@@ -135,58 +133,29 @@ export function TabShell({
     );
   }
 
-  const translateX = activeTab === "recipes" ? "-50%" : "0%";
-
   return (
     <TabShellProvider value={{ activeTab, setActiveTab, direction }}>
       <div className="flex min-h-full flex-1 flex-col overflow-hidden">
         <div className="relative min-h-0 flex-1 overflow-hidden">
-          <div
-            className={[
-              "flex h-full w-[200%]",
-              reduceMotion
-                ? ""
-                : "transition-transform duration-[450ms] ease-[cubic-bezier(0.32,0.72,0,1)]",
-            ].join(" ")}
-            style={{ transform: `translateX(${translateX})` }}
-          >
-            <div
-              className={[
-                "flex h-full w-1/2 flex-col overflow-hidden",
-                activeTab !== "lists" ? "pointer-events-none" : "",
-              ].join(" ")}
-              aria-hidden={activeTab !== "lists"}
-            >
-              {listsMounted ? (
-                <ListsHome
-                  isGuest={false}
-                  firstName={firstName}
-                  lastName={lastName}
-                  displayName={displayName}
-                  email={email}
-                  initialLists={initialLists}
-                  onListsReady={handleListsReady}
-                />
-              ) : null}
-            </div>
-            <div
-              className={[
-                "flex h-full w-1/2 flex-col overflow-hidden",
-                activeTab !== "recipes" ? "pointer-events-none" : "",
-              ].join(" ")}
-              aria-hidden={activeTab !== "recipes"}
-            >
-              {recipesMounted ? (
-                <RecipesHome
-                  firstName={firstName}
-                  lastName={lastName}
-                  displayName={displayName}
-                  email={email}
-                  initialRecipes={initialRecipes}
-                />
-              ) : null}
-            </div>
-          </div>
+          {activeTab === "lists" ? (
+            <ListsHome
+              isGuest={false}
+              firstName={firstName}
+              lastName={lastName}
+              displayName={displayName}
+              email={email}
+              initialLists={initialLists}
+              onListsReady={handleListsReady}
+            />
+          ) : recipesMounted ? (
+            <RecipesHome
+              firstName={firstName}
+              lastName={lastName}
+              displayName={displayName}
+              email={email}
+              initialRecipes={initialRecipes}
+            />
+          ) : null}
         </div>
       </div>
     </TabShellProvider>

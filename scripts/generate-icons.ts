@@ -139,7 +139,7 @@ async function renderMaskable512() {
       width: 512,
       height: 512,
       channels: 3,
-      background: lightPalette.mistWhite,
+      background: lightPalette.linenWhite,
     },
   })
     .composite([{ input: mark, gravity: "center" }])

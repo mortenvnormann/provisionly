@@ -1,22 +1,32 @@
-import Link from "next/link";
-import type { ComponentProps } from "react";
+"use client";
 
-type BackLinkProps = Omit<ComponentProps<typeof Link>, "className" | "children"> & {
+import { useAppNavigate } from "@/lib/nav/use-app-navigate";
+
+type BackLinkProps = {
+  href: string;
   label: string;
   className?: string;
 };
 
-export function BackLink({ label, className = "", ...props }: BackLinkProps) {
+export function BackLink({ href, label, className = "" }: BackLinkProps) {
+  const { push } = useAppNavigate();
+
   return (
-    <Link
-      {...props}
+    <button
+      type="button"
       aria-label={label}
+      onClick={(event) =>
+        push(href, {
+          element: event.currentTarget,
+          transitionType: "nav-down",
+        })
+      }
       className={[
-        "flex size-10 items-center justify-center rounded-lg text-lg text-[var(--foreground)] hover:bg-[var(--muted)]",
+        "font-ui pressable flex size-10 items-center justify-center rounded-lg text-lg text-[var(--foreground)] hover:bg-[var(--muted)]",
         className,
       ].join(" ")}
     >
       ‹
-    </Link>
+    </button>
   );
 }

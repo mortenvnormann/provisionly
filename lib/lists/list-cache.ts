@@ -74,7 +74,8 @@ export function writeListCache(
 }
 
 export function itemsFingerprint(items: ListItemRow[]): string {
-  return items
+  return [...items]
+    .sort((a, b) => a.id.localeCompare(b.id))
     .map(
       (item) =>
         `${item.id}:${item.checked}:${item.name}:${item.quantity}:${item.unit}`,

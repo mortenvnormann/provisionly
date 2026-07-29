@@ -5,26 +5,16 @@ import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 
 type ListActionsMenuProps = {
-  isGuest: boolean;
   isOwner: boolean;
-  hasChecked: boolean;
-  groupByCategory: boolean;
+  isGuest: boolean;
   offlineRestricted?: boolean;
-  onShare: () => void;
-  onClearChecked: () => void;
-  onToggleGroupByCategory: () => void;
   onDelete: () => void;
 };
 
 export function ListActionsMenu({
-  isGuest,
   isOwner,
-  hasChecked,
-  groupByCategory,
+  isGuest,
   offlineRestricted = false,
-  onShare,
-  onClearChecked,
-  onToggleGroupByCategory,
   onDelete,
 }: ListActionsMenuProps) {
   const t = useTranslations("lists");
@@ -44,11 +34,6 @@ export function ListActionsMenu({
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [open]);
 
-  function run(action: () => void) {
-    setOpen(false);
-    action();
-  }
-
   return (
     <div className="relative shrink-0" ref={menuRef}>
       <Button
@@ -64,73 +49,23 @@ export function ListActionsMenu({
       {open ? (
         <div
           role="menu"
-          className="absolute right-0 top-full z-20 mt-1 min-w-52 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] py-1 shadow-lg"
+          className="shadow-token-md absolute right-0 top-full z-20 mt-1 min-w-44 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] py-1"
         >
-          {!isGuest && !offlineRestricted ? (
-            <button
-              type="button"
-              role="menuitem"
-              className="flex w-full px-4 py-2.5 text-left text-sm text-[var(--foreground)] hover:bg-[var(--muted)]"
-              onClick={() => run(onShare)}
-            >
-              {t("shareList")}
-            </button>
-          ) : null}
-          <div
-            role="menuitemcheckbox"
-            aria-checked={groupByCategory}
-            aria-disabled={offlineRestricted}
-            className={[
-              "flex w-full items-center justify-between gap-3 px-4 py-2.5 text-sm text-[var(--foreground)]",
-              offlineRestricted ? "opacity-50" : "hover:bg-[var(--muted)]",
-            ].join(" ")}
-            onClick={(event) => event.stopPropagation()}
-          >
-            <span>{t("groupByCategory")}</span>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={groupByCategory}
-              aria-label={t("groupByCategory")}
-              disabled={offlineRestricted}
-              onClick={() => {
-                if (!offlineRestricted) onToggleGroupByCategory();
-              }}
-              className={[
-                "relative h-7 w-12 shrink-0 rounded-full transition-colors",
-                groupByCategory ? "bg-[var(--primary)]" : "bg-[var(--muted)]",
-              ].join(" ")}
-            >
-              <span
-                className={[
-                  "absolute top-0.5 size-6 rounded-full bg-[var(--surface)] shadow transition-transform",
-                  groupByCategory ? "left-[22px]" : "left-0.5",
-                ].join(" ")}
-              />
-            </button>
-          </div>
-          {hasChecked && !offlineRestricted ? (
-            <button
-              type="button"
-              role="menuitem"
-              className="flex w-full px-4 py-2.5 text-left text-sm text-[var(--foreground)] hover:bg-[var(--muted)]"
-              onClick={() => run(onClearChecked)}
-            >
-              {t("clearChecked")}
-            </button>
-          ) : null}
           <button
             type="button"
             role="menuitem"
             disabled={offlineRestricted}
             className={[
-              "flex w-full px-4 py-2.5 text-left text-sm text-[var(--destructive)]",
+              "font-ui flex w-full px-4 py-2.5 text-left text-sm text-[var(--destructive)]",
               offlineRestricted
                 ? "cursor-not-allowed opacity-50"
                 : "hover:bg-[var(--destructive)]/10",
             ].join(" ")}
             onClick={() => {
-              if (!offlineRestricted) run(onDelete);
+              if (!offlineRestricted) {
+                setOpen(false);
+                onDelete();
+              }
             }}
           >
             {isGuest || isOwner ? t("deleteList") : t("removeList")}

@@ -18,12 +18,17 @@ import {
   fetchRecipeDetailForUser,
   fetchRecipeSummariesForUser,
   removeRecipeAccessForUser,
+  removeRecipePhotoForUser,
   updateRecipeForUser,
+  uploadRecipePhotoForUser,
 } from "@/lib/recipes/server";
+import { invalidatePrefetchedRecipeDetail } from "@/lib/recipes/recipe-detail-prefetch-cache";
+import { invalidatePrefetchedRecipes } from "@/lib/tabs/recipes-prefetch-cache";
 import type {
   AddToListResult,
   RecipeDetail,
   RecipeInput,
+  RecipePhotoResult,
   RecipeSummary,
 } from "@/lib/recipes/types";
 
@@ -103,4 +108,32 @@ export async function addRecipeToListAction(
 export async function fetchListsForRecipeAction(): Promise<ListSummary[]> {
   const user = await getVerifiedUser();
   return fetchListSummariesForUser(user.id);
+}
+
+export async function uploadRecipePhotoAction(
+  recipeId: string,
+  formData: FormData,
+): Promise<RecipePhotoResult> {
+  const user = await getVerifiedUser();
+  const id = parseRecipeId(recipeId);
+  const file = formData.get("photo");
+  if (!(file instanceof Blob) || file.size === 0) {
+    throw new Error("No photo provided");
+  }
+  const result = await uploadRecipePhotoForUser(user.id, id, file);
+  invalidatePrefetchedRecipeDetail(id);
+  invalidatePrefetchedRecipes();
+  revalidatePath("/recipes");
+  revalidatePath(`/recipes/${id}`);
+  return result;
+}
+
+export async function removeRecipePhotoAction(recipeId: string): Promise<void> {
+  const user = await getVerifiedUser();
+  const id = parseRecipeId(recipeId);
+  await removeRecipePhotoForUser(user.id, id);
+  invalidatePrefetchedRecipeDetail(id);
+  invalidatePrefetchedRecipes();
+  revalidatePath("/recipes");
+  revalidatePath(`/recipes/${id}`);
 }

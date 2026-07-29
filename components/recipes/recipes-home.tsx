@@ -1,29 +1,28 @@
 "use client";
 
-import Link from "next/link";
+
+import { useAppNavigate } from "@/lib/nav/use-app-navigate";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
-import {
-  FloatingCreateDock,
-  floatingDockScrollPadding,
-} from "@/components/layout/floating-create-dock";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRegisterDock } from "@/components/layout/dock-context";
 import { HomeHeader } from "@/components/layout/home-header";
-import { AppNav } from "@/components/nav/app-nav";
 import { LoadingState } from "@/components/ui/loading-state";
 import { SwipeRow } from "@/components/ui/swipe-row";
-import { PlusIcon } from "@/components/ui/icons";
+import { ChevronRightIcon } from "@/components/ui/icons";
 import {
   deleteRecipeAction,
   removeRecipeAction,
 } from "@/lib/recipes/actions";
+import { prefetchRecipeDetailData } from "@/lib/recipes/recipe-detail-prefetch-cache";
 import type { RecipeSummary } from "@/lib/recipes/types";
 import { profileGreeting } from "@/lib/profile/types";
 import {
   getPrefetchedRecipes,
   prefetchRecipesData,
 } from "@/lib/tabs/recipes-prefetch-cache";
-import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+
+type SortMode = "recent" | "alpha";
 
 type RecipesHomeProps = {
   firstName: string | null;
@@ -57,6 +56,7 @@ export function RecipesHome({
   initialRecipes = [],
 }: RecipesHomeProps) {
   const router = useRouter();
+  const { push } = useAppNavigate();
   const tRecipes = useTranslations("recipes");
   const tCommon = useTranslations("common");
   const initial = resolveInitialRecipes(initialRecipes);
@@ -64,7 +64,52 @@ export function RecipesHome({
   const [loading, setLoading] = useState(initial.loading);
   const [showContent, setShowContent] = useState(!initial.loading);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [sortMode, setSortMode] = useState<SortMode>("recent");
+  const prefetchedRecipesRef = useRef(new Set<string>());
   const greetingName = profileGreeting({ firstName, lastName, displayName }, email);
+
+  const prefetchRecipeDetail = useCallback(
+    (recipeId: string) => {
+      if (prefetchedRecipesRef.current.has(recipeId)) return;
+      prefetchedRecipesRef.current.add(recipeId);
+      router.prefetch(`/recipes/${recipeId}`);
+      void prefetchRecipeDetailData(recipeId);
+    },
+    [router],
+  );
+
+  const sortedRecipes = useMemo(() => {
+    const copy = [...recipes];
+    if (sortMode === "alpha") {
+      copy.sort((a, b) => a.title.localeCompare(b.title));
+    } else {
+      copy.sort((a, b) =>
+        (b.updatedAt ?? "").localeCompare(a.updatedAt ?? ""),
+      );
+    }
+    return copy;
+  }, [recipes, sortMode]);
+
+  const handleSort = useCallback(() => {
+    setSortMode((mode) => (mode === "recent" ? "alpha" : "recent"));
+  }, []);
+
+  const handleAdd = useCallback(() => {
+    router.push("/recipes/new");
+  }, [router]);
+
+  const dockHandlers = useMemo(
+    () => ({
+      sortVisible: true,
+      sortActive: sortMode === "alpha",
+      onSort: handleSort,
+      addVisible: true,
+      onAdd: handleAdd,
+    }),
+    [handleAdd, handleSort, sortMode],
+  );
+
+  useRegisterDock(dockHandlers);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -140,22 +185,18 @@ export function RecipesHome({
 
       <div className="relative flex min-h-0 flex-1 flex-col">
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-          <div
-            className={`flex flex-col gap-4 p-4 ${floatingDockScrollPadding()}`}
-          >
-            <AppNav />
-
+          <div className="flex flex-col gap-4 p-4 pb-dock">
             {loading ? (
               <LoadingState label={tRecipes("loadingRecipes")} />
             ) : (
               <div className={contentClass}>
                 {recipes.length === 0 ? (
-                  <p className="py-8 text-center text-sm text-[var(--muted-foreground)]">
+                  <p className="font-ui py-8 text-center text-sm text-[var(--muted-foreground)]">
                     {tRecipes("noRecipes")}
                   </p>
                 ) : (
-                  <ul className="flex flex-col gap-2">
-                    {recipes.map((recipe) => (
+                  <ul className="flex flex-col gap-3">
+                    {sortedRecipes.map((recipe) => (
                       <li key={recipe.id}>
                         <SwipeRow
                           requireConfirm
@@ -175,15 +216,23 @@ export function RecipesHome({
                           }
                           onDelete={() => handleRemoveRecipe(recipe)}
                         >
-                          <Link
-                            href={`/recipes/${recipe.id}`}
-                            className="flex w-full items-center justify-between border border-[var(--border)] px-4 py-4 text-left transition-colors active:bg-[var(--muted)]"
+                          <button
+                            type="button"
+                            onPointerEnter={() => prefetchRecipeDetail(recipe.id)}
+                            onTouchStart={() => prefetchRecipeDetail(recipe.id)}
+                            onClick={(event) =>
+                              push(`/recipes/${recipe.id}`, {
+                                element: event.currentTarget,
+                                transitionType: "nav-up",
+                              })
+                            }
+                            className="font-reading shadow-token-sm pressable flex w-full items-center justify-between rounded-2xl bg-[var(--surface)] px-4 py-4 text-left"
                           >
                             <div className="min-w-0">
                               <span className="block truncate font-medium text-[var(--foreground)]">
                                 {recipe.title}
                               </span>
-                              <span className="text-xs text-[var(--muted-foreground)]">
+                              <span className="font-ui text-xs text-[var(--muted-foreground)]">
                                 {tRecipes("servingsCount", {
                                   count: recipe.defaultServings,
                                 })}
@@ -192,10 +241,8 @@ export function RecipesHome({
                                   : ""}
                               </span>
                             </div>
-                            <span className="text-[var(--muted-foreground)]">
-                              ›
-                            </span>
-                          </Link>
+                            <ChevronRightIcon className="size-4 shrink-0 text-[var(--muted-foreground)]" />
+                          </button>
                         </SwipeRow>
                       </li>
                     ))}
@@ -206,13 +253,6 @@ export function RecipesHome({
           </div>
         </div>
       </div>
-
-      <FloatingCreateDock>
-        <Button fullWidth onClick={() => router.push("/recipes/new")}>
-          <PlusIcon className="h-4 w-4 shrink-0" />
-          {tRecipes("newRecipe")}
-        </Button>
-      </FloatingCreateDock>
     </div>
   );
 }

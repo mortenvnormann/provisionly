@@ -30,6 +30,9 @@
   "nav": {
     "lists": "Lister",
     "recipes": "Oppskrifter",
+    "sort": "Sorter",
+    "sortRecent": "Siste",
+    "sortAlpha": "A–Å",
     "guestRecipesHint": "Opprett en konto for å bruke oppskrifter"
   },
   "home": {
@@ -91,7 +94,19 @@
     "recipeDefaultServings": "Recipe default: {count}",
     "fewerServings": "Fewer servings",
     "moreServings": "More servings",
-    "resetServings": "Reset to {count} servings"
+    "resetServings": "Reset to {count} servings",
+    "photo": "Photo",
+    "addPhoto": "Add photo",
+    "changePhoto": "Change photo",
+    "photoUploading": "Uploading photo…",
+    "photoUploadFailed": "Could not upload photo",
+    "removePhotoConfirm": "Remove this recipe photo?",
+    "timing": "Tid",
+    "prepTime": "Forberedelse",
+    "cookTime": "Tilberedning",
+    "totalTime": "Total",
+    "minutesShort": "{count} min",
+    "hoursMinutesShort": "{hours} t {minutes} min"
   },
   "lists": {
     "loadingList": "Laster liste…",

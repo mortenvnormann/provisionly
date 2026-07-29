@@ -8,6 +8,7 @@ import { createClient } from "@/utils/supabase/client";
 type UseRecipeSyncOptions = {
   recipeId: string;
   enabled: boolean;
+  skipInitialSync?: boolean;
   onRecipeChange: (recipe: RecipeDetail) => void;
 };
 
@@ -16,6 +17,9 @@ function recipeFingerprint(recipe: RecipeDetail): string {
     recipe.title,
     recipe.description ?? "",
     recipe.defaultServings,
+    recipe.prepMinutes ?? "",
+    recipe.cookMinutes ?? "",
+    recipe.imagePath ?? "",
     recipe.ingredients
       .map(
         (i) =>
@@ -28,6 +32,7 @@ function recipeFingerprint(recipe: RecipeDetail): string {
 export function useRecipeSync({
   recipeId,
   enabled,
+  skipInitialSync = false,
   onRecipeChange,
 }: UseRecipeSyncOptions) {
   const fingerprintRef = useRef("");
@@ -58,7 +63,9 @@ export function useRecipeSync({
       }
     }
 
-    void sync();
+    if (!skipInitialSync) {
+      void sync();
+    }
 
     const supabase = createClient();
     const channel = supabase
@@ -100,5 +107,5 @@ export function useRecipeSync({
       void supabase.removeChannel(channel);
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, [enabled, recipeId]);
+  }, [enabled, recipeId, skipInitialSync]);
 }

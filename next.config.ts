@@ -27,7 +27,7 @@ const contentSecurityPolicy = [
   "frame-ancestors 'none'",
   "object-src 'none'",
   `connect-src 'self' https://${supabaseHost} wss://${supabaseHost}`,
-  "img-src 'self' data: blob:",
+  `img-src 'self' data: blob: https://${supabaseHost}`,
   "font-src 'self'",
   "style-src 'self' 'unsafe-inline'",
   "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
@@ -53,9 +53,6 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  experimental: {
-    viewTransition: true,
-  },
   async headers() {
     return [
       {

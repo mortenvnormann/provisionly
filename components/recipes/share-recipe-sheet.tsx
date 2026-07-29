@@ -74,14 +74,14 @@ export function ShareRecipeSheet({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[var(--overlay)] p-4 sm:items-center">
+    <div className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center">
       <button
         type="button"
-        className="absolute inset-0"
+        className="sheet-backdrop absolute inset-0 bg-[var(--overlay)]"
         aria-label={tShare("closeShare")}
         onClick={onClose}
       />
-      <div className="relative z-10 w-full max-w-md rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-lg">
+      <div className="sheet-panel font-ui relative z-10 w-full max-w-md rounded-2xl border border-[var(--border)]/50 bg-[var(--surface)] p-5 shadow-token-md">
         <div className="mb-4 flex items-start justify-between gap-3">
           <div>
             <h2 className="text-lg font-semibold text-[var(--foreground)]">

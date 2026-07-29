@@ -11,6 +11,7 @@ import type { ListMemberRow } from "@/lib/share/types";
 type UseListSyncOptions = {
   listId: string;
   enabled: boolean;
+  skipInitialSync?: boolean;
   initialGroupByCategory?: boolean;
   initialTitle?: string;
   onItemsChange: (items: ListItemRow[]) => void;
@@ -19,9 +20,20 @@ type UseListSyncOptions = {
   onMembersChange?: (members: ListMemberRow[]) => void;
 };
 
+const localFingerprintByList = new Map<string, string>();
+
+/** Mark local optimistic items as already applied so echo sync is a no-op. */
+export function markListItemsLocallySynced(
+  listId: string,
+  items: ListItemRow[],
+): void {
+  localFingerprintByList.set(listId, itemsFingerprint(items));
+}
+
 export function useListSync({
   listId,
   enabled,
+  skipInitialSync = false,
   initialGroupByCategory = true,
   initialTitle = "",
   onItemsChange,
@@ -30,6 +42,7 @@ export function useListSync({
   onMembersChange,
 }: UseListSyncOptions) {
   const fingerprintRef = useRef<string>("");
+  const syncGenerationRef = useRef(0);
   const groupByCategoryRef = useRef<boolean>(initialGroupByCategory);
   const titleRef = useRef<string>(initialTitle);
   const membersFingerprintRef = useRef<string>("");
@@ -49,16 +62,28 @@ export function useListSync({
     if (!enabled) return;
 
     let cancelled = false;
+    let syncTimer: ReturnType<typeof setTimeout> | null = null;
+    syncGenerationRef.current = 0;
 
     async function sync() {
       if (document.visibilityState !== "visible") return;
+      const gen = ++syncGenerationRef.current;
       try {
         const { items, groupByCategory, title } =
           await fetchListSyncAction(listId);
-        if (cancelled) return;
+        if (cancelled || gen !== syncGenerationRef.current) return;
 
         const fingerprint = itemsFingerprint(items);
-        if (fingerprint !== fingerprintRef.current) {
+        const localFingerprint = localFingerprintByList.get(listId);
+        if (
+          fingerprint === fingerprintRef.current ||
+          fingerprint === localFingerprint
+        ) {
+          fingerprintRef.current = fingerprint;
+          if (localFingerprint === fingerprint) {
+            localFingerprintByList.delete(listId);
+          }
+        } else {
           fingerprintRef.current = fingerprint;
           onItemsChangeRef.current(items);
         }
@@ -78,6 +103,14 @@ export function useListSync({
       } catch {
         // Ignore transient network errors during sync
       }
+    }
+
+    function scheduleSync() {
+      if (syncTimer) clearTimeout(syncTimer);
+      syncTimer = setTimeout(() => {
+        syncTimer = null;
+        void sync();
+      }, 100);
     }
 
     async function syncMembers() {
@@ -103,7 +136,9 @@ export function useListSync({
       await Promise.all([sync(), syncMembers()]);
     }
 
-    void syncAll();
+    if (!skipInitialSync) {
+      void syncAll();
+    }
 
     const supabase = createClient();
     const channel = supabase
@@ -117,7 +152,7 @@ export function useListSync({
           filter: `list_id=eq.${listId}`,
         },
         () => {
-          void sync();
+          scheduleSync();
         },
       )
       .on(
@@ -129,7 +164,7 @@ export function useListSync({
           filter: `id=eq.${listId}`,
         },
         () => {
-          void sync();
+          scheduleSync();
         },
       )
       .on(
@@ -154,8 +189,9 @@ export function useListSync({
 
     return () => {
       cancelled = true;
+      if (syncTimer) clearTimeout(syncTimer);
       void supabase.removeChannel(channel);
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, [enabled, listId]);
+  }, [enabled, listId, skipInitialSync]);
 }

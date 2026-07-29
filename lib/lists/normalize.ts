@@ -9,3 +9,10 @@ export function nextSortKey(existing: string[]): string {
   const n = match ? Number.parseInt(match[1], 10) + 1 : existing.length;
   return `a${n}`;
 }
+
+export function compareSortKeys(a: string, b: string): number {
+  const ma = a.match(/^a(\d+)$/);
+  const mb = b.match(/^a(\d+)$/);
+  if (ma && mb) return Number(ma[1]) - Number(mb[1]);
+  return a.localeCompare(b);
+}

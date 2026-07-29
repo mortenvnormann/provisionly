@@ -18,6 +18,13 @@ export function useCategories(
   const [loading, setLoading] = useState(!hasInitial);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (initialCategories?.length) {
+      setCategories(initialCategories);
+      setLoading(false);
+    }
+  }, [initialCategories]);
+
   const load = useCallback(async () => {
     if (hasInitial) {
       setLoading(false);

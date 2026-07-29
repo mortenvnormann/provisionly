@@ -4,6 +4,8 @@ import { resolveCategoryId } from "@/lib/categorisation/resolve";
 import { getLocaleForUser } from "@/lib/i18n/user-locale";
 import { normalizeItemName, nextSortKey } from "@/lib/lists/normalize";
 import type { ListItemRow, ListSettings, ListSummary } from "@/lib/lists/types";
+import { assertListAccess } from "@/lib/lists/access";
+export { assertListAccess };
 import { createServiceClient } from "@/lib/supabase/service";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
@@ -72,16 +74,6 @@ export async function createListForUser(
   };
 }
 
-export async function assertListAccess(
-  userId: string,
-  listId: string,
-): Promise<void> {
-  const ids = await userListIds(userId);
-  if (!ids.includes(listId)) {
-    throw new Error("List not found");
-  }
-}
-
 export async function fetchListTitleForUser(
   userId: string,
   listId: string,
@@ -136,8 +128,14 @@ export async function fetchListSyncForUser(
   await assertListAccess(userId, listId);
   const service = createServiceClient();
 
-  const [items, listResult] = await Promise.all([
-    fetchListItemsForUser(userId, listId),
+  const [{ data: itemRows, error: itemsError }, listResult] = await Promise.all([
+    service
+      .from("list_items")
+      .select(
+        "id, list_id, name_original, quantity, unit, category_id, checked, sort_key",
+      )
+      .eq("list_id", listId)
+      .order("sort_key"),
     service
       .from("lists")
       .select("title, group_by_category")
@@ -145,7 +143,19 @@ export async function fetchListSyncForUser(
       .single(),
   ]);
 
+  if (itemsError) throw new Error(itemsError.message);
   if (listResult.error) throw new Error(listResult.error.message);
+
+  const items = (itemRows ?? []).map((row) => ({
+    id: row.id,
+    listId: row.list_id,
+    name: row.name_original,
+    quantity: row.quantity,
+    unit: row.unit,
+    categoryId: row.category_id,
+    checked: row.checked,
+    sortKey: row.sort_key,
+  }));
 
   return {
     items,
@@ -301,23 +311,21 @@ export async function setItemCheckedForUser(
   userId: string,
   itemId: string,
   checked: boolean,
+  listId: string,
 ): Promise<void> {
+  await assertListAccess(userId, listId);
   const service = createServiceClient();
-  const { data: item, error: fetchError } = await service
-    .from("list_items")
-    .select("list_id")
-    .eq("id", itemId)
-    .maybeSingle();
 
-  if (fetchError || !item) throw new Error("Item not found");
-  await assertListAccess(userId, item.list_id);
-
-  const { error } = await service
+  const { data, error } = await service
     .from("list_items")
     .update({ checked })
-    .eq("id", itemId);
+    .eq("id", itemId)
+    .eq("list_id", listId)
+    .select("id")
+    .maybeSingle();
 
   if (error) throw new Error(error.message);
+  if (!data) throw new Error("Item not found");
 }
 
 export async function deleteCheckedItemsForUser(

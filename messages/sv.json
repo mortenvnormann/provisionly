@@ -30,6 +30,9 @@
   "nav": {
     "lists": "Listor",
     "recipes": "Recept",
+    "sort": "Sortera",
+    "sortRecent": "Senaste",
+    "sortAlpha": "A–Ö",
     "guestRecipesHint": "Skapa ett konto för att använda recept"
   },
   "home": {
@@ -91,7 +94,19 @@
     "recipeDefaultServings": "Recipe default: {count}",
     "fewerServings": "Fewer servings",
     "moreServings": "More servings",
-    "resetServings": "Reset to {count} servings"
+    "resetServings": "Reset to {count} servings",
+    "photo": "Photo",
+    "addPhoto": "Add photo",
+    "changePhoto": "Change photo",
+    "photoUploading": "Uploading photo…",
+    "photoUploadFailed": "Could not upload photo",
+    "removePhotoConfirm": "Remove this recipe photo?",
+    "timing": "Tid",
+    "prepTime": "Förberedelse",
+    "cookTime": "Tillagning",
+    "totalTime": "Totalt",
+    "minutesShort": "{count} min",
+    "hoursMinutesShort": "{hours} t {minutes} min"
   },
   "lists": {
     "loadingList": "Laddar lista…",

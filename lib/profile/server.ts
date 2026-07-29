@@ -7,7 +7,10 @@ import type { UserProfile } from "@/lib/profile/types";
 import { createServiceClient } from "@/lib/supabase/service";
 import { createClient } from "@/utils/supabase/server";
 
-export async function fetchProfileForUser(userId: string): Promise<UserProfile> {
+export async function fetchProfileForUser(
+  userId: string,
+  options?: { email?: string | null },
+): Promise<UserProfile> {
   const service = createServiceClient();
 
   const { data: profile, error } = await service
@@ -18,20 +21,24 @@ export async function fetchProfileForUser(userId: string): Promise<UserProfile> 
 
   if (error) throw new Error(error.message);
 
-  const {
-    data: { user },
-    error: authError,
-  } = await service.auth.admin.getUserById(userId);
+  let email = options?.email?.trim() || null;
+  if (!email) {
+    const {
+      data: { user },
+      error: authError,
+    } = await service.auth.admin.getUserById(userId);
 
-  if (authError || !user?.email) {
-    throw new Error(authError?.message ?? "Could not load account email");
+    if (authError || !user?.email) {
+      throw new Error(authError?.message ?? "Could not load account email");
+    }
+    email = user.email;
   }
 
   return {
     firstName: profile?.first_name ?? null,
     lastName: profile?.last_name ?? null,
     displayName: profile?.display_name ?? null,
-    email: user.email,
+    email,
     locale: resolveLocale(profile?.locale),
   };
 }
