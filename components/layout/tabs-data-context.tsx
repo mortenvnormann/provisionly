@@ -35,3 +35,8 @@ export function useTabsData() {
   }
   return ctx;
 }
+
+/** Returns null outside TabsDataProvider (e.g. recipe detail pages). */
+export function useTabsDataOptional() {
+  return useContext(TabsDataContext);
+}

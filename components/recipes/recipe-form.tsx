@@ -82,7 +82,7 @@ function toInput(
   title: string,
   description: string,
   steps: InstructionStepDraft[],
-  tagsText: string,
+  tags: string[],
   defaultServings: number,
   prepMinutesText: string,
   cookMinutesText: string,
@@ -98,8 +98,7 @@ function toInput(
     title: title.trim().slice(0, 200) || "Untitled recipe",
     description: description.slice(0, 10_000),
     instructions: serializeInstructions(steps).slice(0, 50_000),
-    tags: tagsText
-      .split(",")
+    tags: tags
       .map((t) => t.trim())
       .filter(Boolean)
       .map((t) => t.slice(0, 50))
@@ -153,7 +152,6 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
   const [steps, setSteps] = useState<InstructionStepDraft[]>(() =>
     parseInstructionSteps(initial?.instructions ?? ""),
   );
-  const [tagsText, setTagsText] = useState(initial?.tags.join(", ") ?? "");
   const [defaultServings, setDefaultServings] = useState(
     initial?.defaultServings ?? 4,
   );
@@ -319,7 +317,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
         title,
         description,
         steps,
-        tagsText,
+        initial?.tags ?? [],
         defaultServings,
         prepMinutesText,
         cookMinutesText,
@@ -415,17 +413,6 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
           </p>
         ) : null}
       </div>
-
-      <label className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-[var(--foreground)]">{tRecipes("tags")}</span>
-        <input
-          type="text"
-          value={tagsText}
-          onChange={(e) => setTagsText(e.target.value)}
-          placeholder={tRecipes("tagsPlaceholder")}
-          className="h-11 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-3 text-base"
-        />
-      </label>
 
       <label className="flex flex-col gap-1">
         <span className="text-sm font-medium text-[var(--foreground)]">
@@ -600,7 +587,16 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
             </Button>
           </nav>
         </div>
-      ) : null}
+      ) : (
+        <div
+          aria-hidden
+          className="pointer-events-none shrink-0"
+          style={{
+            height:
+              "calc(var(--form-action-height) + env(safe-area-inset-bottom, 0px) + 1.25rem)",
+          }}
+        />
+      )}
     </form>
   );
 },

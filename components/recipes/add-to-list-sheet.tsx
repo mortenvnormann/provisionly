@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { addRecipeToListAction, fetchListsForRecipeAction } from "@/lib/recipes/actions";
 import { scaleQuantity } from "@/lib/recipes/scale";
-import { useTabsData } from "@/components/layout/tabs-data-context";
+import { useTabsDataOptional } from "@/components/layout/tabs-data-context";
 import type { RecipeIngredientRow } from "@/lib/recipes/types";
 import type { ListSummary } from "@/lib/lists/types";
 import { ServingsScaler } from "@/components/recipes/servings-scaler";
@@ -33,7 +33,10 @@ export function AddToListSheet({
 }: AddToListSheetProps) {
   const t = useTranslations("addToList");
   const tCommon = useTranslations("common");
-  const { initialLists } = useTabsData();
+  const tabsData = useTabsDataOptional();
+  // Keep undefined outside provider — `?? []` creates a new array each render and
+  // retriggers the effect forever (Maximum update depth / fetch storm).
+  const seedLists = tabsData?.initialLists;
   const [lists, setLists] = useState<ListSummary[]>([]);
   const [listId, setListId] = useState("");
   const [servings, setServings] = useState(defaultServings);
@@ -54,10 +57,9 @@ export function AddToListSheet({
 
     setSelected(new Set(ingredients.map((i) => i.id)));
     setServings(defaultServings);
-    const seededLists = initialLists;
-    if (seededLists.length > 0) {
-      setLists(seededLists);
-      setListId((current) => current || seededLists[0]?.id || "");
+    if (seedLists && seedLists.length > 0) {
+      setLists(seedLists);
+      setListId((current) => current || seedLists[0]?.id || "");
       setLoading(false);
       return;
     }
@@ -74,7 +76,7 @@ export function AddToListSheet({
         setError(t("couldNotLoad"));
       })
       .finally(() => setLoading(false));
-  }, [open, defaultServings, ingredients, initialLists, t]);
+  }, [open, defaultServings, ingredients, seedLists, t]);
 
   function toggleIngredient(id: string) {
     setSelected((prev) => {
@@ -109,7 +111,7 @@ export function AddToListSheet({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center p-4">
+    <div className="fixed inset-0 z-[60] flex items-end justify-center px-4 pt-4 pb-[calc(var(--dock-height)+env(safe-area-inset-bottom,0px)+0.75rem+0.5rem)]">
       <button
         type="button"
         className="sheet-backdrop absolute inset-0 bg-[var(--overlay)]"

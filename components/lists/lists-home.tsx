@@ -191,7 +191,7 @@ export function ListsHome({
 
       <div className="relative flex min-h-0 flex-1 flex-col">
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-          <div className="flex flex-col gap-3 p-4 pb-dock">
+          <div className="flex flex-col gap-3 px-4 pt-4 pb-dock">
             {isGuest ? (
               <div className="card-surface-bordered font-ui px-3 py-2.5 text-sm text-[var(--muted-foreground)]">
                   {tHome("guestBanner")}{" "}

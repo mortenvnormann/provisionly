@@ -249,13 +249,13 @@ export function RecipeDetailView({
 
   if (editing && recipe.isOwner) {
     return (
-      <div className="flex min-h-full flex-1 flex-col">
-        <header className="border-b border-[var(--border)] px-4 py-2">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        <header className="shrink-0 border-b border-[var(--border)] px-4 py-2">
           <h1 className="heading-editorial text-lg text-[var(--foreground)]">
             {tRecipes("editRecipe")}
           </h1>
         </header>
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-dock p-4">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pt-4">
           <RecipeForm
             ref={recipeFormRef}
             hideFixedFooter
@@ -360,34 +360,17 @@ export function RecipeDetailView({
         ) : null}
 
         <div className="flex flex-col gap-3 p-4">
-          {recipe.tags.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
-              {recipe.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full bg-[var(--muted)] px-2.5 py-1 text-xs text-[var(--foreground)]"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          ) : null}
-
           <RecipeTiming
             prepMinutes={recipe.prepMinutes}
             cookMinutes={recipe.cookMinutes}
           />
 
-          {recipe.sourceUrl ? (
-            <a
-              href={recipe.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="card-surface-bordered font-ui block px-3 py-2.5 text-sm text-[var(--brand)] underline-offset-2 hover:underline"
-            >
-              {tRecipes("originalRecipe")}
-            </a>
-          ) : null}
+          <ServingsScaler
+            defaultServings={recipe.defaultServings}
+            servings={servings}
+            onChange={setServings}
+            onReset={() => setServings(recipe.defaultServings)}
+          />
 
           {recipe.description ? (
             <section>
@@ -399,13 +382,6 @@ export function RecipeDetailView({
               </div>
             </section>
           ) : null}
-
-          <ServingsScaler
-            defaultServings={recipe.defaultServings}
-            servings={servings}
-            onChange={setServings}
-            onReset={() => setServings(recipe.defaultServings)}
-          />
 
           <section>
             <h2 className="heading-editorial mb-2 text-base text-[var(--foreground)]">
@@ -448,6 +424,17 @@ export function RecipeDetailView({
                   ))}
               </ol>
             </section>
+          ) : null}
+
+          {recipe.sourceUrl ? (
+            <a
+              href={recipe.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-ui block text-sm text-[var(--brand)] underline-offset-2 hover:underline"
+            >
+              {tRecipes("originalRecipe")}
+            </a>
           ) : null}
 
           <div className="font-ui flex flex-col gap-2 pt-2">

@@ -2,6 +2,8 @@ export type RecipeSummary = {
   id: string;
   title: string;
   defaultServings: number;
+  prepMinutes: number | null;
+  cookMinutes: number | null;
   updatedAt: string;
   isOwner: boolean;
 };
