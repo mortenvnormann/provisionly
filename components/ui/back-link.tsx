@@ -22,7 +22,7 @@ export function BackLink({ href, label, className = "" }: BackLinkProps) {
         })
       }
       className={[
-        "font-ui pressable flex size-10 items-center justify-center rounded-lg text-lg text-[var(--foreground)] hover:bg-[var(--muted)]",
+        "font-ui pressable flex size-10 items-center justify-center rounded-full text-lg text-[var(--foreground)] hover:bg-[var(--muted)]/80",
         className,
       ].join(" ")}
     >

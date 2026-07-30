@@ -10,15 +10,15 @@ export function LoadingState({ label }: LoadingStateProps) {
 
   return (
     <div
-      className="flex min-h-full flex-1 flex-col items-center justify-center gap-3 py-16"
+      className="flex min-h-full flex-1 flex-col items-center justify-center gap-2.5 py-12"
       role="status"
       aria-live="polite"
     >
       <div
-        className="size-8 animate-spin rounded-full border-2 border-[var(--muted)] border-t-[var(--accent)]"
+        className="size-6 animate-spin rounded-full border-2 border-[var(--muted)] border-t-[var(--accent)]"
         aria-hidden
       />
-      <p className="text-sm text-[var(--muted-foreground)]">{resolvedLabel}</p>
+      <p className="font-ui text-xs text-[var(--muted-foreground)]">{resolvedLabel}</p>
     </div>
   );
 }

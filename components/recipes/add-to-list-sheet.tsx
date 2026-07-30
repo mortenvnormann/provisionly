@@ -116,11 +116,11 @@ export function AddToListSheet({
         aria-label={tCommon("close")}
         onClick={onClose}
       />
-      <div className="sheet-panel font-ui relative z-10 flex max-h-[85vh] w-full max-w-md flex-col rounded-2xl border border-[var(--border)]/50 bg-[var(--surface)] shadow-token-md">
-        <div className="border-b border-[var(--border)] p-5">
+      <div className="sheet-panel font-ui relative z-10 flex max-h-[85vh] w-full max-w-md flex-col rounded-t-[1.25rem] border border-[var(--border)] bg-[var(--surface)] shadow-token-md sm:rounded-[1.25rem]">
+        <div className="border-b border-[var(--border)] p-4">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <h2 className="text-lg font-semibold text-[var(--foreground)]">
+              <h2 className="heading-editorial text-lg text-[var(--foreground)]">
                 {t("title")}
               </h2>
               <p className="mt-1 text-sm text-[var(--muted-foreground)]">
@@ -211,7 +211,7 @@ export function AddToListSheet({
           ) : null}
 
           {result ? (
-            <p className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
+            <p className="card-surface-bordered px-3 py-2.5 text-sm text-[var(--foreground)]">
               {result}.{" "}
               <Link
                 href={`/lists/${listId}`}

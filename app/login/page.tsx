@@ -9,7 +9,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const { next } = await searchParams;
 
   return (
-    <main className="safe-area-pt flex min-h-full flex-1 flex-col items-center justify-center px-6 py-12">
+    <main className="safe-area-pt flex min-h-full flex-1 flex-col items-center justify-center bg-[var(--background)] px-6 py-8">
       <AuthForm nextPath={next} />
       <GuestLink />
     </main>

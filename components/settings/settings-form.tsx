@@ -46,9 +46,9 @@ export function SettingsForm({ profile }: SettingsFormProps) {
 
   return (
     <>
-      <div className="font-ui flex flex-1 flex-col gap-6 p-4">
-        <section className="shadow-token-sm flex flex-col gap-4 rounded-2xl bg-[var(--surface)] p-4">
-          <h2 className="text-sm font-semibold text-[var(--foreground)]">{t("profile")}</h2>
+      <div className="font-ui flex flex-1 flex-col gap-4 p-4">
+        <section className="card-surface-bordered flex flex-col gap-3 p-3">
+          <h2 className="heading-editorial text-base text-[var(--foreground)]">{t("profile")}</h2>
           <form onSubmit={handleSaveProfile} className="flex flex-col gap-4">
             <Input
               label={t("firstName")}
@@ -79,7 +79,7 @@ export function SettingsForm({ profile }: SettingsFormProps) {
                 name="locale"
                 value={locale}
                 onChange={(event) => setLocale(event.target.value as AppLocale)}
-                className="h-11 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/25"
+                className="font-ui h-10 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/20"
               >
                 {Object.entries(LOCALE_LABELS).map(([code, label]) => (
                   <option key={code} value={code}>
@@ -102,8 +102,8 @@ export function SettingsForm({ profile }: SettingsFormProps) {
           </form>
         </section>
 
-        <section className="shadow-token-sm flex flex-col gap-3 rounded-2xl bg-[var(--surface)] p-4">
-          <h2 className="text-sm font-semibold text-[var(--foreground)]">{t("account")}</h2>
+        <section className="card-surface-bordered flex flex-col gap-3 p-3">
+          <h2 className="heading-editorial text-base text-[var(--foreground)]">{t("account")}</h2>
           <form action={signOut}>
             <Button type="submit" variant="secondary" fullWidth>
               {t("signOut")}

@@ -752,10 +752,10 @@ export function ListDetail({
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
-      <header className="safe-area-pt font-ui sticky top-0 z-10 shrink-0 bg-[var(--background)]/90 backdrop-blur-sm">
-        <div className="flex items-center gap-2 px-2 py-3">
+      <header className="safe-area-pt font-ui sticky top-0 z-10 shrink-0 bg-[var(--background)]/95">
+        <div className="flex items-center gap-2 px-2 py-2">
           <BackLink href="/home" label={tCommon("back")} />
-          <h1 className="min-w-0 flex-1 truncate text-lg font-semibold text-[var(--foreground)]">
+          <h1 className="heading-editorial min-w-0 flex-1 truncate text-lg text-[var(--foreground)]">
             {title}
           </h1>
           {!isGuest && !authOffline ? (
@@ -763,7 +763,7 @@ export function ListDetail({
               type="button"
               aria-label={tLists("shareList")}
               onClick={() => setShareOpen(true)}
-              className="pressable flex size-10 items-center justify-center rounded-lg text-[var(--foreground)] hover:bg-[var(--muted)]"
+              className="pressable flex size-10 items-center justify-center rounded-full text-[var(--foreground)] hover:bg-[var(--muted)]/80"
             >
               <ShareIcon className="size-5" />
             </button>
@@ -784,12 +784,12 @@ export function ListDetail({
       <div className="relative flex min-h-0 flex-1 flex-col">
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-dock">
         {syncing ? (
-          <div className="mx-4 mt-3 rounded-xl border border-[var(--border)] bg-[var(--muted)] px-4 py-3 text-sm text-[var(--foreground)]">
+          <div className="card-surface-bordered mx-4 mt-2 px-3 py-2.5 text-sm text-[var(--foreground)]">
             {tCommon("offlineSyncing")}
           </div>
         ) : null}
         {syncError ? (
-          <div className="mx-4 mt-3 rounded-xl border border-[var(--destructive)]/40 bg-[var(--destructive)]/10 px-4 py-3 text-sm text-[var(--destructive)]">
+          <div className="mx-4 mt-2 rounded-[var(--radius-card)] border border-[var(--destructive)]/30 bg-[var(--destructive)]/8 px-3 py-2.5 text-sm text-[var(--destructive)]">
             {tCommon("offlineSyncFailed")}
           </div>
         ) : null}
@@ -801,12 +801,12 @@ export function ListDetail({
           />
         ) : null}
         {joinedBanner ? (
-          <div className="mx-4 mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
+          <div className="card-surface-bordered mx-4 mt-2 px-3 py-2.5 text-sm text-[var(--foreground)]">
             {tLists("joinedBanner")}
           </div>
         ) : null}
         {categoriesError ? (
-          <div className="mx-4 mt-3 rounded-xl border border-[var(--destructive)]/40 bg-[var(--destructive)]/10 px-4 py-3 text-sm text-[var(--destructive)]">
+          <div className="mx-4 mt-2 rounded-[var(--radius-card)] border border-[var(--destructive)]/30 bg-[var(--destructive)]/8 px-3 py-2.5 text-sm text-[var(--destructive)]">
             {categoriesError}
           </div>
         ) : null}
@@ -818,14 +818,14 @@ export function ListDetail({
           grouped.map(({ categoryId, items: sectionItems }) => (
             <section
               key={groupByCategory ? (categoryId ?? tCommon("general")) : "flat"}
-              className="px-2 py-3"
+              className="px-2 py-2"
             >
               {groupByCategory ? (
-                <h2 className="font-ui mb-1 px-2 text-xs font-semibold tracking-wide text-[var(--label)] uppercase">
+                <h2 className="font-ui mb-1 px-2 text-[11px] font-medium tracking-[0.08em] text-[var(--label)] uppercase">
                   {labelFor(categoryId)}
                 </h2>
               ) : null}
-              <ul className="shadow-token-sm overflow-hidden rounded-2xl bg-[var(--surface)]">
+              <ul className="card-surface-bordered overflow-hidden">
                 {sectionItems.map((item) => (
                   <li
                     key={item.id}

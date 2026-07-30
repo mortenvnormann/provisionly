@@ -1,14 +1,16 @@
 /** Raw palette hex — for PWA/manifest/icon contexts only. UI must use CSS variables. */
 
 export const lightPalette = {
-  linenWhite: "#F3F5F8",
-  hazeBlue: "#E0E7FF",
-  frostSlate: "#2B354F",
-  driftwood: "#D8DEE9",
-  seaMint: "#A1DBC2",
-  slateMuted: "#6B7A94",
-  lingonberryRed: "#E13C33",
+  canvasWarm: "#FAFAF8",
   pureWhite: "#FFFFFF",
+  inkWarm: "#2E2C28",
+  inkMuted: "#7A7770",
+  inkLabel: "#5C5954",
+  sageBorder: "#E3E5DF",
+  sageMuted: "#F3F2EE",
+  terracotta: "#B86F56",
+  terracottaDeep: "#9D5C46",
+  destructiveWarm: "#C44B3F",
 } as const;
 
 export const darkPalette = {

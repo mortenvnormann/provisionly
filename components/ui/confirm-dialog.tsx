@@ -47,7 +47,7 @@ function ConfirmDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="confirm-dialog-message"
-        className="sheet-panel font-ui relative z-10 w-full max-w-sm rounded-2xl border border-[var(--border)]/50 bg-[var(--surface)] p-5 shadow-token-md"
+        className="sheet-panel font-ui relative z-10 w-full max-w-sm rounded-[1.25rem] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-token-md"
       >
         <p
           id="confirm-dialog-message"

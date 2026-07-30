@@ -187,7 +187,7 @@ export function SwipeRow({
   }
 
   return (
-    <div className={`relative overflow-hidden rounded-xl ${className}`}>
+    <div className={`relative overflow-hidden rounded-[var(--radius-card)] ${className}`}>
       <div
         className="absolute inset-y-0 right-0 flex items-stretch"
         style={{ width: ACTION_WIDTH }}

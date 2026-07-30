@@ -25,10 +25,10 @@ export function ServingsScaler({
   }
 
   return (
-    <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3">
+    <div className="card-surface-bordered px-3 py-2.5">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-medium text-[var(--foreground)]">
+          <p className="font-ui text-sm font-medium text-[var(--foreground)]">
             {tCommon("servings")}
           </p>
           <p className="text-xs text-[var(--muted-foreground)]">
@@ -40,7 +40,7 @@ export function ServingsScaler({
             type="button"
             disabled={disabled || servings <= 1}
             onClick={() => adjust(-1)}
-            className="flex size-9 items-center justify-center rounded-lg border border-[var(--border)] text-lg disabled:opacity-40"
+            className="flex size-9 items-center justify-center rounded-full border border-[var(--border)] text-lg disabled:opacity-40"
             aria-label={tRecipes("fewerServings")}
           >
             −
@@ -52,7 +52,7 @@ export function ServingsScaler({
             type="button"
             disabled={disabled}
             onClick={() => adjust(1)}
-            className="flex size-9 items-center justify-center rounded-lg border border-[var(--border)] text-lg disabled:opacity-40"
+            className="flex size-9 items-center justify-center rounded-full border border-[var(--border)] text-lg disabled:opacity-40"
             aria-label={tRecipes("moreServings")}
           >
             +

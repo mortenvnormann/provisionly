@@ -250,8 +250,8 @@ export function RecipeDetailView({
   if (editing && recipe.isOwner) {
     return (
       <div className="flex min-h-full flex-1 flex-col">
-        <header className="border-b border-[var(--border)] px-4 py-3">
-          <h1 className="text-lg font-semibold text-[var(--foreground)]">
+        <header className="border-b border-[var(--border)] px-4 py-2">
+          <h1 className="heading-editorial text-lg text-[var(--foreground)]">
             {tRecipes("editRecipe")}
           </h1>
         </header>
@@ -303,17 +303,17 @@ export function RecipeDetailView({
 
   return (
     <div className="flex min-h-full flex-1 flex-col">
-      <header className="font-ui sticky top-0 z-10 bg-[var(--background)]/90 backdrop-blur-sm">
-        <div className="flex items-center gap-2 px-2 py-3">
+      <header className="font-ui safe-area-pt sticky top-0 z-10 bg-[var(--background)]/95">
+        <div className="flex items-center gap-2 px-2 py-2">
           <BackLink href="/recipes" label={tCommon("back")} />
-          <h1 className="min-w-0 flex-1 truncate text-lg font-semibold text-[var(--foreground)]">
+          <h1 className="heading-editorial min-w-0 flex-1 truncate text-lg text-[var(--foreground)]">
             {recipe.title}
           </h1>
           <button
             type="button"
             aria-label={tShare("shareRecipe")}
             onClick={() => setShareOpen(true)}
-            className="pressable flex size-10 items-center justify-center rounded-lg text-[var(--foreground)] hover:bg-[var(--muted)]"
+            className="pressable flex size-10 items-center justify-center rounded-full text-[var(--foreground)] hover:bg-[var(--muted)]/80"
           >
             <ShareIcon className="size-5" />
           </button>
@@ -347,18 +347,18 @@ export function RecipeDetailView({
           />
         ) : null}
         {joinedBanner ? (
-          <div className="mx-4 mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
+          <div className="card-surface-bordered mx-4 mt-2 px-3 py-2.5 text-sm text-[var(--foreground)]">
             {tRecipes("joinedBanner")}
           </div>
         ) : null}
 
         {!recipe.isOwner ? (
-          <div className="mx-4 mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--muted-foreground)]">
+          <div className="card-surface-bordered mx-4 mt-2 px-3 py-2.5 text-sm text-[var(--muted-foreground)]">
             {tRecipes("viewOnlyBanner")}
           </div>
         ) : null}
 
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-3 p-4">
           {recipe.tags.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {recipe.tags.map((tag) => (
@@ -379,10 +379,10 @@ export function RecipeDetailView({
 
           {recipe.description ? (
             <section>
-              <h2 className="font-ui mb-2 text-xs font-semibold tracking-wide text-[var(--label)] uppercase">
+              <h2 className="heading-editorial mb-2 text-base text-[var(--foreground)]">
                 {tRecipes("notes")}
               </h2>
-              <div className="font-reading shadow-token-sm rounded-2xl bg-[var(--surface)] px-4 py-3 text-sm whitespace-pre-wrap text-[var(--foreground)]">
+              <div className="card-surface-bordered font-reading px-3 py-2.5 text-sm whitespace-pre-wrap text-[var(--foreground)]">
                 {recipe.description}
               </div>
             </section>
@@ -396,10 +396,10 @@ export function RecipeDetailView({
           />
 
           <section>
-            <h2 className="font-ui mb-2 text-xs font-semibold tracking-wide text-[var(--label)] uppercase">
+            <h2 className="heading-editorial mb-2 text-base text-[var(--foreground)]">
               {tRecipes("ingredients")}
             </h2>
-            <ul className="font-reading shadow-token-sm divide-y divide-[var(--border)]/60 rounded-2xl bg-[var(--surface)]">
+            <ul className="card-surface-bordered font-reading divide-y divide-[var(--border)]/60">
               {recipe.ingredients.map((item) => {
                 const scaled = scaleQuantity(
                   item.quantity,
@@ -409,7 +409,7 @@ export function RecipeDetailView({
                 return (
                   <li
                     key={item.id}
-                    className="flex items-center justify-between px-4 py-3 text-sm"
+                    className="flex items-center justify-between px-3 py-2.5 text-sm"
                   >
                     <span className="text-[var(--foreground)]">{item.name}</span>
                     <span className="text-[var(--muted-foreground)]">
@@ -423,10 +423,10 @@ export function RecipeDetailView({
 
           {recipe.instructions ? (
             <section>
-              <h2 className="font-ui mb-2 text-xs font-semibold tracking-wide text-[var(--label)] uppercase">
+              <h2 className="heading-editorial mb-2 text-base text-[var(--foreground)]">
                 {tRecipes("instructions")}
               </h2>
-              <ol className="font-reading shadow-token-sm list-decimal space-y-2 rounded-2xl bg-[var(--surface)] px-4 py-3 pl-8 text-sm text-[var(--foreground)]">
+              <ol className="card-surface-bordered font-reading list-decimal space-y-2 px-3 py-2.5 pl-7 text-sm text-[var(--foreground)]">
                 {recipe.instructions
                   .split("\n")
                   .map((line) => line.trim())

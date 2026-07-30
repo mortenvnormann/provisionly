@@ -5,7 +5,7 @@ type SkeletonBlockProps = {
 export function SkeletonBlock({ className = "" }: SkeletonBlockProps) {
   return (
     <div
-      className={`animate-pulse rounded-xl bg-[var(--muted)] ${className}`}
+      className={`animate-pulse rounded-[var(--radius-card)] bg-[var(--muted)] ${className}`}
       aria-hidden
     />
   );
@@ -18,12 +18,12 @@ export function HomePageSkeleton() {
         <SkeletonBlock className="mb-2 h-3 w-24" />
         <SkeletonBlock className="h-6 w-40" />
       </div>
-      <div className="flex flex-col gap-4 p-4">
+      <div className="flex flex-col gap-2.5 p-4">
         <SkeletonBlock className="h-10 w-full" />
         <div className="flex flex-col gap-2">
-          <SkeletonBlock className="h-14 w-full" />
-          <SkeletonBlock className="h-14 w-full" />
-          <SkeletonBlock className="h-14 w-full" />
+          <SkeletonBlock className="h-12 w-full" />
+          <SkeletonBlock className="h-12 w-full" />
+          <SkeletonBlock className="h-12 w-full" />
         </div>
       </div>
     </div>

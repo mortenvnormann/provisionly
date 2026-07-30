@@ -29,7 +29,7 @@ export function Button({
     <button
       type={props.type ?? "button"}
       className={[
-        "font-ui pressable inline-flex h-11 items-center justify-center gap-2 rounded-xl px-4 text-sm font-medium",
+        "font-ui pressable inline-flex h-10 items-center justify-center gap-2 rounded-full px-4 text-sm font-medium",
         "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]",
         "disabled:cursor-not-allowed",
         fullWidth ? "w-full" : "",

@@ -66,7 +66,7 @@ export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="border-b border-[var(--border)] bg-[var(--surface)] px-4 py-3"
+      className="card-surface-bordered mx-3 my-2 px-3 py-2.5"
     >
       <div className="flex gap-2">
         <input
@@ -79,7 +79,7 @@ export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
           placeholder={tLists("addItem")}
           disabled={disabled}
           enterKeyHint="next"
-          className="h-11 min-w-0 flex-1 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/25"
+          className="font-ui h-10 min-w-0 flex-1 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--background)] px-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/20"
           autoComplete="off"
         />
         <Button type="submit" disabled={disabled || loading || !name.trim()}>
@@ -96,7 +96,7 @@ export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
           onChange={(e) => setQuantity(e.target.value)}
           placeholder={tLists("qty")}
           disabled={disabled}
-          className="h-9 w-20 rounded-lg border border-[var(--border)] bg-[var(--background)] px-2 text-sm focus:border-[var(--focus-ring)] focus:outline-none"
+          className="font-ui h-9 w-20 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--background)] px-2 text-sm focus:border-[var(--focus-ring)] focus:outline-none"
         />
         <input
           type="text"
@@ -104,7 +104,7 @@ export function AddItemBar({ onAdd, disabled }: AddItemBarProps) {
           onChange={(e) => setUnit(e.target.value)}
           placeholder={tLists("unitPlaceholder")}
           disabled={disabled}
-          className="h-9 min-w-0 flex-1 rounded-lg border border-[var(--border)] bg-[var(--background)] px-2 text-sm focus:border-[var(--focus-ring)] focus:outline-none"
+          className="font-ui h-9 min-w-0 flex-1 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--background)] px-2 text-sm focus:border-[var(--focus-ring)] focus:outline-none"
         />
       </div>
     </form>

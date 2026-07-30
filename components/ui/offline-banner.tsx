@@ -31,7 +31,7 @@ export function OfflineBanner() {
 
   return (
     <div
-      className="border-b border-[var(--border)] bg-[var(--muted)] px-4 py-2 text-center text-sm text-[var(--foreground)]"
+      className="font-ui border-b border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-center text-xs text-[var(--muted-foreground)]"
       role="status"
     >
       {pending > 0

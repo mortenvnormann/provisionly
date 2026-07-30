@@ -1,42 +1,44 @@
 /**
  * Provisionly design tokens — single source of truth.
- * Light: "Soft Nordic" · Dark: "Midnight Frost"
+ * Light: "Quiet Minimal" warm editorial · Dark: "Midnight Frost"
  * See docs/DESIGN.md for palette roles and usage rules.
  */
 
 :root {
-  /* Light palette — Soft Nordic (raw) */
-  --color-linen-white: #f3f5f8;
-  --color-haze-blue: #e0e7ff;
-  --color-frost-slate: #2b354f;
-  --color-driftwood: #d8dee9;
-  --color-sea-mint: #a1dbc2;
-  --color-slate-muted: #6b7a94;
-  --color-lingonberry-red: #e13c33;
+  /* Light palette — Quiet Minimal warm editorial (raw) */
+  --color-canvas-warm: #fafaf8;
   --color-pure-white: #ffffff;
+  --color-ink-warm: #2e2c28;
+  --color-ink-muted: #7a7770;
+  --color-ink-label: #5c5954;
+  --color-sage-border: #e3e5df;
+  --color-sage-muted: #f3f2ee;
+  --color-terracotta: #b86f56;
+  --color-terracotta-deep: #9d5c46;
+  --color-destructive-warm: #c44b3f;
 
   /* Light semantic */
-  --background: var(--color-linen-white);
-  --foreground: var(--color-frost-slate);
+  --background: var(--color-canvas-warm);
+  --foreground: var(--color-ink-warm);
   --surface: var(--color-pure-white);
   --surface-elevated: var(--color-pure-white);
-  --muted: color-mix(in srgb, var(--color-driftwood) 35%, var(--color-linen-white));
-  --muted-foreground: color-mix(in srgb, var(--color-frost-slate) 58%, var(--color-linen-white));
-  --label: color-mix(in srgb, var(--color-frost-slate) 72%, var(--color-linen-white));
-  --border: var(--color-driftwood);
-  --primary: var(--color-frost-slate);
+  --muted: var(--color-sage-muted);
+  --muted-foreground: var(--color-ink-muted);
+  --label: var(--color-ink-label);
+  --border: var(--color-sage-border);
+  --primary: var(--color-terracotta);
   --primary-foreground: var(--color-pure-white);
-  --secondary: var(--color-sea-mint);
-  --secondary-foreground: var(--color-frost-slate);
-  --accent: var(--color-lingonberry-red);
+  --secondary: var(--color-sage-muted);
+  --secondary-foreground: var(--color-ink-warm);
+  --accent: var(--color-terracotta);
   --accent-foreground: var(--color-pure-white);
-  --destructive: var(--color-lingonberry-red);
+  --destructive: var(--color-destructive-warm);
   --destructive-foreground: var(--color-pure-white);
-  --brand: var(--accent);
-  --focus-ring: var(--accent);
-  --overlay: color-mix(in srgb, var(--color-frost-slate) 40%, transparent);
-  --shadow-sm: 0 1px 3px color-mix(in srgb, var(--color-frost-slate) 8%, transparent);
-  --shadow-md: 0 4px 16px color-mix(in srgb, var(--color-frost-slate) 10%, transparent);
+  --brand: var(--color-terracotta);
+  --focus-ring: var(--color-terracotta);
+  --overlay: color-mix(in srgb, var(--color-ink-warm) 35%, transparent);
+  --shadow-sm: 0 1px 2px color-mix(in srgb, var(--color-ink-warm) 6%, transparent);
+  --shadow-md: 0 4px 20px color-mix(in srgb, var(--color-ink-warm) 8%, transparent);
 }
 
 @media (prefers-color-scheme: dark) {

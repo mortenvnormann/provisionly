@@ -47,12 +47,12 @@ export function LegalDocumentSheet({
         role="dialog"
         aria-modal="true"
         aria-labelledby="legal-document-title"
-        className="sheet-panel relative z-10 flex max-h-[min(85vh,720px)] w-full max-w-lg flex-col rounded-2xl border border-[var(--border)]/50 bg-[var(--surface)] shadow-token-md"
+        className="sheet-panel relative z-10 flex max-h-[min(85vh,720px)] w-full max-w-lg flex-col rounded-t-[1.25rem] border border-[var(--border)] bg-[var(--surface)] shadow-token-md sm:rounded-[1.25rem]"
       >
         <div className="flex shrink-0 items-start justify-between gap-3 border-b border-[var(--border)] p-5 pb-4">
           <h2
             id="legal-document-title"
-            className="text-lg font-semibold text-[var(--foreground)]"
+            className="heading-editorial text-lg text-[var(--foreground)]"
           >
             {title}
           </h2>

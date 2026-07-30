@@ -191,10 +191,9 @@ export function ListsHome({
 
       <div className="relative flex min-h-0 flex-1 flex-col">
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-          <div className="flex flex-col gap-4 p-4 pb-dock">
+          <div className="flex flex-col gap-3 p-4 pb-dock">
             {isGuest ? (
-              <div className="rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3">
-                <p className="font-ui text-sm text-[var(--muted-foreground)]">
+              <div className="card-surface-bordered font-ui px-3 py-2.5 text-sm text-[var(--muted-foreground)]">
                   {tHome("guestBanner")}{" "}
                   <form action={leaveGuestMode} className="inline">
                     <button
@@ -205,18 +204,17 @@ export function ListsHome({
                     </button>
                   </form>{" "}
                   {tHome("guestShareHint")}
-                </p>
               </div>
             ) : null}
 
             {migrationResult?.migrated ? (
-              <div className="font-ui rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
+              <div className="card-surface-bordered font-ui px-3 py-2.5 text-sm text-[var(--foreground)]">
                 {tHome("importedLists", { count: migrationResult.migrated })}
               </div>
             ) : null}
 
             {migrationResult?.errors.length ? (
-              <div className="font-ui rounded-2xl border border-[var(--destructive)]/40 bg-[var(--destructive)]/10 px-4 py-3 text-sm text-[var(--destructive)]">
+              <div className="font-ui rounded-[var(--radius-card)] border border-[var(--destructive)]/30 bg-[var(--destructive)]/8 px-3 py-2.5 text-sm text-[var(--destructive)]">
                 <p className="font-medium">{tHome("importErrorsTitle")}</p>
                 <ul className="mt-2 list-disc space-y-1 pl-4">
                   {migrationResult.errors.map((code) => (
@@ -235,7 +233,7 @@ export function ListsHome({
                 {tHome("noLists")}
               </p>
             ) : (
-              <ul className="flex flex-col gap-3">
+              <ul className="flex flex-col gap-2.5">
                 {sortedLists.map((list) => (
                   <li key={list.id}>
                     <SwipeRow
@@ -260,9 +258,9 @@ export function ListsHome({
                             transitionType: "nav-up",
                           })
                         }
-                        className="font-reading shadow-token-sm pressable flex w-full items-center justify-between rounded-2xl bg-[var(--surface)] px-4 py-4 text-left"
+                        className="font-ui card-surface pressable flex w-full items-center justify-between px-3.5 py-3 text-left"
                       >
-                        <span className="font-medium text-[var(--foreground)]">
+                        <span className="text-[15px] font-medium text-[var(--foreground)]">
                           {list.title}
                         </span>
                         <ChevronRightIcon className="size-4 shrink-0 text-[var(--muted-foreground)]" />
@@ -286,7 +284,7 @@ export function ListsHome({
         <div className="font-ui safe-area-pb fixed inset-x-0 bottom-[var(--dock-height)] z-20 mx-auto w-full max-w-lg px-4 pb-2">
           <form
             onSubmit={handleCreate}
-            className="shadow-token-md rounded-2xl border border-[var(--border)]/50 bg-[var(--surface-elevated)] p-4"
+            className="card-surface-bordered font-ui p-3"
           >
             <input
               type="text"
@@ -294,7 +292,7 @@ export function ListsHome({
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder={tHome("listName")}
               autoFocus
-              className="font-ui h-11 w-full rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/25"
+              className="font-ui h-10 w-full rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--background)] px-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/20"
             />
             <div className="mt-2 flex gap-2">
               <Button

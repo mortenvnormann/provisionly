@@ -48,7 +48,6 @@ export function AuthForm({ nextPath }: AuthFormProps) {
           data: { user },
         } = await supabase.auth.getUser();
         if (user && hasPendingGuestLists() && !destination.startsWith("/join/")) {
-          // Import on /home via server action (reliable auth cookies)
           router.push("/home?import=guest");
           router.refresh();
           return;
@@ -61,9 +60,7 @@ export function AuthForm({ nextPath }: AuthFormProps) {
         if (signUpError) throw signUpError;
 
         if (!data.session) {
-          setInfo(
-            tAuth("accountCreated"),
-          );
+          setInfo(tAuth("accountCreated"));
           setMode("signin");
           return;
         }
@@ -82,9 +79,7 @@ export function AuthForm({ nextPath }: AuthFormProps) {
     } catch (err) {
       console.error(err);
       const key = mapAuthErrorKey(err);
-      setError(
-        key ? tAuth(key) : tCommon("somethingWrong"),
-      );
+      setError(key ? tAuth(key) : tCommon("somethingWrong"));
     } finally {
       setLoading(false);
     }
@@ -92,25 +87,25 @@ export function AuthForm({ nextPath }: AuthFormProps) {
 
   return (
     <div className="w-full max-w-sm">
-      <div className="mb-8 text-center">
-        <p className="text-sm font-medium tracking-wide text-[var(--brand)] uppercase">
+      <div className="mb-6 text-center">
+        <p className="font-ui text-[11px] font-medium tracking-[0.12em] text-[var(--brand)] uppercase">
           {tCommon("appName")}
         </p>
-        <h1 className="mt-2 text-2xl font-semibold text-[var(--foreground)]">
+        <h1 className="heading-editorial mt-2 text-2xl text-[var(--foreground)]">
           {mode === "signin" ? tAuth("welcomeBack") : tAuth("createAccount")}
         </h1>
-        <p className="mt-2 text-sm text-[var(--muted-foreground)]">
+        <p className="font-ui mt-2 text-sm text-[var(--muted-foreground)]">
           {tAuth("tagline")}
         </p>
       </div>
 
-      <div className="mb-6 flex rounded-xl bg-[var(--muted)] p-1">
+      <div className="mb-5 flex rounded-full bg-[var(--muted)] p-0.5">
         <button
           type="button"
           className={[
-            "flex-1 rounded-lg py-2 text-sm font-medium transition-colors",
+            "font-ui flex-1 rounded-full py-2 text-sm font-medium transition-colors",
             mode === "signin"
-              ? "bg-[var(--surface)] text-[var(--foreground)] shadow-sm"
+              ? "bg-[var(--surface)] text-[var(--foreground)] shadow-token-sm"
               : "text-[var(--muted-foreground)]",
           ].join(" ")}
           onClick={() => {
@@ -124,9 +119,9 @@ export function AuthForm({ nextPath }: AuthFormProps) {
         <button
           type="button"
           className={[
-            "flex-1 rounded-lg py-2 text-sm font-medium transition-colors",
+            "font-ui flex-1 rounded-full py-2 text-sm font-medium transition-colors",
             mode === "signup"
-              ? "bg-[var(--surface)] text-[var(--foreground)] shadow-sm"
+              ? "bg-[var(--surface)] text-[var(--foreground)] shadow-token-sm"
               : "text-[var(--muted-foreground)]",
           ].join(" ")}
           onClick={() => {
@@ -139,7 +134,7 @@ export function AuthForm({ nextPath }: AuthFormProps) {
         </button>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <Input
           label={tAuth("email")}
           name="email"
@@ -161,13 +156,13 @@ export function AuthForm({ nextPath }: AuthFormProps) {
         />
 
         {info ? (
-          <p className="rounded-lg border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-2 text-sm text-[var(--foreground)]">
+          <p className="card-surface-bordered font-ui px-3 py-2 text-sm text-[var(--foreground)]">
             {info}
           </p>
         ) : null}
 
         {error ? (
-          <p className="rounded-lg bg-[var(--destructive)]/10 px-3 py-2 text-sm text-[var(--destructive)]">
+          <p className="font-ui rounded-[var(--radius-card)] border border-[var(--destructive)]/30 bg-[var(--destructive)]/8 px-3 py-2 text-sm text-[var(--destructive)]">
             {error}
           </p>
         ) : null}

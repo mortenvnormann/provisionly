@@ -49,7 +49,7 @@ export function DeleteAccountDialog({ open, onClose }: DeleteAccountDialogProps)
         role="dialog"
         aria-modal="true"
         aria-labelledby="delete-account-dialog-title"
-        className="relative z-10 w-full max-w-sm rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-lg"
+        className="relative z-10 w-full max-w-sm rounded-[1.25rem] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-token-md"
       >
         <h2
           id="delete-account-dialog-title"

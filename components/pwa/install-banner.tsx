@@ -63,10 +63,10 @@ export function InstallBanner() {
   if (!visible) return null;
 
   return (
-    <div className="safe-area-pb border-b border-[var(--accent)]/20 bg-[var(--accent)]/10 px-4 py-3">
+    <div className="safe-area-pb card-surface-bordered mx-4 mt-2 px-3 py-2.5">
       <div className="flex items-start gap-3">
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-medium text-[var(--foreground)]">
+          <p className="font-ui text-sm font-medium text-[var(--foreground)]">
             {tPwa("installTitle")}
           </p>
           <p className="mt-0.5 text-xs text-[var(--muted-foreground)]">
