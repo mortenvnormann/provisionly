@@ -20,6 +20,10 @@ import { RECIPE_IMPORT_ERROR_CODES } from "@/lib/errors/recipe-import-codes";
 import { Button } from "@/components/ui/button";
 import { prefetchRecipeDetailData } from "@/lib/recipes/recipe-detail-prefetch-cache";
 import type { RecipeSummary } from "@/lib/recipes/types";
+import {
+  formatRecipeMinutes,
+  totalRecipeMinutes,
+} from "@/lib/recipes/timing";
 import { profileGreeting } from "@/lib/profile/types";
 import {
   getPrefetchedRecipes,
@@ -37,6 +41,30 @@ type RecipesHomeProps = {
   email: string | null;
   initialRecipes?: RecipeSummary[];
 };
+
+function recipeCardMeta(
+  recipe: RecipeSummary,
+  tRecipes: ReturnType<typeof useTranslations<"recipes">>,
+  tCommon: ReturnType<typeof useTranslations<"common">>,
+): string {
+  const parts = [
+    tRecipes("servingsCount", { count: recipe.defaultServings }),
+  ];
+  const total = totalRecipeMinutes(recipe.prepMinutes, recipe.cookMinutes);
+  if (total != null) {
+    parts.push(
+      formatRecipeMinutes(total, {
+        formatMinutes: (count) => tRecipes("minutesShort", { count }),
+        formatHoursMinutes: (hours, minutes) =>
+          tRecipes("hoursMinutesShort", { hours, minutes }),
+      }),
+    );
+  }
+  if (!recipe.isOwner) {
+    parts.push(tCommon("shared"));
+  }
+  return parts.join(" · ");
+}
 
 function resolveInitialRecipes(initialRecipes: RecipeSummary[]): {
   recipes: RecipeSummary[];
@@ -239,7 +267,7 @@ export function RecipesHome({
 
       <div className="relative flex min-h-0 flex-1 flex-col">
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-          <div className="flex flex-col gap-3 p-4 pb-dock">
+          <div className="flex flex-col gap-3 px-4 pt-4 pb-dock">
             {loading ? (
               <LoadingState label={tRecipes("loadingRecipes")} />
             ) : (
@@ -287,12 +315,7 @@ export function RecipesHome({
                                 {recipe.title}
                               </span>
                               <span className="font-ui text-xs text-[var(--muted-foreground)]">
-                                {tRecipes("servingsCount", {
-                                  count: recipe.defaultServings,
-                                })}
-                                {!recipe.isOwner
-                                  ? ` · ${tCommon("shared")}`
-                                  : ""}
+                                {recipeCardMeta(recipe, tRecipes, tCommon)}
                               </span>
                             </div>
                             <ChevronRightIcon className="size-4 shrink-0 text-[var(--muted-foreground)]" />
@@ -309,7 +332,7 @@ export function RecipesHome({
       </div>
 
       {addPanel === "menu" ? (
-        <div className="pointer-events-none fixed inset-x-0 bottom-[var(--dock-height)] z-20 mx-auto w-full max-w-lg px-4 pb-2">
+        <div className="pointer-events-none fixed inset-x-0 bottom-[calc(var(--dock-height)+env(safe-area-inset-bottom,0px)+0.75rem)] z-[60] mx-auto w-full max-w-lg px-4 pb-2">
           <div className="pointer-events-auto ml-auto w-44">
             <div
               className="card-surface-bordered font-ui overflow-hidden py-1 shadow-token-md"
@@ -340,7 +363,7 @@ export function RecipesHome({
       ) : null}
 
       {addPanel === "import" ? (
-        <div className="font-ui safe-area-pb fixed inset-x-0 bottom-[var(--dock-height)] z-20 mx-auto w-full max-w-lg px-4 pb-2">
+        <div className="font-ui fixed inset-x-0 bottom-[calc(var(--dock-height)+env(safe-area-inset-bottom,0px)+0.75rem)] z-[60] mx-auto w-full max-w-lg px-4 pb-2">
           <form
             onSubmit={(event) => void handleImportSubmit(event)}
             className="card-surface-bordered p-3 shadow-token-md"

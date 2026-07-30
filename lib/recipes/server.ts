@@ -196,7 +196,7 @@ export async function fetchRecipeSummariesForUser(
 
   const { data, error } = await service
     .from("recipes")
-    .select("id, title, default_servings, updated_at, owner_id")
+    .select("id, title, default_servings, prep_minutes, cook_minutes, updated_at, owner_id")
     .in("id", [...ids])
     .order("updated_at", { ascending: false });
 
@@ -206,6 +206,8 @@ export async function fetchRecipeSummariesForUser(
     id: row.id,
     title: row.title,
     defaultServings: row.default_servings,
+    prepMinutes: row.prep_minutes,
+    cookMinutes: row.cook_minutes,
     updatedAt: row.updated_at,
     isOwner: row.owner_id === userId,
   }));
@@ -308,7 +310,7 @@ export async function createRecipeForUser(
       cook_minutes: input.cookMinutes ?? null,
       source_url: input.sourceUrl?.trim() || null,
     })
-    .select("id, title, default_servings, updated_at, owner_id")
+    .select("id, title, default_servings, prep_minutes, cook_minutes, updated_at, owner_id")
     .single();
 
   if (error || !data) throw new Error(error?.message ?? "Could not create recipe");
@@ -319,6 +321,8 @@ export async function createRecipeForUser(
     id: data.id,
     title: data.title,
     defaultServings: data.default_servings,
+    prepMinutes: data.prep_minutes,
+    cookMinutes: data.cook_minutes,
     updatedAt: data.updated_at,
     isOwner: true,
   };
@@ -412,7 +416,7 @@ export async function cloneRecipeForUser(
       cook_minutes: source.cookMinutes,
       source_url: source.sourceUrl,
     })
-    .select("id, title, default_servings, updated_at, owner_id")
+    .select("id, title, default_servings, prep_minutes, cook_minutes, updated_at, owner_id")
     .single();
 
   if (cloneError || !clone) {
@@ -457,6 +461,8 @@ export async function cloneRecipeForUser(
     id: clone.id,
     title: clone.title,
     defaultServings: clone.default_servings,
+    prepMinutes: clone.prep_minutes,
+    cookMinutes: clone.cook_minutes,
     updatedAt: clone.updated_at,
     isOwner: true,
   };

@@ -105,12 +105,15 @@ body {
 }
 
 .pb-dock {
-  padding-bottom: calc(var(--dock-height) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(
+    var(--dock-height) + env(safe-area-inset-bottom, 0px) + 0.75rem + 0.5rem
+  );
 }
 
 .pb-form-actions {
   padding-bottom: calc(
-    var(--form-action-height) + env(safe-area-inset-bottom, 0px)
+    var(--form-action-height) + env(safe-area-inset-bottom, 0px) + 0.75rem +
+      0.5rem
   );
 }
 
