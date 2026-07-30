@@ -23,8 +23,8 @@ export function RecipeTiming({ prepMinutes, cookMinutes }: RecipeTimingProps) {
     tRecipes("hoursMinutesShort", { hours, minutes });
 
   return (
-    <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3">
-      <p className="text-sm font-medium text-[var(--foreground)]">
+    <div className="card-surface-bordered px-3 py-2.5">
+      <p className="font-ui text-sm font-medium text-[var(--foreground)]">
         {tRecipes("timing")}
       </p>
       <dl className="mt-2 space-y-1 text-sm">

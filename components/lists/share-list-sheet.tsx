@@ -93,10 +93,10 @@ export function ShareListSheet({
         aria-label={tShare("closeShare")}
         onClick={onClose}
       />
-      <div className="sheet-panel font-ui relative z-10 w-full max-w-md rounded-2xl border border-[var(--border)]/50 bg-[var(--surface)] p-5 shadow-token-md">
+      <div className="sheet-panel font-ui relative z-10 w-full max-w-md rounded-[1.25rem] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-token-md">
         <div className="mb-4 flex items-start justify-between gap-3">
           <div>
-            <h2 className="text-lg font-semibold text-[var(--foreground)]">
+            <h2 className="heading-editorial text-lg text-[var(--foreground)]">
               {tLists("shareListTitle")}
             </h2>
             <p className="mt-1 text-sm text-[var(--muted-foreground)]">
@@ -120,14 +120,14 @@ export function ShareListSheet({
         ) : null}
 
         {error ? (
-          <p className="rounded-xl border border-[var(--destructive)]/40 bg-[var(--destructive)]/10 px-4 py-3 text-sm text-[var(--destructive)]">
+          <p className="rounded-[var(--radius-card)] border border-[var(--destructive)]/30 bg-[var(--destructive)]/8 px-3 py-2.5 text-sm text-[var(--destructive)]">
             {error}
           </p>
         ) : null}
 
         {url ? (
           <div className="flex flex-col gap-3">
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm break-all text-[var(--foreground)]">
+            <div className="card-surface-bordered px-3 py-2 text-sm break-all text-[var(--foreground)]">
               {url}
             </div>
             {expiresAt ? (

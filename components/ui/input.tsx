@@ -10,14 +10,17 @@ export function Input({ label, error, id, className = "", ...props }: InputProps
 
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={inputId} className="text-sm font-medium text-[var(--foreground)]">
+      <label
+        htmlFor={inputId}
+        className="font-ui text-sm font-medium text-[var(--foreground)]"
+      >
         {label}
       </label>
       <input
         id={inputId}
         className={[
-          "h-11 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-base text-[var(--foreground)]",
-          "placeholder:text-[var(--muted-foreground)] focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/25",
+          "font-ui h-10 w-full rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-3 text-base text-[var(--foreground)]",
+          "placeholder:text-[var(--muted-foreground)] focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/20",
           error ? "border-[var(--destructive)]" : "",
           className,
         ]
@@ -26,7 +29,7 @@ export function Input({ label, error, id, className = "", ...props }: InputProps
         {...props}
       />
       {error ? (
-        <p className="text-sm text-[var(--destructive)]" role="alert">
+        <p className="font-ui text-sm text-[var(--destructive)]" role="alert">
           {error}
         </p>
       ) : null}

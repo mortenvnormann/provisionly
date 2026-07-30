@@ -185,7 +185,7 @@ export function RecipesHome({
 
       <div className="relative flex min-h-0 flex-1 flex-col">
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-          <div className="flex flex-col gap-4 p-4 pb-dock">
+          <div className="flex flex-col gap-3 p-4 pb-dock">
             {loading ? (
               <LoadingState label={tRecipes("loadingRecipes")} />
             ) : (
@@ -195,7 +195,7 @@ export function RecipesHome({
                     {tRecipes("noRecipes")}
                   </p>
                 ) : (
-                  <ul className="flex flex-col gap-3">
+                  <ul className="flex flex-col gap-2.5">
                     {sortedRecipes.map((recipe) => (
                       <li key={recipe.id}>
                         <SwipeRow
@@ -226,10 +226,10 @@ export function RecipesHome({
                                 transitionType: "nav-up",
                               })
                             }
-                            className="font-reading shadow-token-sm pressable flex w-full items-center justify-between rounded-2xl bg-[var(--surface)] px-4 py-4 text-left"
+                            className="font-ui card-surface pressable flex w-full items-center justify-between px-3.5 py-3 text-left"
                           >
                             <div className="min-w-0">
-                              <span className="block truncate font-medium text-[var(--foreground)]">
+                              <span className="block truncate text-[15px] font-medium text-[var(--foreground)]">
                                 {recipe.title}
                               </span>
                               <span className="font-ui text-xs text-[var(--muted-foreground)]">

@@ -27,12 +27,12 @@ export function ProblemPage({
   onSecondaryClick,
 }: ProblemPageProps) {
   return (
-    <main className="flex min-h-full flex-1 flex-col items-center justify-center gap-4 px-6 py-12 text-center">
-      <p className="text-sm font-medium tracking-wide text-[var(--brand)] uppercase">
+    <main className="flex min-h-full flex-1 flex-col items-center justify-center gap-3 px-6 py-8 text-center">
+      <p className="font-ui text-[11px] font-medium tracking-[0.12em] text-[var(--brand)] uppercase">
         {appName}
       </p>
-      <h1 className="text-xl font-semibold text-[var(--foreground)]">{title}</h1>
-      <p className="max-w-sm text-sm text-[var(--muted-foreground)]">
+      <h1 className="heading-editorial text-2xl text-[var(--foreground)]">{title}</h1>
+      <p className="font-ui max-w-sm text-sm text-[var(--muted-foreground)]">
         {description}
       </p>
       <div className="flex flex-col gap-2 sm:flex-row">

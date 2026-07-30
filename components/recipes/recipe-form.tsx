@@ -325,7 +325,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
     <form
       ref={formRef}
       onSubmit={handleSubmit}
-      className={`flex flex-col gap-4 ${hideFixedFooter ? "" : "pb-form-actions"}`}
+      className={`flex flex-col gap-3 ${hideFixedFooter ? "" : "pb-form-actions"}`}
     >
       {photoSlot}
       <Input
@@ -347,7 +347,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
           onChange={(e) =>
             setDefaultServings(Math.max(1, Number.parseInt(e.target.value, 10) || 1))
           }
-          className="h-11 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base"
+          className="h-11 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-3 text-base"
         />
       </label>
 
@@ -366,7 +366,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
               value={prepMinutesText}
               onChange={(e) => setPrepMinutesText(e.target.value)}
               placeholder={tRecipes("minutesShort", { count: 15 })}
-              className="h-11 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base"
+              className="h-11 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-3 text-base"
             />
           </label>
           <label className="flex flex-col gap-1">
@@ -379,7 +379,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
               value={cookMinutesText}
               onChange={(e) => setCookMinutesText(e.target.value)}
               placeholder={tRecipes("minutesShort", { count: 30 })}
-              className="h-11 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base"
+              className="h-11 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-3 text-base"
             />
           </label>
         </div>
@@ -401,7 +401,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
           value={tagsText}
           onChange={(e) => setTagsText(e.target.value)}
           placeholder={tRecipes("tagsPlaceholder")}
-          className="h-11 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base"
+          className="h-11 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-3 text-base"
         />
       </label>
 
@@ -414,7 +414,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
           onChange={(e) => setDescription(e.target.value)}
           rows={3}
           placeholder={tRecipes("descriptionPlaceholder")}
-          className="rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-base"
+          className="rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-base"
         />
       </label>
 
@@ -455,7 +455,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
                 onKeyDown={(e) => handleStepKeyDown(e, step.key, step.text)}
                 placeholder={tRecipes("stepPlaceholder", { number: index + 1 })}
                 enterKeyHint="next"
-                className="h-10 min-w-0 flex-1 scroll-mb-28 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-sm"
+                className="h-10 min-w-0 flex-1 scroll-mb-28 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-3 text-sm"
               />
               <button
                 type="button"
@@ -511,7 +511,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
                 }
                 placeholder={tRecipes("ingredient")}
                 enterKeyHint="next"
-                className="h-10 scroll-mb-28 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-sm"
+                className="h-10 scroll-mb-28 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-3 text-sm"
               />
               <input
                 type="text"
@@ -521,7 +521,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
                   updateIngredient(item.key, { quantity: e.target.value })
                 }
                 placeholder={tRecipes("qty")}
-                className="h-10 rounded-xl border border-[var(--border)] bg-[var(--background)] px-2 text-sm"
+                className="h-10 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-2 text-sm"
               />
               <input
                 type="text"
@@ -530,7 +530,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
                   updateIngredient(item.key, { unit: e.target.value })
                 }
                 placeholder={tRecipes("unit")}
-                className="h-10 rounded-xl border border-[var(--border)] bg-[var(--background)] px-2 text-sm"
+                className="h-10 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-2 text-sm"
               />
               <button
                 type="button"
@@ -552,24 +552,26 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
       ) : null}
 
       {!hideFixedFooter ? (
-        <div className="safe-area-pb fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t border-[var(--border)] bg-[var(--surface)] p-4">
-          {onCancel ? (
-            <Button type="button" variant="secondary" fullWidth onClick={onCancel}>
-              {tCommon("cancel")}
+        <div className="safe-area-pb fixed inset-x-0 bottom-0 z-40 mx-auto w-full max-w-lg px-4 pb-3">
+          <nav className="font-ui shadow-token-md flex gap-1 rounded-full border border-[var(--border)] bg-[var(--surface)] p-1">
+            {onCancel ? (
+              <Button type="button" variant="secondary" fullWidth onClick={onCancel}>
+                {tCommon("cancel")}
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                variant="secondary"
+                fullWidth
+                onClick={() => router.back()}
+              >
+                {tCommon("cancel")}
+              </Button>
+            )}
+            <Button type="submit" fullWidth disabled={saving}>
+              {saving ? tRecipes("saving") : (submitLabel ?? tRecipes("createRecipe"))}
             </Button>
-          ) : (
-            <Button
-              type="button"
-              variant="secondary"
-              fullWidth
-              onClick={() => router.back()}
-            >
-              {tCommon("cancel")}
-            </Button>
-          )}
-          <Button type="submit" fullWidth disabled={saving}>
-            {saving ? tRecipes("saving") : (submitLabel ?? tRecipes("createRecipe"))}
-          </Button>
+          </nav>
         </div>
       ) : null}
     </form>

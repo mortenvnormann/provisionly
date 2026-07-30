@@ -19,9 +19,9 @@ export default async function SettingsPage() {
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
       <SettingsDock />
-      <header className="safe-area-pt font-ui flex shrink-0 items-center gap-2 px-2 py-3">
+      <header className="safe-area-pt font-ui flex shrink-0 items-center gap-2 px-2 py-2">
         <BackLink href="/home" label={tCommon("back")} />
-        <h1 className="min-w-0 flex-1 text-lg font-semibold text-[var(--foreground)]">
+        <h1 className="heading-editorial min-w-0 flex-1 text-lg text-[var(--foreground)]">
           {tCommon("settings")}
         </h1>
       </header>

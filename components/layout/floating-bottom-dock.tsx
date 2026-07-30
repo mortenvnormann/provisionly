@@ -50,7 +50,7 @@ function DockItem({
         onClick(ref.current);
       }}
       className={[
-        "font-ui pressable flex min-w-0 shrink flex-1 flex-col items-center gap-0.5 rounded-full px-2 py-1.5 text-[10px] font-medium",
+        "font-ui pressable flex min-w-0 shrink flex-1 flex-col items-center justify-center gap-0.5 rounded-full px-2 py-1.5 text-[10px] font-medium",
         disabled ? "cursor-not-allowed opacity-40" : "text-[var(--muted-foreground)]",
         active ? "text-[var(--foreground)]" : "",
       ].join(" ")}
@@ -214,7 +214,7 @@ export function FloatingBottomDock() {
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-lg">
         <div className="safe-area-pb pointer-events-auto px-4 pb-3">
           <nav
-            className="font-ui shadow-token-md flex gap-1 rounded-full border border-[var(--border)]/50 bg-[var(--surface-elevated)]/95 p-1 backdrop-blur-md"
+            className="font-ui shadow-token-md flex gap-1 rounded-full border border-[var(--border)] bg-[var(--surface)] p-1"
             aria-label={tCommon("appName")}
           >
             <button
@@ -224,7 +224,7 @@ export function FloatingBottomDock() {
                 lightHaptic();
                 formActions.onCancel();
               }}
-              className="pressable flex min-w-0 flex-1 items-center justify-center rounded-full px-3 py-3 text-sm font-medium text-[var(--foreground)] disabled:opacity-50"
+              className="pressable flex min-w-0 flex-1 items-center justify-center rounded-full px-3 py-2.5 text-sm font-medium text-[var(--foreground)] disabled:opacity-50"
             >
               {formActions.cancelLabel}
             </button>
@@ -235,7 +235,7 @@ export function FloatingBottomDock() {
                 lightHaptic();
                 formActions.onSave();
               }}
-              className="pressable flex min-w-0 flex-1 items-center justify-center rounded-full bg-[var(--primary)] px-3 py-3 text-sm font-medium text-[var(--primary-foreground)] disabled:opacity-50"
+              className="pressable flex min-w-0 flex-1 items-center justify-center rounded-full bg-[var(--primary)] px-3 py-2.5 text-sm font-medium text-[var(--primary-foreground)] disabled:opacity-50"
             >
               {formActions.saveLabel}
             </button>
@@ -247,9 +247,9 @@ export function FloatingBottomDock() {
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-lg">
-      <div className="safe-area-pb pointer-events-auto flex items-end gap-3 px-4 pb-3">
+      <div className="safe-area-pb pointer-events-auto flex items-end gap-2.5 px-4 pb-3">
         <nav
-          className="font-ui shadow-token-md flex min-w-0 max-w-[calc(100%-4rem)] flex-1 items-center overflow-hidden rounded-full border border-[var(--border)]/50 bg-[var(--surface-elevated)]/95 px-1 py-1 backdrop-blur-md"
+          className="font-ui shadow-token-md flex h-[var(--dock-action-size)] min-w-0 flex-1 items-center rounded-full border border-[var(--border)] bg-[var(--surface)] px-1"
           aria-label={tCommon("appName")}
         >
           <DockItem
@@ -305,12 +305,15 @@ export function FloatingBottomDock() {
             type="button"
             aria-label={tCommon("add")}
             onClick={(e) => handleAdd(e.currentTarget)}
-            className="font-ui pressable shadow-token-md flex size-14 shrink-0 items-center justify-center rounded-full bg-[var(--primary)] text-[var(--primary-foreground)]"
+            className="font-ui pressable shadow-token-md flex size-[var(--dock-action-size)] shrink-0 items-center justify-center rounded-full bg-[var(--primary)] text-[var(--primary-foreground)]"
           >
             <PlusIcon className="size-6" />
           </button>
         ) : (
-          <div className="size-14 shrink-0" aria-hidden />
+          <div
+            className="size-[var(--dock-action-size)] shrink-0"
+            aria-hidden
+          />
         )}
       </div>
     </div>

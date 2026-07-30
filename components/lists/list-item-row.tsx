@@ -87,7 +87,7 @@ export function ListItemRowView({
           value={name}
           onChange={(event) => setName(event.target.value)}
           autoFocus
-          className="h-11 min-w-0 rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/25"
+          className="font-ui h-10 min-w-0 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--background)] px-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/20"
           autoComplete="off"
         />
         <div className="flex gap-2">
@@ -130,7 +130,7 @@ export function ListItemRowView({
   return (
     <div
       className={[
-        "flex min-h-11 items-center gap-1 rounded-lg px-1 py-2 transition-colors",
+        "flex min-h-10 items-center gap-1 rounded-lg px-1 py-1.5 transition-colors",
         item.checked ? "opacity-60" : "",
       ].join(" ")}
     >
@@ -167,8 +167,8 @@ export function ListItemRowView({
           }
         }}
         className={[
-          "font-reading min-w-0 flex-1 touch-pan-y rounded-lg px-2 py-1 text-left text-base text-[var(--foreground)] transition-colors active:bg-[var(--muted)]",
-          item.checked ? "line-through decoration-[var(--muted-foreground)]" : "",
+          "font-ui min-w-0 flex-1 touch-pan-y rounded-lg px-2 py-1 text-left text-[15px] text-[var(--foreground)] transition-colors active:bg-[var(--muted)]",
+          item.checked ? "line-through decoration-[var(--muted-foreground)]/70" : "",
         ].join(" ")}
       >
         {formatItemLabel(item)}

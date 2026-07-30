@@ -9,7 +9,7 @@ export function PersonOutlineIcon({ className }: IconProps) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={1.4}
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
@@ -46,7 +46,7 @@ export function ListsIcon({ className }: IconProps) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={1.4}
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
@@ -65,7 +65,7 @@ export function RecipesIcon({ className }: IconProps) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={1.4}
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
@@ -84,7 +84,7 @@ export function SortIcon({ className }: IconProps) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={1.4}
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
@@ -103,7 +103,7 @@ export function ClearCheckedIcon({ className }: IconProps) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={1.4}
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
@@ -122,7 +122,7 @@ export function AddToListIcon({ className }: IconProps) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={1.4}
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
@@ -141,7 +141,7 @@ export function ShareIcon({ className }: IconProps) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={1.4}
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
@@ -160,7 +160,7 @@ export function ChevronRightIcon({ className }: IconProps) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={1.4}
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
@@ -178,7 +178,7 @@ export function CameraIcon({ className }: IconProps) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={1.4}
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}

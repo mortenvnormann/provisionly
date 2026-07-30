@@ -164,7 +164,7 @@ export function RecipePhotoField({
 
     return (
       <div className="px-4 pt-3">
-        <div className="relative overflow-hidden rounded-2xl bg-[var(--muted)]">
+        <div className="relative overflow-hidden rounded-[var(--radius-card)] bg-[var(--muted)]">
           {displayUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -219,7 +219,7 @@ export function RecipePhotoField({
       <span className="text-sm font-medium text-[var(--foreground)]">
         {tRecipes("photo")}
       </span>
-      <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)]">
+      <div className="card-surface-bordered overflow-hidden">
         {displayUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
