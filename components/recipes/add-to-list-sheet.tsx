@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { addRecipeToListAction, fetchListsForRecipeAction } from "@/lib/recipes/actions";
 import { scaleQuantity } from "@/lib/recipes/scale";
+import { useTabsData } from "@/components/layout/tabs-data-context";
 import type { RecipeIngredientRow } from "@/lib/recipes/types";
 import type { ListSummary } from "@/lib/lists/types";
 import { ServingsScaler } from "@/components/recipes/servings-scaler";
@@ -32,6 +33,7 @@ export function AddToListSheet({
 }: AddToListSheetProps) {
   const t = useTranslations("addToList");
   const tCommon = useTranslations("common");
+  const { initialLists } = useTabsData();
   const [lists, setLists] = useState<ListSummary[]>([]);
   const [listId, setListId] = useState("");
   const [servings, setServings] = useState(defaultServings);
@@ -52,6 +54,14 @@ export function AddToListSheet({
 
     setSelected(new Set(ingredients.map((i) => i.id)));
     setServings(defaultServings);
+    const seededLists = initialLists;
+    if (seededLists.length > 0) {
+      setLists(seededLists);
+      setListId((current) => current || seededLists[0]?.id || "");
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
 
     void fetchListsForRecipeAction()
@@ -60,10 +70,11 @@ export function AddToListSheet({
         if (data[0]) setListId(data[0].id);
       })
       .catch((err) => {
-        setError(err instanceof Error ? err.message : t("couldNotLoad"));
+        console.error(err);
+        setError(t("couldNotLoad"));
       })
       .finally(() => setLoading(false));
-  }, [open, defaultServings, ingredients, t]);
+  }, [open, defaultServings, ingredients, initialLists, t]);
 
   function toggleIngredient(id: string) {
     setSelected((prev) => {
@@ -88,7 +99,8 @@ export function AddToListSheet({
       if (merged) parts.push(t("resultMerged", { count: merged }));
       setResult(parts.join(", ") || t("done"));
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("couldNotAdd"));
+      console.error(err);
+      setError(t("couldNotAdd"));
     } finally {
       setSubmitting(false);
     }

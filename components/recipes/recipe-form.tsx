@@ -314,7 +314,8 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
       }
       await onSubmit(input);
     } catch (err) {
-      setError(err instanceof Error ? err.message : tRecipes("couldNotSave"));
+      console.error(err);
+      setError(tRecipes("couldNotSave"));
     } finally {
       setSaving(false);
     }

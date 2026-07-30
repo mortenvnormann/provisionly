@@ -20,6 +20,7 @@ import { prefetchListDetailData } from "@/lib/lists/list-detail-prefetch-cache";
 import type { ListSummary } from "@/lib/lists/types";
 import { profileGreeting } from "@/lib/profile/types";
 import { useGuestMigrationOnLogin } from "@/lib/guest/use-guest-migration";
+import { migrationErrorMessage } from "@/lib/guest/migration-error-message";
 import { useRegisterDock } from "@/components/layout/dock-context";
 import { HomeHeader } from "@/components/layout/home-header";
 import { SwipeRow } from "@/components/ui/swipe-row";
@@ -218,8 +219,8 @@ export function ListsHome({
               <div className="font-ui rounded-2xl border border-[var(--destructive)]/40 bg-[var(--destructive)]/10 px-4 py-3 text-sm text-[var(--destructive)]">
                 <p className="font-medium">{tHome("importErrorsTitle")}</p>
                 <ul className="mt-2 list-disc space-y-1 pl-4">
-                  {migrationResult.errors.map((msg) => (
-                    <li key={msg}>{msg}</li>
+                  {migrationResult.errors.map((code) => (
+                    <li key={code}>{migrationErrorMessage(code, tHome)}</li>
                   ))}
                 </ul>
               </div>

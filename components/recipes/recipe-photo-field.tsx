@@ -82,9 +82,8 @@ export function RecipePhotoField({
       setPreviewUrl(result.imageUrl);
       onPhotoUpdated?.(result);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : tRecipes("photoUploadFailed"),
-      );
+      console.error(err);
+      setError(tRecipes("photoUploadFailed"));
     } finally {
       setUploading(false);
     }
@@ -113,9 +112,8 @@ export function RecipePhotoField({
       setPreviewUrl(null);
       onPhotoUpdated?.(null);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : tRecipes("photoUploadFailed"),
-      );
+      console.error(err);
+      setError(tRecipes("photoUploadFailed"));
     } finally {
       setUploading(false);
     }

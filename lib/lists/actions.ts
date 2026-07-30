@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getVerifiedUser } from "@/lib/auth/get-user";
+import { MIGRATION_ERROR_CODES } from "@/lib/errors/migration-codes";
 import type { GuestList } from "@/lib/guest/types";
 import {
   parseGuestLists,
@@ -76,6 +77,7 @@ export async function fetchListSyncAction(listId: string): Promise<{
   items: ListItemRow[];
   groupByCategory: boolean;
   title: string;
+  members: import("@/lib/share/types").ListMemberRow[];
 }> {
   const user = await getVerifiedUser();
   return fetchListSyncForUser(user.id, parseListId(listId));
@@ -198,7 +200,7 @@ export async function migrateGuestListsAction(
     user = await getVerifiedUser();
   } catch {
     result.skipped = validatedLists.length;
-    result.errors.push("Not signed in. Refresh the page to import guest lists.");
+    result.errors.push(MIGRATION_ERROR_CODES.notSignedIn);
     return result;
   }
 
@@ -223,9 +225,10 @@ export async function migrateGuestListsAction(
       result.migratedGuestIds.push(guestList.id);
     } catch (err) {
       result.skipped += 1;
-      const message =
-        err instanceof Error ? err.message : "Unknown migration error";
-      result.errors.push(`${guestList.title}: ${message}`);
+      console.error(err);
+      result.errors.push(
+        `${MIGRATION_ERROR_CODES.failed}:${guestList.title}`,
+      );
     }
   }
 

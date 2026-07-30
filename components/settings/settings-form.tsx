@@ -37,7 +37,8 @@ export function SettingsForm({ profile }: SettingsFormProps) {
       setSaveMessage(t("profileSaved"));
       router.refresh();
     } catch (err) {
-      setSaveError(err instanceof Error ? err.message : t("couldNotSave"));
+      console.error(err);
+      setSaveError(t("couldNotSave"));
     } finally {
       setSaving(false);
     }

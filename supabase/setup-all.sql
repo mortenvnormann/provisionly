@@ -117,6 +117,8 @@ create trigger lists_set_updated_at
   before update on public.lists
   for each row execute function public.set_updated_at();
 
+create index lists_owner_id_idx on public.lists (owner_id);
+
 create table public.list_members (
   list_id uuid not null references public.lists (id) on delete cascade,
   user_id uuid not null references public.profiles (id) on delete cascade,
@@ -149,20 +151,17 @@ create index list_items_list_id_idx on public.list_items (list_id);
 create index list_items_list_normalized_idx on public.list_items (list_id, name_normalized);
 
 -- ---------------------------------------------------------------------------
--- Share links (lists expire; recipes do not)
+-- Share links (all invite links expire; joined access is separate)
 -- ---------------------------------------------------------------------------
 create table public.share_links (
   id uuid primary key default gen_random_uuid(),
   resource_type public.share_resource_type not null,
   resource_id uuid not null,
   token_hash text not null unique,
-  expires_at timestamptz,
+  expires_at timestamptz not null,
   created_by uuid not null references public.profiles (id) on delete cascade,
   created_at timestamptz not null default timezone('utc', now()),
-  constraint share_links_expires_check check (
-    (resource_type = 'list' and expires_at is not null)
-    or (resource_type = 'recipe' and expires_at is null)
-  )
+  constraint share_links_expires_check check (expires_at is not null)
 );
 
 create index share_links_resource_idx
@@ -187,6 +186,8 @@ create trigger recipes_set_updated_at
   before update on public.recipes
   for each row execute function public.set_updated_at();
 
+create index recipes_owner_id_idx on public.recipes (owner_id);
+
 create table public.recipe_ingredients (
   id uuid primary key default gen_random_uuid(),
   recipe_id uuid not null references public.recipes (id) on delete cascade,
@@ -209,6 +210,8 @@ create table public.recipe_access (
   created_at timestamptz not null default timezone('utc', now()),
   primary key (recipe_id, user_id)
 );
+
+create index recipe_access_user_id_idx on public.recipe_access (user_id);
 
 create table public.recipe_clones (
   id uuid primary key default gen_random_uuid(),

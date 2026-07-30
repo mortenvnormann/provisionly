@@ -49,6 +49,8 @@
     "importedLists": "Imported {count, plural, one {# list} other {# lists}} from guest mode.",
     "importing": "Importing guest lists…",
     "importErrorsTitle": "Some guest lists could not be imported. Your local copies are kept so we can retry.",
+    "importNotSignedIn": "Not signed in. Refresh the page to import guest lists.",
+    "importListFailed": "Could not import \"{title}\".",
     "deleteListConfirm": "Delete \"{title}\"? This cannot be undone.",
     "removeListConfirm": "Remove \"{title}\" from your lists?"
   },
@@ -65,6 +67,9 @@
     "cloneRecipe": "Clone recipe",
     "cloning": "Cloning…",
     "couldNotSave": "Could not save recipe",
+    "couldNotDelete": "Could not delete recipe.",
+    "couldNotClone": "Could not clone recipe.",
+    "couldNotRemove": "Could not remove recipe.",
     "needIngredient": "Add at least one ingredient.",
     "title": "Title",
     "recipeName": "Recipe name",
@@ -133,7 +138,8 @@
     "sharedWith": "Shared with",
     "you": "You",
     "owner": "owner",
-    "shareListDescription": "Anyone with the link can edit this list. Links expire after 7 days."
+    "shareListDescription": "Anyone with the link can edit this list. Links expire after 72 hours.",
+    "couldNotSaveItem": "Could not save changes. Please try again."
   },
   "auth": {
     "welcomeBack": "Welcome back",
@@ -144,7 +150,11 @@
     "createAccountButton": "Create account",
     "continueAsGuest": "Continue as guest",
     "accountCreated": "Account created. Check your email to confirm, then sign in here.",
-    "tagline": "Collaborative grocery lists, made simple."
+    "tagline": "Collaborative grocery lists, made simple.",
+    "invalidCredentials": "Incorrect email or password.",
+    "emailTaken": "An account with this email already exists.",
+    "weakPassword": "Password is too weak. Use at least 6 characters.",
+    "networkError": "Could not reach the server. Check your connection and try again."
   },
   "settings": {
     "profile": "Profile",
@@ -177,11 +187,11 @@
     "creatingLink": "Creating link…",
     "expiresAt": "Expires {date}",
     "couldNotCreateLink": "Could not create link",
-    "shareRecipeDescription": "View-only access. Recipients can add ingredients to their lists or clone the recipe. Link never expires.",
+    "shareRecipeDescription": "View-only access. Recipients can add ingredients to their lists or clone the recipe. Links expire after 72 hours.",
     "listEmailSubject": "Join my grocery list: {title}",
-    "listEmailBody": "Hi,\n\nJoin my shopping list \"{title}\" on Provisionly:\n\n{url}\n\nThis link expires in 7 days.",
+    "listEmailBody": "Hi,\n\nJoin my shopping list \"{title}\" on Provisionly:\n\n{url}\n\nThis link expires in 72 hours.",
     "recipeEmailSubject": "Recipe: {title}",
-    "recipeEmailBody": "Hi,\n\nCheck out this recipe \"{title}\" on Provisionly:\n\n{url}\n\nThis link does not expire."
+    "recipeEmailBody": "Hi,\n\nCheck out this recipe \"{title}\" on Provisionly:\n\n{url}\n\nThis link expires in 72 hours."
   },
   "addToList": {
     "title": "Add to list",
@@ -208,7 +218,10 @@
   "join": {
     "joining": "Joining…",
     "joinList": "Join list",
-    "invalidLink": "This share link is invalid or has expired.",
+    "invalidLink": "This share link is invalid.",
+    "expiredLink": "This share link has expired.",
+    "listGone": "This list no longer exists.",
+    "recipeGone": "This recipe no longer exists.",
     "couldNotOpenLink": "Could not open link",
     "goToLists": "Go to your lists"
   },
@@ -221,6 +234,7 @@
     "somethingWrongTitle": "Something went wrong",
     "somethingWrongDescription": "An unexpected error occurred. You can try again or go back to your lists.",
     "tryAgain": "Try again",
-    "goHome": "Go to your lists"
+    "goHome": "Go to your lists",
+    "couldNotLoadCategories": "Could not load categories."
   }
 }
