@@ -111,7 +111,17 @@
     "hoursMinutesShort": "{hours} h {minutes} min",
     "couldNotDelete": "Could not delete recipe.",
     "couldNotClone": "Could not clone recipe.",
-    "couldNotRemove": "Could not remove recipe."
+    "couldNotRemove": "Could not remove recipe.",
+    "importUrl": "Importer une URL",
+    "createManual": "Manuel",
+    "importUrlLabel": "URL de la recette",
+    "importUrlPlaceholder": "https://…",
+    "importConfirm": "Importer",
+    "importing": "Import…",
+    "importInvalidUrl": "Saisissez une URL de site valide.",
+    "importFetchFailed": "Impossible de charger la page. Essayez un autre lien ou créez manuellement.",
+    "importNoRecipeFound": "Aucune donnée de recette trouvée. Essayez un autre lien ou créez manuellement.",
+    "originalRecipe": "Recette d’origine"
   },
   "lists": {
     "loadingList": "Chargement de la liste…",

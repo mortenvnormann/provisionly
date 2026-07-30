@@ -87,6 +87,7 @@ function toInput(
   prepMinutesText: string,
   cookMinutesText: string,
   ingredients: IngredientDraft[],
+  sourceUrl?: string | null,
 ): RecipeInput {
   return {
     title,
@@ -99,6 +100,7 @@ function toInput(
     defaultServings,
     prepMinutes: parseRecipeMinutes(prepMinutesText),
     cookMinutes: parseRecipeMinutes(cookMinutesText),
+    sourceUrl: sourceUrl ?? null,
     ingredients: ingredients
       .filter((item) => item.name.trim())
       .map((item) => ({
@@ -158,6 +160,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
         }))
       : [emptyIngredient()],
   );
+  const [sourceUrl] = useState<string | null>(initial?.sourceUrl ?? null);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -308,6 +311,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
         prepMinutesText,
         cookMinutesText,
         ingredients,
+        sourceUrl,
       );
       if (input.ingredients.length === 0) {
         throw new Error(tRecipes("needIngredient"));

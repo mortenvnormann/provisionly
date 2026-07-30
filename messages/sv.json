@@ -111,7 +111,17 @@
     "hoursMinutesShort": "{hours} t {minutes} min",
     "couldNotDelete": "Could not delete recipe.",
     "couldNotClone": "Could not clone recipe.",
-    "couldNotRemove": "Could not remove recipe."
+    "couldNotRemove": "Could not remove recipe.",
+    "importUrl": "Importera URL",
+    "createManual": "Manuell",
+    "importUrlLabel": "Recept-URL",
+    "importUrlPlaceholder": "https://…",
+    "importConfirm": "Importera",
+    "importing": "Importerar…",
+    "importInvalidUrl": "Ange en giltig webbadress.",
+    "importFetchFailed": "Kunde inte ladda sidan. Prova en annan länk eller skapa manuellt.",
+    "importNoRecipeFound": "Ingen receptinformation hittades. Prova en annan länk eller skapa manuellt.",
+    "originalRecipe": "Originalrecept"
   },
   "lists": {
     "loadingList": "Laddar lista…",

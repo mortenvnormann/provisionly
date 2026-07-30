@@ -111,7 +111,17 @@
     "cookTime": "Tilberedning",
     "totalTime": "Total",
     "minutesShort": "{count} min",
-    "hoursMinutesShort": "{hours} t {minutes} min"
+    "hoursMinutesShort": "{hours} t {minutes} min",
+    "importUrl": "Importer URL",
+    "createManual": "Manuel",
+    "importUrlLabel": "Opskrifts-URL",
+    "importUrlPlaceholder": "https://…",
+    "importConfirm": "Importer",
+    "importing": "Importerer…",
+    "importInvalidUrl": "Indtast en gyldig webadresse.",
+    "importFetchFailed": "Kunne ikke indlæse siden. Prøv et andet link eller opret manuelt.",
+    "importNoRecipeFound": "Ingen opskriftsdata fundet på siden. Prøv et andet link eller opret manuelt.",
+    "originalRecipe": "Original opskrift"
   },
   "lists": {
     "loadingList": "Indlæser liste…",

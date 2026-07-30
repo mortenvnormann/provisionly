@@ -30,6 +30,7 @@ export type RecipeDetail = {
   isOwner: boolean;
   imagePath: string | null;
   imageUrl: string | null;
+  sourceUrl: string | null;
   ingredients: RecipeIngredientRow[];
 };
 
@@ -52,6 +53,7 @@ export type RecipeInput = {
   defaultServings: number;
   prepMinutes?: number | null;
   cookMinutes?: number | null;
+  sourceUrl?: string | null;
   ingredients: RecipeIngredientInput[];
 };
 

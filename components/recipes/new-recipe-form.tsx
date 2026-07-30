@@ -8,6 +8,8 @@ import {
   createRecipeAction,
   uploadRecipePhotoAction,
 } from "@/lib/recipes/actions";
+import { consumeRecipeImportDraft } from "@/lib/recipes/import-draft-cache";
+import type { RecipeInput } from "@/lib/recipes/types";
 import { useTranslations } from "next-intl";
 
 const RecipeForm = dynamic(
@@ -22,9 +24,14 @@ export function NewRecipeForm() {
   const tRecipes = useTranslations("recipes");
   const router = useRouter();
   const [draftPhoto, setDraftPhoto] = useState<File | null>(null);
+  const [initial] = useState<RecipeInput | undefined>(() => {
+    const draft = consumeRecipeImportDraft();
+    return draft ?? undefined;
+  });
 
   return (
     <RecipeForm
+      initial={initial}
       submitLabel={tRecipes("createRecipe")}
       photoSlot={
         <RecipePhotoField
