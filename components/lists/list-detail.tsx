@@ -829,7 +829,7 @@ export function ListDetail({
                 {sectionItems.map((item) => (
                   <li
                     key={item.id}
-                    className="border-b border-[var(--border)]/60 last:border-b-0"
+                    className="border-b border-[var(--border)] last:border-b-0"
                   >
                     <SwipeRow
                       className="rounded-none"

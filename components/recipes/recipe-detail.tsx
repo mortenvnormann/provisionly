@@ -399,7 +399,7 @@ export function RecipeDetailView({
             <h2 className="heading-editorial mb-2 text-base text-[var(--foreground)]">
               {tRecipes("ingredients")}
             </h2>
-            <ul className="card-surface-bordered font-reading divide-y divide-[var(--border)]/60">
+            <ul className="card-surface-bordered font-reading divide-y divide-[var(--border)]">
               {recipe.ingredients.map((item) => {
                 const scaled = scaleQuantity(
                   item.quantity,
