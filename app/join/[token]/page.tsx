@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSessionState } from "@/lib/auth/session";
 import { joinViaShareToken } from "@/lib/share/server";
+import { joinErrorMessage } from "@/lib/share/join-error-message";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
 
@@ -23,8 +24,7 @@ export default async function JoinPage({ params }: JoinPageProps) {
   try {
     result = await joinViaShareToken(user.id, token);
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : tJoin("invalidLink");
+    const message = joinErrorMessage(err, tJoin);
 
     return (
       <main className="flex min-h-full flex-1 flex-col items-center justify-center gap-4 px-6 py-12 text-center">

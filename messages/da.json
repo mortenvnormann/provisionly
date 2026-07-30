@@ -49,6 +49,8 @@
     "importedLists": "Importerede {count, plural, one {# liste} other {# lister}} fra gæstetilstand.",
     "importing": "Importerer gæstelister…",
     "importErrorsTitle": "Nogle gæstelister kunne ikke importeres. Dine lokale kopier bevares, så vi kan prøve igen.",
+    "importNotSignedIn": "Ikke logget ind. Opdater siden for at importere gæstelister.",
+    "importListFailed": "Kunne ikke importere \"{title}\".",
     "deleteListConfirm": "Slet \"{title}\"? Dette kan ikke fortrydes.",
     "removeListConfirm": "Fjern \"{title}\" fra dine lister?"
   },
@@ -65,6 +67,9 @@
     "cloneRecipe": "Klon opskrift",
     "cloning": "Kloner…",
     "couldNotSave": "Kunne ikke gemme opskrift",
+    "couldNotDelete": "Kunne ikke slette opskrift.",
+    "couldNotClone": "Kunne ikke klone opskrift.",
+    "couldNotRemove": "Kunne ikke fjerne opskrift.",
     "needIngredient": "Tilføj mindst én ingrediens.",
     "title": "Titel",
     "recipeName": "Opskriftsnavn",
@@ -99,7 +104,7 @@
     "addPhoto": "Add photo",
     "changePhoto": "Change photo",
     "photoUploading": "Uploading photo…",
-    "photoUploadFailed": "Could not upload photo",
+    "photoUploadFailed": "Kunne ikke uploade foto",
     "removePhotoConfirm": "Remove this recipe photo?",
     "timing": "Tid",
     "prepTime": "Forberedelse",
@@ -133,7 +138,8 @@
     "sharedWith": "Shared with",
     "you": "You",
     "owner": "owner",
-    "shareListDescription": "Anyone with the link can edit this list. Links expire after 7 days."
+    "shareListDescription": "Alle med linket kan redigere denne liste. Links udløber efter 72 timer.",
+    "couldNotSaveItem": "Kunne ikke gemme ændringer. Prøv igen."
   },
   "auth": {
     "welcomeBack": "Velkommen tilbage",
@@ -144,7 +150,11 @@
     "createAccountButton": "Opret konto",
     "continueAsGuest": "Fortsæt som gæst",
     "accountCreated": "Konto oprettet. Tjek din e-mail for at bekræfte, og log derefter ind her.",
-    "tagline": "Collaborative grocery lists, made simple."
+    "tagline": "Collaborative grocery lists, made simple.",
+    "invalidCredentials": "Forkert e-mail eller adgangskode.",
+    "emailTaken": "Der findes allerede en konto med denne e-mail.",
+    "weakPassword": "Adgangskoden er for svag. Brug mindst 6 tegn.",
+    "networkError": "Kunne ikke kontakte serveren. Tjek din forbindelse og prøv igen."
   },
   "settings": {
     "profile": "Profil",
@@ -171,14 +181,14 @@
     "shareRecipe": "Del opskrift",
     "closeShare": "Luk delingsdialog",
     "emailInvite": "E-mailinvitation",
-    "creatingLink": "Creating link…",
-    "expiresAt": "Expires {date}",
-    "couldNotCreateLink": "Could not create link",
-    "shareRecipeDescription": "View-only access. Recipients can add ingredients to their lists or clone the recipe. Link never expires.",
+    "creatingLink": "Opretter link…",
+    "expiresAt": "Udløber {date}",
+    "couldNotCreateLink": "Kunne ikke oprette link",
+    "shareRecipeDescription": "Skrivebeskyttet adgang. Modtagere kan tilføje ingredienser til deres lister eller klone opskriften. Links udløber efter 72 timer.",
     "listEmailSubject": "Join my grocery list: {title}",
-    "listEmailBody": "Hi,\n\nJoin my shopping list \"{title}\" on Provisionly:\n\n{url}\n\nThis link expires in 7 days.",
+    "listEmailBody": "Hi,\n\nJoin my shopping list \"{title}\" on Provisionly:\n\n{url}\n\nDette link udløber om 72 timer.",
     "recipeEmailSubject": "Recipe: {title}",
-    "recipeEmailBody": "Hi,\n\nCheck out this recipe \"{title}\" on Provisionly:\n\n{url}\n\nThis link does not expire."
+    "recipeEmailBody": "Hi,\n\nCheck out this recipe \"{title}\" on Provisionly:\n\n{url}\n\nDette link udløber om 72 timer."
   },
   "addToList": {
     "title": "Tilføj til liste",
@@ -205,9 +215,12 @@
   "join": {
     "joining": "Tilmelder…",
     "joinList": "Deltag i liste",
-    "invalidLink": "Dette delingslink er ugyldigt eller udløbet.",
-    "couldNotOpenLink": "Could not open link",
-    "goToLists": "Go to your lists"
+    "invalidLink": "Dette delingslink er ugyldigt.",
+    "expiredLink": "Dette delingslink er udløbet.",
+    "listGone": "Denne liste findes ikke længere.",
+    "recipeGone": "Denne opskrift findes ikke længere.",
+    "couldNotOpenLink": "Kunne ikke åbne link",
+    "goToLists": "Gå til dine lister"
   },
   "errors": {
     "deleteAccountConfirm": "Skriv \"delete my account\" for at bekræfte.",
@@ -218,6 +231,7 @@
     "somethingWrongTitle": "Noget gik galt",
     "somethingWrongDescription": "Der opstod en uventet fejl. Du kan prøve igen eller gå tilbage til dine lister.",
     "tryAgain": "Prøv igen",
-    "goHome": "Gå til dine lister"
+    "goHome": "Gå til dine lister",
+    "couldNotLoadCategories": "Kunne ikke indlæse kategorier."
   }
 }

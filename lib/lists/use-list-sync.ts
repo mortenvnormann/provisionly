@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { fetchListSyncAction } from "@/lib/lists/actions";
-import { fetchListMembersAction } from "@/lib/share/actions";
 import { itemsFingerprint } from "@/lib/lists/list-cache";
 import type { ListItemRow } from "@/lib/lists/types";
 import type { ListMemberRow } from "@/lib/share/types";
@@ -69,7 +68,7 @@ export function useListSync({
       if (document.visibilityState !== "visible") return;
       const gen = ++syncGenerationRef.current;
       try {
-        const { items, groupByCategory, title } =
+        const { items, groupByCategory, title, members } =
           await fetchListSyncAction(listId);
         if (cancelled || gen !== syncGenerationRef.current) return;
 
@@ -100,6 +99,16 @@ export function useListSync({
           titleRef.current = title;
           onTitleChangeRef.current(title);
         }
+
+        if (onMembersChangeRef.current) {
+          const membersFingerprint = members
+            .map((m) => `${m.userId}:${m.role}:${m.displayName}`)
+            .join("|");
+          if (membersFingerprint !== membersFingerprintRef.current) {
+            membersFingerprintRef.current = membersFingerprint;
+            onMembersChangeRef.current(members);
+          }
+        }
       } catch {
         // Ignore transient network errors during sync
       }
@@ -113,27 +122,8 @@ export function useListSync({
       }, 100);
     }
 
-    async function syncMembers() {
-      if (document.visibilityState !== "visible") return;
-      if (!onMembersChangeRef.current) return;
-      try {
-        const members = await fetchListMembersAction(listId);
-        if (cancelled) return;
-
-        const fingerprint = members
-          .map((m) => `${m.userId}:${m.role}:${m.displayName}`)
-          .join("|");
-        if (fingerprint !== membersFingerprintRef.current) {
-          membersFingerprintRef.current = fingerprint;
-          onMembersChangeRef.current(members);
-        }
-      } catch {
-        // Ignore transient network errors during sync
-      }
-    }
-
     async function syncAll() {
-      await Promise.all([sync(), syncMembers()]);
+      await sync();
     }
 
     if (!skipInitialSync) {
@@ -176,7 +166,7 @@ export function useListSync({
           filter: `list_id=eq.${listId}`,
         },
         () => {
-          void syncMembers();
+          scheduleSync();
         },
       )
       .subscribe();

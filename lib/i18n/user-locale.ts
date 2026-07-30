@@ -1,5 +1,6 @@
 import "server-only";
 
+import { cache } from "react";
 import { getLocale } from "next-intl/server";
 import { getLocaleCookie } from "@/lib/i18n/cookie";
 import {
@@ -9,7 +10,9 @@ import {
 } from "@/lib/i18n/locales";
 import { createServiceClient } from "@/lib/supabase/service";
 
-export async function getLocaleForUser(userId: string): Promise<AppLocale> {
+export const getLocaleForUser = cache(async function getLocaleForUser(
+  userId: string,
+): Promise<AppLocale> {
   const service = createServiceClient();
   const { data, error } = await service
     .from("profiles")
@@ -19,7 +22,7 @@ export async function getLocaleForUser(userId: string): Promise<AppLocale> {
 
   if (error) throw new Error(error.message);
   return resolveLocale(data?.locale, DEFAULT_LOCALE);
-}
+});
 
 export async function getRequestLocale(userId?: string | null): Promise<AppLocale> {
   if (userId) {

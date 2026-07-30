@@ -50,7 +50,9 @@
     "importing": "Importerar gästlistor…",
     "importErrorsTitle": "Vissa gästlistor kunde inte importeras. Dina lokala kopior behålls så att vi kan försöka igen.",
     "deleteListConfirm": "Ta bort \"{title}\"? Detta kan inte ångras.",
-    "removeListConfirm": "Ta bort \"{title}\" från dina listor?"
+    "removeListConfirm": "Ta bort \"{title}\" från dina listor?",
+    "importNotSignedIn": "Not signed in. Refresh the page to import guest lists.",
+    "importListFailed": "Could not import \"{title}\"."
   },
   "recipes": {
     "newRecipe": "Nytt recept",
@@ -106,7 +108,10 @@
     "cookTime": "Tillagning",
     "totalTime": "Totalt",
     "minutesShort": "{count} min",
-    "hoursMinutesShort": "{hours} t {minutes} min"
+    "hoursMinutesShort": "{hours} t {minutes} min",
+    "couldNotDelete": "Could not delete recipe.",
+    "couldNotClone": "Could not clone recipe.",
+    "couldNotRemove": "Could not remove recipe."
   },
   "lists": {
     "loadingList": "Laddar lista…",
@@ -133,7 +138,8 @@
     "sharedWith": "Shared with",
     "you": "You",
     "owner": "owner",
-    "shareListDescription": "Anyone with the link can edit this list. Links expire after 7 days."
+    "shareListDescription": "Anyone with the link can edit this list. Links expire after 72 hours.",
+    "couldNotSaveItem": "Could not save changes. Please try again."
   },
   "auth": {
     "welcomeBack": "Välkommen tillbaka",
@@ -144,7 +150,11 @@
     "createAccountButton": "Skapa konto",
     "continueAsGuest": "Fortsätt som gäst",
     "accountCreated": "Konto skapat. Kontrollera din e-post för att bekräfta och logga sedan in här.",
-    "tagline": "Collaborative grocery lists, made simple."
+    "tagline": "Collaborative grocery lists, made simple.",
+    "invalidCredentials": "Incorrect email or password.",
+    "emailTaken": "An account with this email already exists.",
+    "weakPassword": "Password is too weak. Use at least 6 characters.",
+    "networkError": "Could not reach the server. Check your connection and try again."
   },
   "settings": {
     "profile": "Profil",
@@ -174,11 +184,11 @@
     "creatingLink": "Creating link…",
     "expiresAt": "Expires {date}",
     "couldNotCreateLink": "Could not create link",
-    "shareRecipeDescription": "View-only access. Recipients can add ingredients to their lists or clone the recipe. Link never expires.",
+    "shareRecipeDescription": "View-only access. Recipients can add ingredients to their lists or clone the recipe. Links expire after 72 hours.",
     "listEmailSubject": "Join my grocery list: {title}",
-    "listEmailBody": "Hi,\n\nJoin my shopping list \"{title}\" on Provisionly:\n\n{url}\n\nThis link expires in 7 days.",
+    "listEmailBody": "Hi,\n\nJoin my shopping list \"{title}\" on Provisionly:\n\n{url}\n\nThis link expires in 72 hours.",
     "recipeEmailSubject": "Recipe: {title}",
-    "recipeEmailBody": "Hi,\n\nCheck out this recipe \"{title}\" on Provisionly:\n\n{url}\n\nThis link does not expire."
+    "recipeEmailBody": "Hi,\n\nCheck out this recipe \"{title}\" on Provisionly:\n\n{url}\n\nThis link expires in 72 hours."
   },
   "addToList": {
     "title": "Lägg till i lista",
@@ -205,9 +215,12 @@
   "join": {
     "joining": "Ansluter…",
     "joinList": "Gå med i lista",
-    "invalidLink": "Den här delningslänken är ogiltig eller har gått ut.",
+    "invalidLink": "This share link is invalid.",
     "couldNotOpenLink": "Could not open link",
-    "goToLists": "Go to your lists"
+    "goToLists": "Go to your lists",
+    "expiredLink": "This share link has expired.",
+    "listGone": "This list no longer exists.",
+    "recipeGone": "This recipe no longer exists."
   },
   "errors": {
     "deleteAccountConfirm": "Skriv \"delete my account\" för att bekräfta.",
@@ -218,6 +231,7 @@
     "somethingWrongTitle": "Något gick fel",
     "somethingWrongDescription": "Ett oväntat fel inträffade. Du kan försöka igen eller gå tillbaka till listorna.",
     "tryAgain": "Försök igen",
-    "goHome": "Gå till dina listor"
+    "goHome": "Gå till dina listor",
+    "couldNotLoadCategories": "Could not load categories."
   }
 }

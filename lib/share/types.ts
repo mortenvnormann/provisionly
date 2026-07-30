@@ -7,7 +7,7 @@ export type ListMemberRow = {
 
 export type ShareLinkResult = {
   url: string;
-  expiresAt: string | null;
+  expiresAt: string;
 };
 
 export type JoinShareResult = {

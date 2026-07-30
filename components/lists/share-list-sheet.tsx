@@ -55,7 +55,8 @@ export function ShareListSheet({
       })
       .catch((err) => {
         if (cancelled) return;
-        setError(err instanceof Error ? err.message : tLists("couldNotCreateLink"));
+        console.error(err);
+        setError(tLists("couldNotCreateLink"));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);

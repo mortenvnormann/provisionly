@@ -10,6 +10,7 @@ export function useCategories(
   locale = "en",
   generalLabel = "General",
   initialCategories?: CategoryRow[],
+  loadFailedLabel = "Could not load categories",
 ) {
   const hasInitial = (initialCategories?.length ?? 0) > 0;
   const [categories, setCategories] = useState<CategoryRow[]>(
@@ -37,14 +38,12 @@ export function useCategories(
       const { categories: rows } = await getCategoriesOnly(supabase);
       setCategories(rows);
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Failed to load categories";
-      setError(message);
-      console.error(message);
+      console.error(err);
+      setError(loadFailedLabel);
     } finally {
       setLoading(false);
     }
-  }, [hasInitial]);
+  }, [hasInitial, loadFailedLabel]);
 
   useEffect(() => {
     void load();

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { hasPendingGuestLists } from "@/lib/guest/migrate";
 import { safeNextPath } from "@/lib/auth/safe-redirect";
+import { mapAuthErrorKey } from "@/lib/auth/map-auth-error";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
@@ -79,7 +80,11 @@ export function AuthForm({ nextPath }: AuthFormProps) {
       router.push(destination);
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : tCommon("somethingWrong"));
+      console.error(err);
+      const key = mapAuthErrorKey(err);
+      setError(
+        key ? tAuth(key) : tCommon("somethingWrong"),
+      );
     } finally {
       setLoading(false);
     }

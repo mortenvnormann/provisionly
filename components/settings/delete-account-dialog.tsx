@@ -31,7 +31,8 @@ export function DeleteAccountDialog({ open, onClose }: DeleteAccountDialogProps)
     try {
       await deleteAccountAction(confirmation);
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("couldNotDelete"));
+      console.error(err);
+      setError(t("couldNotDelete"));
       setDeleting(false);
     }
   }

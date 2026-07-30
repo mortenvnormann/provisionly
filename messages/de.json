@@ -50,7 +50,9 @@
     "importing": "Gastlisten werden importiert…",
     "importErrorsTitle": "Einige Gastlisten konnten nicht importiert werden. Deine lokalen Kopien bleiben erhalten, damit wir es erneut versuchen können.",
     "deleteListConfirm": "\"{title}\" löschen? Das kann nicht rückgängig gemacht werden.",
-    "removeListConfirm": "\"{title}\" aus deinen Listen entfernen?"
+    "removeListConfirm": "\"{title}\" aus deinen Listen entfernen?",
+    "importNotSignedIn": "Not signed in. Refresh the page to import guest lists.",
+    "importListFailed": "Could not import \"{title}\"."
   },
   "recipes": {
     "newRecipe": "Neues Rezept",
@@ -106,7 +108,10 @@
     "cookTime": "Kochen",
     "totalTime": "Gesamt",
     "minutesShort": "{count} Min.",
-    "hoursMinutesShort": "{hours} Std. {minutes} Min."
+    "hoursMinutesShort": "{hours} Std. {minutes} Min.",
+    "couldNotDelete": "Could not delete recipe.",
+    "couldNotClone": "Could not clone recipe.",
+    "couldNotRemove": "Could not remove recipe."
   },
   "lists": {
     "loadingList": "Liste wird geladen…",
@@ -133,7 +138,8 @@
     "sharedWith": "Shared with",
     "you": "You",
     "owner": "owner",
-    "shareListDescription": "Anyone with the link can edit this list. Links expire after 7 days."
+    "shareListDescription": "Anyone with the link can edit this list. Links expire after 72 hours.",
+    "couldNotSaveItem": "Could not save changes. Please try again."
   },
   "auth": {
     "welcomeBack": "Willkommen zurück",
@@ -144,7 +150,11 @@
     "createAccountButton": "Konto erstellen",
     "continueAsGuest": "Als Gast fortfahren",
     "accountCreated": "Konto erstellt. Prüfe deine E-Mails zur Bestätigung und melde dich dann hier an.",
-    "tagline": "Collaborative grocery lists, made simple."
+    "tagline": "Collaborative grocery lists, made simple.",
+    "invalidCredentials": "Incorrect email or password.",
+    "emailTaken": "An account with this email already exists.",
+    "weakPassword": "Password is too weak. Use at least 6 characters.",
+    "networkError": "Could not reach the server. Check your connection and try again."
   },
   "settings": {
     "profile": "Profil",
@@ -174,11 +184,11 @@
     "creatingLink": "Creating link…",
     "expiresAt": "Expires {date}",
     "couldNotCreateLink": "Could not create link",
-    "shareRecipeDescription": "View-only access. Recipients can add ingredients to their lists or clone the recipe. Link never expires.",
+    "shareRecipeDescription": "View-only access. Recipients can add ingredients to their lists or clone the recipe. Links expire after 72 hours.",
     "listEmailSubject": "Join my grocery list: {title}",
-    "listEmailBody": "Hi,\n\nJoin my shopping list \"{title}\" on Provisionly:\n\n{url}\n\nThis link expires in 7 days.",
+    "listEmailBody": "Hi,\n\nJoin my shopping list \"{title}\" on Provisionly:\n\n{url}\n\nThis link expires in 72 hours.",
     "recipeEmailSubject": "Recipe: {title}",
-    "recipeEmailBody": "Hi,\n\nCheck out this recipe \"{title}\" on Provisionly:\n\n{url}\n\nThis link does not expire."
+    "recipeEmailBody": "Hi,\n\nCheck out this recipe \"{title}\" on Provisionly:\n\n{url}\n\nThis link expires in 72 hours."
   },
   "addToList": {
     "title": "Zur Liste hinzufügen",
@@ -205,9 +215,12 @@
   "join": {
     "joining": "Wird beigetreten…",
     "joinList": "Liste beitreten",
-    "invalidLink": "Dieser Freigabelink ist ungültig oder abgelaufen.",
+    "invalidLink": "This share link is invalid.",
     "couldNotOpenLink": "Could not open link",
-    "goToLists": "Go to your lists"
+    "goToLists": "Go to your lists",
+    "expiredLink": "This share link has expired.",
+    "listGone": "This list no longer exists.",
+    "recipeGone": "This recipe no longer exists."
   },
   "errors": {
     "deleteAccountConfirm": "Gib zur Bestätigung \"delete my account\" ein.",
@@ -218,6 +231,7 @@
     "somethingWrongTitle": "Etwas ist schiefgelaufen",
     "somethingWrongDescription": "Ein unerwarteter Fehler ist aufgetreten. Versuche es erneut oder kehre zu deinen Listen zurück.",
     "tryAgain": "Erneut versuchen",
-    "goHome": "Zu deinen Listen"
+    "goHome": "Zu deinen Listen",
+    "couldNotLoadCategories": "Could not load categories."
   }
 }

@@ -110,7 +110,7 @@ These are the main risks and how the app mitigates them.
 
 **Risk:** Guessable tokens could grant access to lists/recipes.
 
-**Mitigation:** Tokens are 32 random bytes (base64url). Only SHA-256 hashes are stored. List links expire after 7 days.
+**Mitigation:** Tokens are 32 random bytes (base64url). Only SHA-256 hashes are stored. List and recipe links expire after 72 hours.
 
 **Launch action:** Do not log full share URLs server-side.
 

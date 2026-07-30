@@ -24,6 +24,7 @@ import {
 } from "@/lib/recipes/recipe-detail-prefetch-cache";
 import { useRecipeSync } from "@/lib/recipes/use-recipe-sync";
 import type { RecipeDetail, RecipeInput } from "@/lib/recipes/types";
+import { ActionErrorBanner } from "@/components/ui/action-error-banner";
 import { BackLink } from "@/components/ui/back-link";
 import { Button } from "@/components/ui/button";
 import { ShareIcon } from "@/components/ui/icons";
@@ -89,6 +90,7 @@ export function RecipeDetailView({
   const [joinedBanner, setJoinedBanner] = useState(showJoinedBanner);
   const [cloning, setCloning] = useState(false);
   const [formSaving, setFormSaving] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
   const recipeFormRef = useRef<RecipeFormHandle>(null);
 
   useEffect(() => {
@@ -136,9 +138,15 @@ export function RecipeDetailView({
 
   async function handleUpdate(input: RecipeInput) {
     if (!recipe) return;
-    await updateRecipeAction(recipe.id, input);
-    setEditing(false);
-    router.refresh();
+    try {
+      await updateRecipeAction(recipe.id, input);
+      setEditing(false);
+      setActionError(null);
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+      setActionError(tRecipes("couldNotSave"));
+    }
   }
 
   async function handleClone() {
@@ -148,6 +156,9 @@ export function RecipeDetailView({
       const cloned = await cloneRecipeAction(recipe.id);
       router.push(`/recipes/${cloned.id}`);
       router.refresh();
+    } catch (err) {
+      console.error(err);
+      setActionError(tRecipes("couldNotClone"));
     } finally {
       setCloning(false);
     }
@@ -160,9 +171,14 @@ export function RecipeDetailView({
       tCommon("delete"),
     );
     if (!ok) return;
-    await deleteRecipeAction(recipe.id);
-    router.push("/recipes");
-    router.refresh();
+    try {
+      await deleteRecipeAction(recipe.id);
+      router.push("/recipes");
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+      setActionError(tRecipes("couldNotDelete"));
+    }
   }
 
   async function handleRemove() {
@@ -172,9 +188,14 @@ export function RecipeDetailView({
       tCommon("remove"),
     );
     if (!ok) return;
-    await removeRecipeAction(recipe.id);
-    router.push("/recipes");
-    router.refresh();
+    try {
+      await removeRecipeAction(recipe.id);
+      router.push("/recipes");
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+      setActionError(tRecipes("couldNotRemove"));
+    }
   }
 
   const openAddToList = useCallback(() => setAddOpen(true), []);
@@ -318,6 +339,13 @@ export function RecipeDetailView({
       />
 
       <div className="flex-1 overflow-y-auto pb-dock">
+        {actionError ? (
+          <ActionErrorBanner
+            message={actionError}
+            dismissLabel={tCommon("close")}
+            onDismiss={() => setActionError(null)}
+          />
+        ) : null}
         {joinedBanner ? (
           <div className="mx-4 mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">
             {tRecipes("joinedBanner")}

@@ -4,11 +4,31 @@ import { resolveCategoryId } from "@/lib/categorisation/resolve";
 import { getLocaleForUser } from "@/lib/i18n/user-locale";
 import { normalizeItemName, nextSortKey } from "@/lib/lists/normalize";
 import type { ListItemRow, ListSettings, ListSummary } from "@/lib/lists/types";
+import type { ListMemberRow } from "@/lib/share/types";
 import { assertListAccess } from "@/lib/lists/access";
 export { assertListAccess };
 import { createServiceClient } from "@/lib/supabase/service";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
+
+type MemberQueryRow = {
+  user_id: string;
+  role: string;
+  profiles:
+    | { display_name: string | null }
+    | { display_name: string | null }[]
+    | null;
+};
+
+function displayNameFromProfiles(
+  profiles: MemberQueryRow["profiles"],
+): string {
+  if (!profiles) return "Member";
+  if (Array.isArray(profiles)) {
+    return profiles[0]?.display_name ?? "Member";
+  }
+  return profiles.display_name ?? "Member";
+}
 
 async function userListIds(userId: string): Promise<string[]> {
   const service = createServiceClient();
@@ -124,27 +144,38 @@ export async function setListGroupByCategoryForUser(
 export async function fetchListSyncForUser(
   userId: string,
   listId: string,
-): Promise<{ items: ListItemRow[]; groupByCategory: boolean; title: string }> {
+): Promise<{
+  items: ListItemRow[];
+  groupByCategory: boolean;
+  title: string;
+  members: ListMemberRow[];
+}> {
   await assertListAccess(userId, listId);
   const service = createServiceClient();
 
-  const [{ data: itemRows, error: itemsError }, listResult] = await Promise.all([
-    service
-      .from("list_items")
-      .select(
-        "id, list_id, name_original, quantity, unit, category_id, checked, sort_key",
-      )
-      .eq("list_id", listId)
-      .order("sort_key"),
-    service
-      .from("lists")
-      .select("title, group_by_category")
-      .eq("id", listId)
-      .single(),
-  ]);
+  const [{ data: itemRows, error: itemsError }, listResult, membersResult] =
+    await Promise.all([
+      service
+        .from("list_items")
+        .select(
+          "id, list_id, name_original, quantity, unit, category_id, checked, sort_key",
+        )
+        .eq("list_id", listId)
+        .order("sort_key"),
+      service
+        .from("lists")
+        .select("title, group_by_category, owner_id")
+        .eq("id", listId)
+        .single(),
+      service
+        .from("list_members")
+        .select("user_id, role, profiles(display_name)")
+        .eq("list_id", listId),
+    ]);
 
   if (itemsError) throw new Error(itemsError.message);
   if (listResult.error) throw new Error(listResult.error.message);
+  if (membersResult.error) throw new Error(membersResult.error.message);
 
   const items = (itemRows ?? []).map((row) => ({
     id: row.id,
@@ -161,6 +192,17 @@ export async function fetchListSyncForUser(
     items,
     groupByCategory: listResult.data.group_by_category ?? true,
     title: listResult.data.title,
+    members: ((membersResult.data ?? []) as MemberQueryRow[])
+      .map((member) => ({
+        userId: member.user_id,
+        displayName: displayNameFromProfiles(member.profiles),
+        role: member.role,
+        isOwner: member.user_id === listResult.data.owner_id,
+      }))
+      .sort((a, b) => {
+        if (a.isOwner !== b.isOwner) return a.isOwner ? -1 : 1;
+        return a.displayName.localeCompare(b.displayName);
+      }),
   };
 }
 

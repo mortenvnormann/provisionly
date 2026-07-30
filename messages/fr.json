@@ -50,7 +50,9 @@
     "importing": "Import des listes invité…",
     "importErrorsTitle": "Certaines listes invité n'ont pas pu être importées. Vos copies locales sont conservées pour que nous puissions réessayer.",
     "deleteListConfirm": "Supprimer « {title} » ? Cette action est irréversible.",
-    "removeListConfirm": "Retirer « {title} » de vos listes ?"
+    "removeListConfirm": "Retirer « {title} » de vos listes ?",
+    "importNotSignedIn": "Not signed in. Refresh the page to import guest lists.",
+    "importListFailed": "Could not import \"{title}\"."
   },
   "recipes": {
     "newRecipe": "Nouvelle recette",
@@ -106,7 +108,10 @@
     "cookTime": "Cuisson",
     "totalTime": "Total",
     "minutesShort": "{count} min",
-    "hoursMinutesShort": "{hours} h {minutes} min"
+    "hoursMinutesShort": "{hours} h {minutes} min",
+    "couldNotDelete": "Could not delete recipe.",
+    "couldNotClone": "Could not clone recipe.",
+    "couldNotRemove": "Could not remove recipe."
   },
   "lists": {
     "loadingList": "Chargement de la liste…",
@@ -133,7 +138,8 @@
     "sharedWith": "Shared with",
     "you": "You",
     "owner": "owner",
-    "shareListDescription": "Anyone with the link can edit this list. Links expire after 7 days."
+    "shareListDescription": "Anyone with the link can edit this list. Links expire after 72 hours.",
+    "couldNotSaveItem": "Could not save changes. Please try again."
   },
   "auth": {
     "welcomeBack": "Bon retour",
@@ -144,7 +150,11 @@
     "createAccountButton": "Créer un compte",
     "continueAsGuest": "Continuer en invité",
     "accountCreated": "Compte créé. Vérifiez votre e-mail pour confirmer, puis connectez-vous ici.",
-    "tagline": "Collaborative grocery lists, made simple."
+    "tagline": "Collaborative grocery lists, made simple.",
+    "invalidCredentials": "Incorrect email or password.",
+    "emailTaken": "An account with this email already exists.",
+    "weakPassword": "Password is too weak. Use at least 6 characters.",
+    "networkError": "Could not reach the server. Check your connection and try again."
   },
   "settings": {
     "profile": "Profil",
@@ -174,11 +184,11 @@
     "creatingLink": "Creating link…",
     "expiresAt": "Expires {date}",
     "couldNotCreateLink": "Could not create link",
-    "shareRecipeDescription": "View-only access. Recipients can add ingredients to their lists or clone the recipe. Link never expires.",
+    "shareRecipeDescription": "View-only access. Recipients can add ingredients to their lists or clone the recipe. Links expire after 72 hours.",
     "listEmailSubject": "Join my grocery list: {title}",
-    "listEmailBody": "Hi,\n\nJoin my shopping list \"{title}\" on Provisionly:\n\n{url}\n\nThis link expires in 7 days.",
+    "listEmailBody": "Hi,\n\nJoin my shopping list \"{title}\" on Provisionly:\n\n{url}\n\nThis link expires in 72 hours.",
     "recipeEmailSubject": "Recipe: {title}",
-    "recipeEmailBody": "Hi,\n\nCheck out this recipe \"{title}\" on Provisionly:\n\n{url}\n\nThis link does not expire."
+    "recipeEmailBody": "Hi,\n\nCheck out this recipe \"{title}\" on Provisionly:\n\n{url}\n\nThis link expires in 72 hours."
   },
   "addToList": {
     "title": "Ajouter à la liste",
@@ -205,9 +215,12 @@
   "join": {
     "joining": "Connexion…",
     "joinList": "Rejoindre la liste",
-    "invalidLink": "Ce lien de partage est invalide ou a expiré.",
+    "invalidLink": "This share link is invalid.",
     "couldNotOpenLink": "Could not open link",
-    "goToLists": "Go to your lists"
+    "goToLists": "Go to your lists",
+    "expiredLink": "This share link has expired.",
+    "listGone": "This list no longer exists.",
+    "recipeGone": "This recipe no longer exists."
   },
   "errors": {
     "deleteAccountConfirm": "Saisissez \"delete my account\" pour confirmer.",
@@ -218,6 +231,7 @@
     "somethingWrongTitle": "Une erreur s'est produite",
     "somethingWrongDescription": "Une erreur inattendue s'est produite. Réessayez ou retournez à vos listes.",
     "tryAgain": "Réessayer",
-    "goHome": "Aller à vos listes"
+    "goHome": "Aller à vos listes",
+    "couldNotLoadCategories": "Could not load categories."
   }
 }

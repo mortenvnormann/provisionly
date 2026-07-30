@@ -12,6 +12,13 @@ type ShareRecipeSheetProps = {
   onClose: () => void;
 };
 
+function formatExpiry(iso: string): string {
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(new Date(iso));
+}
+
 export function ShareRecipeSheet({
   recipeId,
   recipeTitle,
@@ -21,6 +28,7 @@ export function ShareRecipeSheet({
   const tShare = useTranslations("share");
   const tCommon = useTranslations("common");
   const [url, setUrl] = useState<string | null>(null);
+  const [expiresAt, setExpiresAt] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -28,6 +36,7 @@ export function ShareRecipeSheet({
   useEffect(() => {
     if (!open) {
       setUrl(null);
+      setExpiresAt(null);
       setError(null);
       setCopied(false);
       return;
@@ -41,10 +50,12 @@ export function ShareRecipeSheet({
       .then((result) => {
         if (cancelled) return;
         setUrl(result.url);
+        setExpiresAt(result.expiresAt);
       })
       .catch((err) => {
         if (cancelled) return;
-        setError(err instanceof Error ? err.message : tShare("couldNotCreateLink"));
+        console.error(err);
+        setError(tShare("couldNotCreateLink"));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -118,6 +129,11 @@ export function ShareRecipeSheet({
             <div className="rounded-xl border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm break-all text-[var(--foreground)]">
               {url}
             </div>
+            {expiresAt ? (
+              <p className="text-xs text-[var(--muted-foreground)]">
+                {tShare("expiresAt", { date: formatExpiry(expiresAt) })}
+              </p>
+            ) : null}
             <div className="flex gap-2">
               <Button
                 type="button"

@@ -39,7 +39,7 @@ export const privacyPolicy: LegalSection[] = [
     paragraphs: p(
       "The data we process depends on how you use the app.",
       "Account holders: email address and password (for authentication); first name, last name, and display name (profile); language preference; grocery lists, list items, recipes, and ingredients you create; list membership and sharing settings; and technical data needed to run the service (such as session cookies).",
-      "When you share a list or recipe, other users you invite may see your display name and the content you share. List share links can be opened by anyone with the link until the link expires (list invite links expire after seven days).",
+      "When you share a list or recipe, other users you invite may see your display name and the content you share. List and recipe share links can be opened by anyone with the link until the link expires (invite links expire after 72 hours).",
       "Guest mode (without an account): lists and items are stored in your browser’s local storage on your device. We do not receive guest list content on our servers. A small cookie marks guest mode on your device.",
       "Signed-in offline use: when you are offline, changes may be queued in your browser’s local storage and synced when you are back online. We also cache list data locally to improve offline access.",
       "Analytics and performance: we use Vercel Analytics and Speed Insights to collect aggregated, privacy-oriented usage and performance metrics (for example page views and web vitals). We do not use these tools to sell your data or to build advertising profiles.",
@@ -89,7 +89,7 @@ export const privacyPolicy: LegalSection[] = [
     title: "8. How long we keep data",
     paragraphs: p(
       "Account data is kept until you delete your account. When you delete your account in Settings, we permanently delete your account and associated lists and recipes from our systems, subject to short backup retention by our providers.",
-      "Share links for lists expire after seven days unless otherwise stated in the app. Recipe share links may remain valid until revoked.",
+      "Share links for lists and recipes expire after 72 hours unless otherwise stated in the app. People who already joined keep their access after the link expires.",
       "Server and analytics logs are retained according to our providers’ policies, typically for a limited period.",
       "Guest data on your device remains until you clear it or remove it in the app.",
     ),

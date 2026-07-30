@@ -9,6 +9,7 @@ import { ListItemRowView } from "@/components/lists/list-item-row";
 import { ListMembers } from "@/components/lists/list-members";
 import { ProblemPage } from "@/components/layout/problem-page";
 import { useRegisterDock } from "@/components/layout/dock-context";
+import { ActionErrorBanner } from "@/components/ui/action-error-banner";
 import { BackLink } from "@/components/ui/back-link";
 import { ShareIcon } from "@/components/ui/icons";
 import { SwipeRow } from "@/components/ui/swipe-row";
@@ -162,6 +163,7 @@ export function ListDetail({
   const online = useOnline();
   const authOffline = !isGuest && !online;
   const [syncError, setSyncError] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
   const [loading, setLoading] = useState(!hasBootstrapData);
   const [notFound, setNotFound] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
@@ -181,6 +183,12 @@ export function ListDetail({
     locale,
     tCommon("general"),
     categorySeed,
+    tErrors("couldNotLoadCategories"),
+  );
+
+  const showActionError = useCallback(
+    (message: string) => setActionError(message),
+    [],
   );
 
   useEffect(() => {
@@ -442,17 +450,22 @@ export function ListDetail({
       return;
     }
 
-    const row = await addListItemAction(listId, {
-      name: input.name,
-      quantity: input.quantity ?? null,
-      unit: input.unit ?? null,
-      existingSortKeys: items.map((i) => i.sortKey),
-    });
-    setItems((prev) => {
-      const next = [...prev, row];
-      persistCache(title, next);
-      return next;
-    });
+    try {
+      const row = await addListItemAction(listId, {
+        name: input.name,
+        quantity: input.quantity ?? null,
+        unit: input.unit ?? null,
+        existingSortKeys: items.map((i) => i.sortKey),
+      });
+      setItems((prev) => {
+        const next = [...prev, row];
+        persistCache(title, next);
+        return next;
+      });
+    } catch (err) {
+      console.error(err);
+      showActionError(tLists("couldNotSaveItem"));
+    }
   }
 
   async function handleToggle(itemId: string) {
@@ -531,6 +544,8 @@ export function ListDetail({
           scheduleToggleCacheFlush(next);
           return next;
         });
+        console.error(err);
+        showActionError(tLists("couldNotSaveItem"));
       }
     }
 
@@ -547,12 +562,17 @@ export function ListDetail({
       return;
     }
 
-    await deleteCheckedItemsAction(listId);
-    setItems((prev) => {
-      const next = prev.filter((i) => !i.checked);
-      persistCache(title, next);
-      return next;
-    });
+    try {
+      await deleteCheckedItemsAction(listId);
+      setItems((prev) => {
+        const next = prev.filter((i) => !i.checked);
+        persistCache(title, next);
+        return next;
+      });
+    } catch (err) {
+      console.error(err);
+      showActionError(tLists("couldNotSaveItem"));
+    }
   }
 
   async function handleDeleteList() {
@@ -589,9 +609,11 @@ export function ListDetail({
 
     try {
       await setListGroupByCategoryAction(listId, next);
-    } catch {
+    } catch (err) {
+      console.error(err);
       setGroupByCategory(!next);
       persistCache(title, items, !next);
+      showActionError(tLists("couldNotSaveItem"));
     }
   }
 
@@ -655,16 +677,22 @@ export function ListDetail({
       return;
     }
 
-    const row = await updateListItemAction(itemId, listId, {
-      name: input.name,
-      quantity: input.quantity ?? null,
-      unit: input.unit ?? null,
-    });
-    setItems((prev) => {
-      const next = prev.map((i) => (i.id === itemId ? row : i));
-      persistCache(title, next);
-      return next;
-    });
+    try {
+      const row = await updateListItemAction(itemId, listId, {
+        name: input.name,
+        quantity: input.quantity ?? null,
+        unit: input.unit ?? null,
+      });
+      setItems((prev) => {
+        const next = prev.map((i) => (i.id === itemId ? row : i));
+        persistCache(title, next);
+        return next;
+      });
+    } catch (err) {
+      console.error(err);
+      showActionError(tLists("couldNotSaveItem"));
+      throw err;
+    }
   }
 
   async function handleDeleteItem(itemId: string) {
@@ -693,12 +721,17 @@ export function ListDetail({
       return;
     }
 
-    await deleteListItemAction(itemId);
-    setItems((prev) => {
-      const next = prev.filter((i) => i.id !== itemId);
-      persistCache(title, next);
-      return next;
-    });
+    try {
+      await deleteListItemAction(itemId);
+      setItems((prev) => {
+        const next = prev.filter((i) => i.id !== itemId);
+        persistCache(title, next);
+        return next;
+      });
+    } catch (err) {
+      console.error(err);
+      showActionError(tLists("couldNotSaveItem"));
+    }
   }
 
   if (loading) {
@@ -759,6 +792,13 @@ export function ListDetail({
           <div className="mx-4 mt-3 rounded-xl border border-[var(--destructive)]/40 bg-[var(--destructive)]/10 px-4 py-3 text-sm text-[var(--destructive)]">
             {tCommon("offlineSyncFailed")}
           </div>
+        ) : null}
+        {actionError ? (
+          <ActionErrorBanner
+            message={actionError}
+            dismissLabel={tCommon("close")}
+            onDismiss={() => setActionError(null)}
+          />
         ) : null}
         {joinedBanner ? (
           <div className="mx-4 mt-3 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-sm text-[var(--foreground)]">

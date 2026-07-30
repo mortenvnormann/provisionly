@@ -1,13 +1,20 @@
 import "server-only";
 
 import { buildJoinUrl } from "@/lib/app-url";
+import { AppError } from "@/lib/errors/app-error";
+import { SHARE_ERROR_CODES } from "@/lib/errors/share-codes";
 import { assertListAccess } from "@/lib/lists/server";
 import { assertRecipeViewAccess } from "@/lib/recipes/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { generateShareToken, hashShareToken } from "@/lib/share/tokens";
 import type { JoinShareResult, ListMemberRow, ShareLinkResult } from "@/lib/share/types";
 
-const LIST_SHARE_DAYS = 7;
+/** Invite links expire after 72 hours; joined members keep access. */
+const SHARE_LINK_TTL_MS = 72 * 60 * 60 * 1000;
+
+function shareLinkExpiresAt(): string {
+  return new Date(Date.now() + SHARE_LINK_TTL_MS).toISOString();
+}
 
 export async function createShareLinkForList(
   userId: string,
@@ -27,9 +34,7 @@ export async function createShareLinkForList(
 
   const token = generateShareToken();
   const tokenHash = hashShareToken(token);
-  const expiresAt = new Date(
-    Date.now() + LIST_SHARE_DAYS * 24 * 60 * 60 * 1000,
-  ).toISOString();
+  const expiresAt = shareLinkExpiresAt();
 
   const { error } = await service.from("share_links").insert({
     resource_type: "list",
@@ -65,12 +70,13 @@ export async function createShareLinkForRecipe(
 
   const token = generateShareToken();
   const tokenHash = hashShareToken(token);
+  const expiresAt = shareLinkExpiresAt();
 
   const { error } = await service.from("share_links").insert({
     resource_type: "recipe",
     resource_id: recipeId,
     token_hash: tokenHash,
-    expires_at: null,
+    expires_at: expiresAt,
     created_by: userId,
   });
 
@@ -78,7 +84,7 @@ export async function createShareLinkForRecipe(
 
   return {
     url: buildJoinUrl(token),
-    expiresAt: null,
+    expiresAt,
   };
 }
 
@@ -95,14 +101,14 @@ export async function joinViaShareToken(
     .eq("token_hash", tokenHash)
     .maybeSingle();
 
-  if (linkError) throw new Error(linkError.message);
-  if (!link) throw new Error("This share link is invalid.");
+  if (linkError) throw new AppError(SHARE_ERROR_CODES.invalid, linkError);
+  if (!link) throw new AppError(SHARE_ERROR_CODES.invalid);
+
+  if (link.expires_at && new Date(link.expires_at) <= new Date()) {
+    throw new AppError(SHARE_ERROR_CODES.expired);
+  }
 
   if (link.resource_type === "list") {
-    if (link.expires_at && new Date(link.expires_at) <= new Date()) {
-      throw new Error("This share link has expired.");
-    }
-
     const listId = link.resource_id;
     const { data: list, error: listError } = await service
       .from("lists")
@@ -110,8 +116,8 @@ export async function joinViaShareToken(
       .eq("id", listId)
       .maybeSingle();
 
-    if (listError) throw new Error(listError.message);
-    if (!list) throw new Error("This list no longer exists.");
+    if (listError) throw new AppError(SHARE_ERROR_CODES.invalid, listError);
+    if (!list) throw new AppError(SHARE_ERROR_CODES.listGone);
 
     const { error: memberError } = await service.from("list_members").upsert(
       {
@@ -122,7 +128,7 @@ export async function joinViaShareToken(
       { onConflict: "list_id,user_id", ignoreDuplicates: true },
     );
 
-    if (memberError) throw new Error(memberError.message);
+    if (memberError) throw new AppError(SHARE_ERROR_CODES.invalid, memberError);
     return { type: "list", id: listId };
   }
 
@@ -134,8 +140,8 @@ export async function joinViaShareToken(
       .eq("id", recipeId)
       .maybeSingle();
 
-    if (recipeError) throw new Error(recipeError.message);
-    if (!recipe) throw new Error("This recipe no longer exists.");
+    if (recipeError) throw new AppError(SHARE_ERROR_CODES.invalid, recipeError);
+    if (!recipe) throw new AppError(SHARE_ERROR_CODES.recipeGone);
 
     const { error: accessError } = await service.from("recipe_access").upsert(
       {
@@ -145,11 +151,11 @@ export async function joinViaShareToken(
       { onConflict: "recipe_id,user_id", ignoreDuplicates: true },
     );
 
-    if (accessError) throw new Error(accessError.message);
+    if (accessError) throw new AppError(SHARE_ERROR_CODES.invalid, accessError);
     return { type: "recipe", id: recipeId };
   }
 
-  throw new Error("This share link is invalid.");
+  throw new AppError(SHARE_ERROR_CODES.invalid);
 }
 
 export async function joinListViaToken(
@@ -158,7 +164,7 @@ export async function joinListViaToken(
 ): Promise<string> {
   const result = await joinViaShareToken(userId, token);
   if (result.type !== "list") {
-    throw new Error("This share link is for a recipe, not a list.");
+    throw new AppError(SHARE_ERROR_CODES.invalid);
   }
   return result.id;
 }
