@@ -3,7 +3,6 @@ import { headers } from "next/headers";
 import { TabsDataProvider } from "@/components/layout/tabs-data-context";
 import { getSessionState } from "@/lib/auth/session";
 import { fetchListSummariesForUser } from "@/lib/lists/server";
-import { fetchRecipeSummariesForUser } from "@/lib/recipes/server";
 import { createServiceClient } from "@/lib/supabase/service";
 
 export default async function TabsLayout({
@@ -21,10 +20,14 @@ export default async function TabsLayout({
   let lastName: string | null = null;
   let displayName: string | null = null;
   let initialLists: Awaited<ReturnType<typeof fetchListSummariesForUser>> = [];
-  let initialRecipes: Awaited<ReturnType<typeof fetchRecipeSummariesForUser>> =
-    [];
+  let initialRecipes: Awaited<
+    ReturnType<
+      typeof import("@/lib/recipes/server").fetchRecipeSummariesForUser
+    >
+  > = [];
 
-  if (user) {
+  // Guests never need the service-role client or recipe prefetch.
+  if (user && !isGuest) {
     const headerStore = await headers();
     const pathname = headerStore.get("x-pathname") ?? "/home";
     const prefetchRecipes = pathname.startsWith("/recipes");
@@ -37,9 +40,11 @@ export default async function TabsLayout({
         .eq("id", user.id)
         .maybeSingle(),
       fetchListSummariesForUser(user.id).catch(() => []),
-      isGuest || !prefetchRecipes
-        ? Promise.resolve([])
-        : fetchRecipeSummariesForUser(user.id).catch(() => []),
+      prefetchRecipes
+        ? import("@/lib/recipes/server")
+            .then((m) => m.fetchRecipeSummariesForUser(user.id))
+            .catch(() => [])
+        : Promise.resolve([]),
     ]);
     firstName = profile?.first_name ?? null;
     lastName = profile?.last_name ?? null;

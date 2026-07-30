@@ -17,6 +17,13 @@ export async function signOut() {
 
 export async function continueAsGuest() {
   const cookieStore = await cookies();
+  // Clear any leftover auth session so guest mode is not treated as signed-in.
+  try {
+    const supabase = createClient(cookieStore);
+    await supabase.auth.signOut();
+  } catch {
+    // Ignore auth/network errors — guest cookie is enough to enter the app.
+  }
   cookieStore.set(GUEST_COOKIE, "1", {
     httpOnly: true,
     sameSite: "lax",
