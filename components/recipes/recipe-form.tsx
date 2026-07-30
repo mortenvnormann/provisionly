@@ -87,27 +87,42 @@ function toInput(
   prepMinutesText: string,
   cookMinutesText: string,
   ingredients: IngredientDraft[],
+  sourceUrl?: string | null,
 ): RecipeInput {
+  const prepMinutes = parseRecipeMinutes(prepMinutesText);
+  const cookMinutes = parseRecipeMinutes(cookMinutesText);
+  const clampMinutes = (value: number | null) =>
+    value == null ? null : Math.min(24 * 60, Math.max(1, value));
+
   return {
-    title,
-    description,
-    instructions: serializeInstructions(steps),
+    title: title.trim().slice(0, 200) || "Untitled recipe",
+    description: description.slice(0, 10_000),
+    instructions: serializeInstructions(steps).slice(0, 50_000),
     tags: tagsText
       .split(",")
       .map((t) => t.trim())
-      .filter(Boolean),
-    defaultServings,
-    prepMinutes: parseRecipeMinutes(prepMinutesText),
-    cookMinutes: parseRecipeMinutes(cookMinutesText),
+      .filter(Boolean)
+      .map((t) => t.slice(0, 50))
+      .slice(0, 30),
+    defaultServings: Math.min(1000, Math.max(1, defaultServings || 1)),
+    prepMinutes: clampMinutes(prepMinutes),
+    cookMinutes: clampMinutes(cookMinutes),
+    sourceUrl: sourceUrl?.trim() || null,
     ingredients: ingredients
       .filter((item) => item.name.trim())
-      .map((item) => ({
-        name: item.name.trim(),
-        quantity: item.quantity.trim()
+      .map((item) => {
+        const parsed = item.quantity.trim()
           ? Number.parseFloat(item.quantity)
-          : null,
-        unit: item.unit.trim() || null,
-      })),
+          : null;
+        return {
+          name: item.name.trim().slice(0, 500),
+          quantity:
+            parsed != null && Number.isFinite(parsed) && parsed >= 0
+              ? parsed
+              : null,
+          unit: item.unit.trim().slice(0, 50) || null,
+        };
+      }),
   };
 }
 
@@ -158,6 +173,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
         }))
       : [emptyIngredient()],
   );
+  const [sourceUrl] = useState<string | null>(initial?.sourceUrl ?? null);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -308,6 +324,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
         prepMinutesText,
         cookMinutesText,
         ingredients,
+        sourceUrl,
       );
       if (input.ingredients.length === 0) {
         throw new Error(tRecipes("needIngredient"));
@@ -315,7 +332,11 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
       await onSubmit(input);
     } catch (err) {
       console.error(err);
-      setError(tRecipes("couldNotSave"));
+      const message =
+        err instanceof Error && err.message === tRecipes("needIngredient")
+          ? tRecipes("needIngredient")
+          : tRecipes("couldNotSave");
+      setError(message);
     } finally {
       setSaving(false);
     }
@@ -325,6 +346,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
     <form
       ref={formRef}
       onSubmit={handleSubmit}
+      noValidate
       className={`flex flex-col gap-3 ${hideFixedFooter ? "" : "pb-form-actions"}`}
     >
       {photoSlot}
@@ -545,7 +567,7 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
         </ul>
       </div>
 
-      {error ? (
+      {error && hideFixedFooter ? (
         <p className="rounded-lg bg-[var(--destructive)]/10 px-3 py-2 text-sm text-[var(--destructive)]">
           {error}
         </p>
@@ -553,6 +575,11 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
 
       {!hideFixedFooter ? (
         <div className="safe-area-pb fixed inset-x-0 bottom-0 z-40 mx-auto w-full max-w-lg px-4 pb-3">
+          {error ? (
+            <p className="mb-2 rounded-lg bg-[var(--destructive)]/10 px-3 py-2 text-sm text-[var(--destructive)]">
+              {error}
+            </p>
+          ) : null}
           <nav className="font-ui shadow-token-md flex gap-1 rounded-full border border-[var(--border)] bg-[var(--surface)] p-1">
             {onCancel ? (
               <Button type="button" variant="secondary" fullWidth onClick={onCancel}>

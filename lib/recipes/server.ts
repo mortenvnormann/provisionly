@@ -94,6 +94,7 @@ async function mapRecipeDetail(
     updated_at: string;
     owner_id: string;
     image_path: string | null;
+    source_url: string | null;
   },
   userId: string,
   isOwner: boolean,
@@ -114,6 +115,7 @@ async function mapRecipeDetail(
     isOwner,
     imagePath: image.imagePath,
     imageUrl: image.imageUrl,
+    sourceUrl: recipe.source_url,
     ingredients,
   };
 }
@@ -223,7 +225,7 @@ export async function fetchRecipeDetailForUser(
     service
       .from("recipes")
       .select(
-        "id, title, description, instructions, tags, default_servings, prep_minutes, cook_minutes, updated_at, owner_id, image_path",
+        "id, title, description, instructions, tags, default_servings, prep_minutes, cook_minutes, updated_at, owner_id, image_path, source_url",
       )
       .eq("id", recipeId)
       .maybeSingle(),
@@ -304,6 +306,7 @@ export async function createRecipeForUser(
       default_servings: Math.max(1, input.defaultServings),
       prep_minutes: input.prepMinutes ?? null,
       cook_minutes: input.cookMinutes ?? null,
+      source_url: input.sourceUrl?.trim() || null,
     })
     .select("id, title, default_servings, updated_at, owner_id")
     .single();
@@ -339,6 +342,9 @@ export async function updateRecipeForUser(
       default_servings: Math.max(1, input.defaultServings),
       prep_minutes: input.prepMinutes ?? null,
       cook_minutes: input.cookMinutes ?? null,
+      ...(input.sourceUrl !== undefined
+        ? { source_url: input.sourceUrl?.trim() || null }
+        : {}),
     })
     .eq("id", recipeId);
 
@@ -404,6 +410,7 @@ export async function cloneRecipeForUser(
       default_servings: source.defaultServings,
       prep_minutes: source.prepMinutes,
       cook_minutes: source.cookMinutes,
+      source_url: source.sourceUrl,
     })
     .select("id, title, default_servings, updated_at, owner_id")
     .single();

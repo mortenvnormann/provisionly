@@ -7,14 +7,14 @@ export default async function NewRecipePage() {
   const tRecipes = await getTranslations("recipes");
 
   return (
-    <div className="flex min-h-full flex-1 flex-col">
-      <header className="flex items-center gap-2 border-b border-[var(--border)] px-2 py-3">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+      <header className="flex shrink-0 items-center gap-2 border-b border-[var(--border)] px-2 py-3">
         <BackLink href="/recipes" label={tCommon("back")} />
         <h1 className="text-lg font-semibold text-[var(--foreground)]">
           {tRecipes("newRecipeTitle")}
         </h1>
       </header>
-      <div className="p-4">
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4">
         <NewRecipeForm />
       </div>
     </div>

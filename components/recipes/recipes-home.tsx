@@ -11,8 +11,13 @@ import { SwipeRow } from "@/components/ui/swipe-row";
 import { ChevronRightIcon } from "@/components/ui/icons";
 import {
   deleteRecipeAction,
+  importRecipeFromUrlAction,
   removeRecipeAction,
 } from "@/lib/recipes/actions";
+import { setRecipeImportDraft } from "@/lib/recipes/import-draft-cache";
+import { getAppErrorCode } from "@/lib/errors/app-error";
+import { RECIPE_IMPORT_ERROR_CODES } from "@/lib/errors/recipe-import-codes";
+import { Button } from "@/components/ui/button";
 import { prefetchRecipeDetailData } from "@/lib/recipes/recipe-detail-prefetch-cache";
 import type { RecipeSummary } from "@/lib/recipes/types";
 import { profileGreeting } from "@/lib/profile/types";
@@ -23,6 +28,7 @@ import {
 import { useTranslations } from "next-intl";
 
 type SortMode = "recent" | "alpha";
+type AddPanel = "closed" | "menu" | "import";
 
 type RecipesHomeProps = {
   firstName: string | null;
@@ -65,6 +71,10 @@ export function RecipesHome({
   const [showContent, setShowContent] = useState(!initial.loading);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [sortMode, setSortMode] = useState<SortMode>("recent");
+  const [addPanel, setAddPanel] = useState<AddPanel>("closed");
+  const [importUrl, setImportUrl] = useState("");
+  const [importing, setImporting] = useState(false);
+  const [importError, setImportError] = useState<string | null>(null);
   const prefetchedRecipesRef = useRef(new Set<string>());
   const greetingName = profileGreeting({ firstName, lastName, displayName }, email);
 
@@ -94,9 +104,52 @@ export function RecipesHome({
     setSortMode((mode) => (mode === "recent" ? "alpha" : "recent"));
   }, []);
 
+  const closeAddPanel = useCallback(() => {
+    setAddPanel("closed");
+    setImportUrl("");
+    setImportError(null);
+    setImporting(false);
+  }, []);
+
   const handleAdd = useCallback(() => {
+    setAddPanel((current) => (current === "closed" ? "menu" : "closed"));
+    setImportError(null);
+  }, []);
+
+  const handleManual = useCallback(() => {
+    closeAddPanel();
     router.push("/recipes/new");
-  }, [router]);
+  }, [closeAddPanel, router]);
+
+  const handleImportSubmit = useCallback(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
+      const trimmed = importUrl.trim();
+      if (!trimmed || importing) return;
+
+      setImporting(true);
+      setImportError(null);
+      try {
+        const draft = await importRecipeFromUrlAction(trimmed);
+        setRecipeImportDraft(draft);
+        closeAddPanel();
+        router.push("/recipes/new");
+      } catch (err) {
+        console.error(err);
+        const code = getAppErrorCode(err);
+        if (code === RECIPE_IMPORT_ERROR_CODES.invalidUrl) {
+          setImportError(tRecipes("importInvalidUrl"));
+        } else if (code === RECIPE_IMPORT_ERROR_CODES.noRecipeFound) {
+          setImportError(tRecipes("importNoRecipeFound"));
+        } else {
+          setImportError(tRecipes("importFetchFailed"));
+        }
+      } finally {
+        setImporting(false);
+      }
+    },
+    [closeAddPanel, importUrl, importing, router, tRecipes],
+  );
 
   const dockHandlers = useMemo(
     () => ({
@@ -105,8 +158,9 @@ export function RecipesHome({
       onSort: handleSort,
       addVisible: true,
       onAdd: handleAdd,
+      createFormOpen: addPanel !== "closed",
     }),
-    [handleAdd, handleSort, sortMode],
+    [addPanel, handleAdd, handleSort, sortMode],
   );
 
   useRegisterDock(dockHandlers);
@@ -253,6 +307,85 @@ export function RecipesHome({
           </div>
         </div>
       </div>
+
+      {addPanel === "menu" ? (
+        <div className="pointer-events-none fixed inset-x-0 bottom-[var(--dock-height)] z-20 mx-auto w-full max-w-lg px-4 pb-2">
+          <div className="pointer-events-auto ml-auto w-44">
+            <div
+              className="card-surface-bordered font-ui overflow-hidden py-1 shadow-token-md"
+              role="menu"
+            >
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() => {
+                  setAddPanel("import");
+                  setImportError(null);
+                }}
+                className="pressable w-full px-3 py-2.5 text-left text-sm text-[var(--foreground)] hover:bg-[var(--muted)]"
+              >
+                {tRecipes("importUrl")}
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                onClick={handleManual}
+                className="pressable w-full px-3 py-2.5 text-left text-sm text-[var(--foreground)] hover:bg-[var(--muted)]"
+              >
+                {tRecipes("createManual")}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {addPanel === "import" ? (
+        <div className="font-ui safe-area-pb fixed inset-x-0 bottom-[var(--dock-height)] z-20 mx-auto w-full max-w-lg px-4 pb-2">
+          <form
+            onSubmit={(event) => void handleImportSubmit(event)}
+            className="card-surface-bordered p-3 shadow-token-md"
+          >
+            <label className="mb-1.5 block text-sm font-medium text-[var(--foreground)]">
+              {tRecipes("importUrlLabel")}
+            </label>
+            <input
+              type="url"
+              value={importUrl}
+              onChange={(e) => setImportUrl(e.target.value)}
+              placeholder={tRecipes("importUrlPlaceholder")}
+              autoFocus
+              disabled={importing}
+              className="font-ui h-10 w-full rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--background)] px-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/20"
+            />
+            {importError ? (
+              <p
+                className="mt-2 text-sm text-[var(--destructive)]"
+                role="alert"
+              >
+                {importError}
+              </p>
+            ) : null}
+            <div className="mt-2 flex gap-2">
+              <Button
+                type="button"
+                variant="secondary"
+                fullWidth
+                disabled={importing}
+                onClick={closeAddPanel}
+              >
+                {tCommon("cancel")}
+              </Button>
+              <Button
+                type="submit"
+                fullWidth
+                disabled={importing || !importUrl.trim()}
+              >
+                {importing ? tRecipes("importing") : tRecipes("importConfirm")}
+              </Button>
+            </div>
+          </form>
+        </div>
+      ) : null}
     </div>
   );
 }

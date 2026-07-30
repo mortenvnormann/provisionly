@@ -111,7 +111,17 @@
     "hoursMinutesShort": "{hours} u {minutes} min",
     "couldNotDelete": "Could not delete recipe.",
     "couldNotClone": "Could not clone recipe.",
-    "couldNotRemove": "Could not remove recipe."
+    "couldNotRemove": "Could not remove recipe.",
+    "importUrl": "URL importeren",
+    "createManual": "Handmatig",
+    "importUrlLabel": "Recept-URL",
+    "importUrlPlaceholder": "https://…",
+    "importConfirm": "Importeren",
+    "importing": "Bezig met importeren…",
+    "importInvalidUrl": "Voer een geldige website-URL in.",
+    "importFetchFailed": "Pagina kon niet worden geladen. Probeer een andere link of maak handmatig.",
+    "importNoRecipeFound": "Geen receptgegevens gevonden. Probeer een andere link of maak handmatig.",
+    "originalRecipe": "Origineel recept"
   },
   "lists": {
     "loadingList": "Lijst laden…",

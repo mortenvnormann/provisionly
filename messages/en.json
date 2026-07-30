@@ -111,7 +111,17 @@
     "cookTime": "Cook",
     "totalTime": "Total",
     "minutesShort": "{count} min",
-    "hoursMinutesShort": "{hours} h {minutes} min"
+    "hoursMinutesShort": "{hours} h {minutes} min",
+    "importUrl": "Import URL",
+    "createManual": "Manual",
+    "importUrlLabel": "Recipe URL",
+    "importUrlPlaceholder": "https://…",
+    "importConfirm": "Import",
+    "importing": "Importing…",
+    "importInvalidUrl": "Enter a valid website URL.",
+    "importFetchFailed": "Could not load that page. Try another link or create manually.",
+    "importNoRecipeFound": "No recipe data found on that page. Try another link or create manually.",
+    "originalRecipe": "Original recipe"
   },
   "lists": {
     "loadingList": "Loading list…",

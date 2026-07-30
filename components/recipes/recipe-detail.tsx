@@ -286,6 +286,7 @@ export function RecipeDetailView({
               defaultServings: recipe.defaultServings,
               prepMinutes: recipe.prepMinutes,
               cookMinutes: recipe.cookMinutes,
+              sourceUrl: recipe.sourceUrl,
               ingredients: recipe.ingredients.map((item) => ({
                 name: item.name,
                 quantity: item.quantity,
@@ -376,6 +377,17 @@ export function RecipeDetailView({
             prepMinutes={recipe.prepMinutes}
             cookMinutes={recipe.cookMinutes}
           />
+
+          {recipe.sourceUrl ? (
+            <a
+              href={recipe.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="card-surface-bordered font-ui block px-3 py-2.5 text-sm text-[var(--brand)] underline-offset-2 hover:underline"
+            >
+              {tRecipes("originalRecipe")}
+            </a>
+          ) : null}
 
           {recipe.description ? (
             <section>

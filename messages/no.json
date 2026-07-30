@@ -111,7 +111,17 @@
     "hoursMinutesShort": "{hours} t {minutes} min",
     "couldNotDelete": "Could not delete recipe.",
     "couldNotClone": "Could not clone recipe.",
-    "couldNotRemove": "Could not remove recipe."
+    "couldNotRemove": "Could not remove recipe.",
+    "importUrl": "Importer URL",
+    "createManual": "Manuell",
+    "importUrlLabel": "Oppskrifts-URL",
+    "importUrlPlaceholder": "https://…",
+    "importConfirm": "Importer",
+    "importing": "Importerer…",
+    "importInvalidUrl": "Skriv inn en gyldig nettadresse.",
+    "importFetchFailed": "Kunne ikke laste siden. Prøv en annen lenke eller opprett manuelt.",
+    "importNoRecipeFound": "Fant ingen oppskriftsdata på siden. Prøv en annen lenke eller opprett manuelt.",
+    "originalRecipe": "Original oppskrift"
   },
   "lists": {
     "loadingList": "Laster liste…",

@@ -111,7 +111,17 @@
     "hoursMinutesShort": "{hours} t {minutes} min",
     "couldNotDelete": "Could not delete recipe.",
     "couldNotClone": "Could not clone recipe.",
-    "couldNotRemove": "Could not remove recipe."
+    "couldNotRemove": "Could not remove recipe.",
+    "importUrl": "Tuo URL",
+    "createManual": "Manuaalinen",
+    "importUrlLabel": "Reseptin URL",
+    "importUrlPlaceholder": "https://…",
+    "importConfirm": "Tuo",
+    "importing": "Tuodaan…",
+    "importInvalidUrl": "Anna kelvollinen verkko-osoite.",
+    "importFetchFailed": "Sivua ei voitu ladata. Kokeile toista linkkiä tai luo manuaalisesti.",
+    "importNoRecipeFound": "Sivulta ei löytynyt reseptitietoja. Kokeile toista linkkiä tai luo manuaalisesti.",
+    "originalRecipe": "Alkuperäinen resepti"
   },
   "lists": {
     "loadingList": "Ladataan listaa…",

@@ -100,6 +100,9 @@ export const recipeInputSchema = z.object({
     .max(LIMITS.recipeMinutes)
     .nullable()
     .optional(),
+  sourceUrl: z
+    .union([z.string().trim().url().max(2000), z.null()])
+    .optional(),
   ingredients: z.array(recipeIngredientInputSchema).max(200),
 });
 
