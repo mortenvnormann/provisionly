@@ -85,7 +85,8 @@ function parseIsoDurationMinutes(value: unknown): number | null {
   const minutes = Number(match[3] ?? 0);
   const seconds = Number(match[4] ?? 0);
   const total = days * 24 * 60 + hours * 60 + minutes + Math.round(seconds / 60);
-  return total > 0 ? total : null;
+  if (total < 1) return null;
+  return Math.min(total, 24 * 60);
 }
 
 function parseServings(value: unknown): number {
