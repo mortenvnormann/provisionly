@@ -29,9 +29,13 @@ import {
   getPrefetchedRecipes,
   prefetchRecipesData,
 } from "@/lib/tabs/recipes-prefetch-cache";
+import {
+  getSortPreference,
+  setSortPreference,
+  type SortMode,
+} from "@/lib/ui/sort-preference";
 import { useTranslations } from "next-intl";
 
-type SortMode = "recent" | "alpha";
 type AddPanel = "closed" | "menu" | "import";
 
 type RecipesHomeProps = {
@@ -98,7 +102,9 @@ export function RecipesHome({
   const [loading, setLoading] = useState(initial.loading);
   const [showContent, setShowContent] = useState(!initial.loading);
   const [reduceMotion, setReduceMotion] = useState(false);
-  const [sortMode, setSortMode] = useState<SortMode>("recent");
+  const [sortMode, setSortMode] = useState<SortMode>(() =>
+    getSortPreference("recipes"),
+  );
   const [addPanel, setAddPanel] = useState<AddPanel>("closed");
   const [importUrl, setImportUrl] = useState("");
   const [importing, setImporting] = useState(false);
@@ -129,7 +135,11 @@ export function RecipesHome({
   }, [recipes, sortMode]);
 
   const handleSort = useCallback(() => {
-    setSortMode((mode) => (mode === "recent" ? "alpha" : "recent"));
+    setSortMode((mode) => {
+      const next = mode === "recent" ? "alpha" : "recent";
+      setSortPreference("recipes", next);
+      return next;
+    });
   }, []);
 
   const closeAddPanel = useCallback(() => {

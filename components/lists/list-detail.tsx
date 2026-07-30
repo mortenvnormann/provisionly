@@ -782,7 +782,7 @@ export function ListDetail({
       </header>
 
       <div className="relative flex min-h-0 flex-1 flex-col">
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-dock">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
         {syncing ? (
           <div className="card-surface-bordered mx-4 mt-2 px-3 py-2.5 text-sm text-[var(--foreground)]">
             {tCommon("offlineSyncing")}
@@ -856,6 +856,14 @@ export function ListDetail({
             </section>
           ))
         )}
+        <div
+          aria-hidden
+          className="pointer-events-none shrink-0"
+          style={{
+            height:
+              "calc(var(--dock-height) + env(safe-area-inset-bottom, 0px) + 1.25rem)",
+          }}
+        />
         </div>
       </div>
 

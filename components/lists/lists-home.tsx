@@ -26,9 +26,12 @@ import { HomeHeader } from "@/components/layout/home-header";
 import { SwipeRow } from "@/components/ui/swipe-row";
 import { Button } from "@/components/ui/button";
 import { ChevronRightIcon } from "@/components/ui/icons";
+import {
+  getSortPreference,
+  setSortPreference,
+  type SortMode,
+} from "@/lib/ui/sort-preference";
 import { useTranslations } from "next-intl";
-
-type SortMode = "recent" | "alpha";
 
 type ListsHomeProps = {
   isGuest: boolean;
@@ -58,7 +61,9 @@ export function ListsHome({
   const [newTitle, setNewTitle] = useState("");
   const [creating, setCreating] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [sortMode, setSortMode] = useState<SortMode>("recent");
+  const [sortMode, setSortMode] = useState<SortMode>(() =>
+    getSortPreference("lists"),
+  );
   const prefetchedListsRef = useRef(new Set<string>());
 
   const prefetchListDetail = useCallback(
@@ -114,7 +119,11 @@ export function ListsHome({
   }, [lists, sortMode]);
 
   const handleSort = useCallback(() => {
-    setSortMode((mode) => (mode === "recent" ? "alpha" : "recent"));
+    setSortMode((mode) => {
+      const next = mode === "recent" ? "alpha" : "recent";
+      setSortPreference("lists", next);
+      return next;
+    });
   }, []);
 
   const handleAdd = useCallback(() => {
