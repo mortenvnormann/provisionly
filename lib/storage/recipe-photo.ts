@@ -1,6 +1,5 @@
 import "server-only";
 
-import sharp from "sharp";
 import { RECIPE_IMAGES_BUCKET } from "@/lib/storage/urls";
 import { RECIPE_PHOTO_MAX_BYTES, RECIPE_PHOTO_MIME_TYPES } from "@/lib/validation/schemas";
 import { createServiceClient } from "@/lib/supabase/service";
@@ -21,6 +20,8 @@ export async function processRecipePhoto(file: Blob): Promise<Buffer> {
   }
 
   try {
+    // Dynamic import keeps `sharp` out of serverless bundles that only list recipes.
+    const sharp = (await import("sharp")).default;
     return await sharp(Buffer.from(arrayBuffer))
       .rotate()
       .resize({
