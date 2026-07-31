@@ -41,9 +41,13 @@ add(additions, "dairy", "da", [
   "fløde", "piskefløde", "madlavningsfløde", "creme fraiche", "creme fraîche", "sour cream",
   "yoghurt", "græsk yoghurt", "skyr", "kefir", "kærnemælk", "tykmælk",
   "smør", "saltet smør", "usaltet smør", "margarine", "plantebaseret smør",
+  "æg", "æggehvider", "æggeblommer",
+]);
+add(additions, "cheese_deli", "da", [
   "ost", "cheddar", "mozarella", "mozzarella", "parmesan", "feta", "hytteost", "ricotta",
   "brie", "camembert", "danbo", "havarti", "rygeost", "flødeost", "philadelphia",
-  "æg", "æggehvider", "æggeblommer",
+  "bacon", "skinke", "pølse", "pølser", "pålæg", "leverpostej", "paté", "pate",
+  "roastbeef", "kalkunpåæg", "salami",
 ]);
 add(additions, "produce", "da", [
   "æble", "æbler", "banan", "bananer", "appelsin", "appelsiner", "citron", "citroner", "lime",
@@ -59,8 +63,7 @@ add(additions, "produce", "da", [
 add(additions, "meat_fish", "da", [
   "kylling", "kyllingefileter", "kyllingefilet", "kyllingelår", "kyllingevinger",
   "hakket kylling", "kalkun", "oksekød", "hakket oksekød", "hakkebøf", "bøf", "steak",
-  "svinekød", "hakket svinekød", "flæskesteg", "bacon", "skinke", "pølse", "pølser",
-  "frankfurter", "hotdogs", "medister", "leverpostej", "paté",
+  "svinekød", "hakket svinekød", "flæskesteg", "frankfurter", "hotdogs", "medister",
   "laks", "laksefilet", "torsk", "torskefileter", "rødspætte", "fiskefilet", "rejer", "scampi",
   "muslinger", "tun", "tun på dåse", "ansjoser", "sild", "røget laks",
 ]);
@@ -102,9 +105,11 @@ add(additions, "snacks", "da", [
 add(additions, "household", "da", [
   "toiletpapir", "køkkenrulle", "opvaskemiddel", "opvasketabs", "vaskemiddel", "skyllemiddel",
   "rengøringsmiddel", "allrengøring", "blegevand", "affaldsposer", "fryseposer", "folie",
-  "bagepapir", "madpapir", "tandpasta", "tandbørste", "shampoo", "balsam", "sæbe",
-  "håndsæbe", "deodorant", "barberskum", "bind", "tamponer", "bleer", "vådservietter",
-  "batterier", "stearinlys", "tændstikker", "lyspærer",
+  "bagepapir", "madpapir", "batterier", "stearinlys", "tændstikker", "lyspærer",
+]);
+add(additions, "personal_care", "da", [
+  "tandpasta", "tandbørste", "shampoo", "balsam", "sæbe", "håndsæbe", "deodorant",
+  "barberskum", "bind", "tamponer", "bleer", "vådservietter",
 ]);
 
 // --- English expansion ---
@@ -112,7 +117,11 @@ add(additions, "dairy", "en", [
   "semi skimmed milk", "whole milk", "skim milk", "lactose free milk", "oat milk",
   "almond milk", "soy milk", "coconut milk drink", "whipping cream", "single cream",
   "double cream", "sour cream", "creme fraiche", "greek yogurt", "skyr", "quark",
-  "cottage cheese", "cream cheese", "butter unsalted", "plant butter", "eggs free range",
+  "butter unsalted", "plant butter", "eggs free range",
+]);
+add(additions, "cheese_deli", "en", [
+  "cottage cheese", "cream cheese", "cheese", "ham", "salami", "bacon rashers",
+  "cold cuts", "deli meat", "roast beef",
 ]);
 add(additions, "produce", "en", [
   "spring onion", "scallions", "sweet potato", "bell pepper", "courgette", "zucchini",
@@ -122,7 +131,7 @@ add(additions, "produce", "en", [
 ]);
 add(additions, "meat_fish", "en", [
   "chicken breast", "chicken thighs", "minced chicken", "minced beef", "ground beef",
-  "pork mince", "bacon rashers", "smoked salmon", "cod fillets", "prawns", "shrimp",
+  "pork mince", "smoked salmon", "cod fillets", "prawns", "shrimp",
   "tinned tuna", "canned tuna", "turkey mince",
 ]);
 add(additions, "bakery", "en", [
@@ -143,50 +152,66 @@ add(additions, "household", "en", [
   "washing up liquid", "dishwasher tablets", "laundry detergent", "fabric softener",
   "bin bags", "freezer bags", "cling film", "baking paper", "kitchen roll", "toilet paper",
 ]);
+add(additions, "personal_care", "en", [
+  "toothpaste", "toothbrush", "shampoo", "conditioner", "soap", "hand soap", "deodorant",
+  "shaving foam", "pads", "tampons", "diapers", "wet wipes",
+]);
 
 // --- Nordic (sv / no / fi) ---
 add(additions, "dairy", "sv", [
   "mjölk", "standardmjölk", "lättmjölk", "grädde", "vispgrädde", "crème fraiche",
-  "yoghurt", "kvarg", "smör", "ägg", "ost", "fetaost", "keso",
+  "yoghurt", "kvarg", "smör", "ägg",
+]);
+add(additions, "cheese_deli", "sv", [
+  "ost", "fetaost", "keso", "bacon", "pålägg",
 ]);
 add(additions, "produce", "sv", [
   "äpple", "äpplen", "banan", "apelsin", "citron", "tomat", "gurka", "sallad", "spenat",
   "morot", "morötter", "potatis", "lök", "vitlök", "paprika", "broccoli", "blomkål",
 ]);
 add(additions, "meat_fish", "sv", [
-  "kyckling", "nötfärs", "fläskfärs", "bacon", "lax", "torsk", "räkor",
+  "kyckling", "nötfärs", "fläskfärs", "lax", "torsk", "räkor",
 ]);
 add(additions, "bakery", "sv", ["bröd", "knäckebröd", "bullar", "tortilla"]);
 add(additions, "beverages", "sv", ["vatten", "läsk", "juice", "kaffe", "te"]);
 add(additions, "household", "sv", ["toalettpapper", "diskmedel", "tvättmedel"]);
+add(additions, "personal_care", "sv", ["tandkräm", "schampo", "tvål"]);
 
 add(additions, "dairy", "no", [
-  "melk", "lettmelk", "helmelk", "fløte", "rømme", "yoghurt", "smør", "egg", "ost", "cottage cheese",
+  "melk", "lettmelk", "helmelk", "fløte", "rømme", "yoghurt", "smør", "egg",
+]);
+add(additions, "cheese_deli", "no", [
+  "ost", "cottage cheese", "bacon", "pålegg", "skinke",
 ]);
 add(additions, "produce", "no", [
   "eple", "epler", "banan", "appelsin", "sitron", "tomat", "agurk", "salat", "spinat",
   "gulrot", "potet", "løk", "hvitløk", "paprika", "brokkoli", "blomkål", "spisskål",
 ]);
 add(additions, "meat_fish", "no", [
-  "kylling", "kjøttdeig", "bacon", "laks", "torsk", "reker",
+  "kylling", "kjøttdeig", "laks", "torsk", "reker",
 ]);
 add(additions, "bakery", "no", ["brød", "knekkebrød", "rundstykker"]);
 add(additions, "beverages", "no", ["vann", "brus", "juice", "kaffe", "te"]);
 add(additions, "household", "no", ["toalettpapir", "oppvaskmiddel", "vaskemiddel"]);
+add(additions, "personal_care", "no", ["sjampoo", "såpe"]);
 
 add(additions, "dairy", "fi", [
-  "maito", "kerma", "vispikerma", "jogurtti", "voi", "muna", "juusto", "raehjuusto",
+  "maito", "kerma", "vispikerma", "jogurtti", "voi", "muna",
+]);
+add(additions, "cheese_deli", "fi", [
+  "juusto", "raehjuusto", "pekoni", "leikkeleet",
 ]);
 add(additions, "produce", "fi", [
   "omena", "banaani", "appelsiini", "sitruuna", "tomaatti", "kurkku", "salaatti", "pinaatti",
   "porkkana", "peruna", "sipuli", "valkosipuli", "paprika", "broccoli", "kukkakaali",
 ]);
 add(additions, "meat_fish", "fi", [
-  "kana", "jauheliha", "pekoni", "lohi", "turska", "katkaravut",
+  "kana", "jauheliha", "lohi", "turska", "katkaravut",
 ]);
 add(additions, "bakery", "fi", ["leipä", "näkkileipä", "sämpylä"]);
 add(additions, "beverages", "fi", ["vesi", "limsa", "mehu", "kahvi", "tee"]);
 add(additions, "household", "fi", ["wc-paperi", "astianpesuaine", "pyykinpesuaine"]);
+add(additions, "personal_care", "fi", ["hammasharja", "hammastahna", "shampoo"]);
 
 const existing = JSON.parse(await readFile(dataFile, "utf8"));
 const existingKeys = new Set(
