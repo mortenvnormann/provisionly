@@ -22,6 +22,8 @@ let categoriesOnlyCache: {
   expiresAt: number;
 } | null = null;
 const CACHE_TTL_MS = 5 * 60 * 1000;
+/** PostgREST/Supabase default max-rows is 1000; page past that so the dictionary is complete. */
+const ALIAS_PAGE_SIZE = 1000;
 
 export function clearCategoryCatalogCache() {
   cache = null;
@@ -51,6 +53,37 @@ function resolveGeneralId(categories: CategoryRow[]): string {
     categories.find((category) => category.slug === "general")?.id ??
     categories[categories.length - 1].id
   );
+}
+
+async function fetchAllCategoryAliases(
+  supabase: SupabaseClient,
+): Promise<
+  { alias_normalized: string; category_id: string; language: string | null }[]
+> {
+  const rows: {
+    alias_normalized: string;
+    category_id: string;
+    language: string | null;
+  }[] = [];
+
+  for (let from = 0; ; from += ALIAS_PAGE_SIZE) {
+    const to = from + ALIAS_PAGE_SIZE - 1;
+    const { data, error } = await supabase
+      .from("category_aliases")
+      .select("alias_normalized, category_id, language")
+      .order("alias_normalized")
+      .range(from, to);
+
+    if (error) {
+      throw new Error(`category_aliases: ${error.message}`);
+    }
+
+    const page = data ?? [];
+    rows.push(...page);
+    if (page.length < ALIAS_PAGE_SIZE) break;
+  }
+
+  return rows;
 }
 
 export async function getCategoriesOnly(
@@ -96,20 +129,14 @@ export async function getCategoryCatalog(
     return cache.catalog;
   }
 
-  const [{ categories, generalId }, aliasesRes] = await Promise.all([
+  const [{ categories, generalId }, aliasRows] = await Promise.all([
     getCategoriesOnly(supabase),
-    supabase
-      .from("category_aliases")
-      .select("alias_normalized, category_id, language"),
+    fetchAllCategoryAliases(supabase),
   ]);
-
-  if (aliasesRes.error) {
-    throw new Error(`category_aliases: ${aliasesRes.error.message}`);
-  }
 
   const catalog: CategoryCatalog = {
     categories,
-    aliases: (aliasesRes.data ?? []).map((row) => ({
+    aliases: aliasRows.map((row) => ({
       alias_normalized: row.alias_normalized,
       category_id: row.category_id,
       language: row.language,
