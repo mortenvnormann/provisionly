@@ -28,6 +28,13 @@ export type OfflineMutation =
     }
   | {
       id: string;
+      type: "set_all_checked";
+      listId: string;
+      checked: boolean;
+      at: number;
+    }
+  | {
+      id: string;
       type: "delete_item";
       listId: string;
       itemId: string;
@@ -96,6 +103,10 @@ export type EnqueueInput =
     > & { id?: string; at?: number })
   | (Omit<
       Extract<OfflineMutation, { type: "toggle_checked" }>,
+      "id" | "at"
+    > & { id?: string; at?: number })
+  | (Omit<
+      Extract<OfflineMutation, { type: "set_all_checked" }>,
       "id" | "at"
     > & { id?: string; at?: number })
   | (Omit<
@@ -173,6 +184,8 @@ export function applyOptimisticMutation(
       return items.map((item) =>
         item.id === mutation.itemId ? { ...item, checked: mutation.checked } : item,
       );
+    case "set_all_checked":
+      return items.map((item) => ({ ...item, checked: mutation.checked }));
     case "delete_item":
       return items.filter((item) => item.id !== mutation.itemId);
     default:

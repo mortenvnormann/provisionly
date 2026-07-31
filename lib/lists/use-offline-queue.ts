@@ -5,6 +5,7 @@ import {
   addListItemAction,
   deleteListItemAction,
   fetchListSyncAction,
+  setAllListItemsCheckedAction,
   setItemCheckedAction,
 } from "@/lib/lists/actions";
 import {
@@ -56,6 +57,10 @@ async function applyMutation(
         return { idMap, sortKeys };
       }
       await setItemCheckedAction(serverItemId, mutation.checked, mutation.listId);
+      return { idMap, sortKeys };
+    }
+    case "set_all_checked": {
+      await setAllListItemsCheckedAction(mutation.listId, mutation.checked);
       return { idMap, sortKeys };
     }
     case "delete_item": {

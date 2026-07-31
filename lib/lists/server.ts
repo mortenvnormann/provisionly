@@ -415,6 +415,22 @@ export async function setItemCheckedForUser(
   if (!data) throw new Error("Item not found");
 }
 
+export async function setAllListItemsCheckedForUser(
+  userId: string,
+  listId: string,
+  checked: boolean,
+): Promise<void> {
+  await assertListAccess(userId, listId);
+  const service = createServiceClient();
+
+  const { error } = await service
+    .from("list_items")
+    .update({ checked })
+    .eq("list_id", listId);
+
+  if (error) throw new Error(error.message);
+}
+
 export async function deleteCheckedItemsForUser(
   userId: string,
   listId: string,

@@ -26,6 +26,7 @@ import {
   deleteGuestItem,
   deleteGuestList,
   getGuestList,
+  setAllGuestItemsChecked,
   updateGuestList,
   updateGuestItem,
 } from "@/lib/guest/storage";
@@ -36,6 +37,7 @@ import {
   deleteListAction,
   deleteListItemAction,
   leaveListAction,
+  setAllListItemsCheckedAction,
   setItemCheckedAction,
   setListGroupByCategoryAction,
   updateListItemAction,
@@ -396,6 +398,15 @@ export function ListDetail({
   }, [items, categories, groupByCategory]);
 
   const hasChecked = items.some((i) => i.checked);
+  const allChecked = items.length > 0 && items.every((i) => i.checked);
+  const someChecked = hasChecked && !allChecked;
+  const checkAllRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (checkAllRef.current) {
+      checkAllRef.current.indeterminate = someChecked;
+    }
+  }, [someChecked]);
 
   async function handleAdd(input: {
     name: string;
@@ -551,6 +562,61 @@ export function ListDetail({
 
     if (!existing?.inFlight) {
       flushToggle(itemId);
+    }
+  }
+
+  async function handleCheckAll() {
+    if (writesBlocked || items.length === 0) return;
+
+    const checked = !allChecked;
+    const previous = items;
+
+    for (const item of items) {
+      checkedByIdRef.current.set(item.id, checked);
+    }
+
+    if (isGuest) {
+      setAllGuestItemsChecked(listId, checked);
+      setItems((prev) => prev.map((item) => ({ ...item, checked })));
+      return;
+    }
+
+    if (authOffline) {
+      enqueue({
+        type: "set_all_checked",
+        listId,
+        checked,
+      });
+      setItems((prev) => {
+        const next = prev.map((item) => ({ ...item, checked }));
+        persistCache(title, next);
+        return next;
+      });
+      return;
+    }
+
+    setItems((prev) => {
+      const next = prev.map((item) => ({ ...item, checked }));
+      persistCache(title, next);
+      return next;
+    });
+
+    try {
+      await setAllListItemsCheckedAction(listId, checked);
+      markListItemsLocallySynced(
+        listId,
+        items.map((item) => ({ ...item, checked })),
+      );
+    } catch (err) {
+      for (const item of previous) {
+        checkedByIdRef.current.set(item.id, item.checked);
+      }
+      setItems(() => {
+        persistCache(title, previous);
+        return previous;
+      });
+      console.error(err);
+      showActionError(tLists("couldNotSaveItem"));
     }
   }
 
@@ -779,6 +845,28 @@ export function ListDetail({
           <ListMembers members={members} currentUserId={currentUserId} />
         ) : null}
         <AddItemBar onAdd={handleAdd} disabled={writesBlocked} />
+        {items.length > 0 ? (
+          <div className="flex items-center gap-1 px-3 pb-2">
+            <label className="flex min-w-0 cursor-pointer items-center gap-1">
+              <span className="flex size-11 shrink-0 items-center justify-center">
+                <input
+                  ref={checkAllRef}
+                  type="checkbox"
+                  checked={allChecked}
+                  disabled={writesBlocked}
+                  aria-label={
+                    allChecked ? tLists("unmarkAllAria") : tLists("markAllAria")
+                  }
+                  onChange={() => void handleCheckAll()}
+                  className="size-5 rounded border-[var(--border)] accent-[var(--accent)] disabled:cursor-not-allowed"
+                />
+              </span>
+              <span className="font-ui text-sm text-[var(--foreground)]">
+                {tLists("markAll")}
+              </span>
+            </label>
+          </div>
+        ) : null}
       </header>
 
       <div className="relative flex min-h-0 flex-1 flex-col">

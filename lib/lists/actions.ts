@@ -26,6 +26,7 @@ import {
   fetchListTitleForUser,
   leaveListForUser,
   setItemCheckedForUser,
+  setAllListItemsCheckedForUser,
   setListGroupByCategoryForUser,
   updateListItemForUser,
 } from "@/lib/lists/server";
@@ -153,6 +154,15 @@ export async function setItemCheckedAction(
     checked,
     parseListId(listId),
   );
+}
+
+export async function setAllListItemsCheckedAction(
+  listId: string,
+  checked: boolean,
+): Promise<void> {
+  const user = await getVerifiedUser();
+  await setAllListItemsCheckedForUser(user.id, parseListId(listId), checked);
+  revalidatePath(`/lists/${listId}`);
 }
 
 export async function deleteCheckedItemsAction(

@@ -104,6 +104,13 @@ export function clearCheckedGuestItems(listId: string): void {
   }));
 }
 
+export function setAllGuestItemsChecked(listId: string, checked: boolean): void {
+  updateGuestList(listId, (list) => ({
+    ...list,
+    items: list.items.map((item) => ({ ...item, checked })),
+  }));
+}
+
 export function deleteGuestList(id: string): void {
   writeAll(readAll().filter((list) => list.id !== id));
 }
