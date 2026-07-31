@@ -54,7 +54,7 @@ add(additions, "produce", "da", [
   "løg", "rødløg", "hvidløg", "porre", "porreer", "peberfrugt", "chili", "squash", "zucchini",
   "aubergine", "champignon", "svampe", "majs", "ærter", "bønner", "grønne bønner", "asparges",
   "selleri", "sellerirod", "persille", "dild", "basilikum", "koriander", "mynte", "ingefær",
-  "friske urter", "salatmix", "kål", "hvidkål", "rødkål", "kinakål", "spidskål", "radise", "radiser",
+  "friske urter", "salatmix", "kål", "hvidkål", "rødkål", "kinakål", "spidskål", "rødbede", "rødbeder", "radise", "radiser",
 ]);
 add(additions, "meat_fish", "da", [
   "kylling", "kyllingefileter", "kyllingefilet", "kyllingelår", "kyllingevinger",
@@ -118,6 +118,7 @@ add(additions, "produce", "en", [
   "spring onion", "scallions", "sweet potato", "bell pepper", "courgette", "zucchini",
   "aubergine", "eggplant", "rocket", "arugula", "coriander", "cilantro", "fresh herbs",
   "mixed salad", "berry mix", "stone fruit", "pointed cabbage", "sweetheart cabbage",
+  "beetroot", "beet", "beets",
 ]);
 add(additions, "meat_fish", "en", [
   "chicken breast", "chicken thighs", "minced chicken", "minced beef", "ground beef",
