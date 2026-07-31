@@ -2,8 +2,8 @@ import "server-only";
 
 import type { CategoryRow } from "@/lib/lists/types";
 
-const MODEL = "gemini-2.0-flash";
-const TIMEOUT_MS = 8_000;
+const MODEL = "gemini-2.5-flash";
+const TIMEOUT_MS = 4_000;
 
 function categoryLabel(category: CategoryRow, locale: string): string {
   return (
@@ -63,6 +63,7 @@ export async function categorizeItemWithGemini(options: {
         generationConfig: {
           temperature: 0,
           responseMimeType: "application/json",
+          thinkingConfig: { thinkingBudget: 0 },
         },
       }),
     });

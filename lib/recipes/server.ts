@@ -1,6 +1,9 @@
 import "server-only";
 
-import { resolveCategoryId } from "@/lib/categorisation/resolve";
+import {
+  applyAiCategoryUpgrade,
+  resolveCategoryForWrite,
+} from "@/lib/categorisation/resolve";
 import { getLocaleForUser } from "@/lib/i18n/user-locale";
 import { assertListAccess } from "@/lib/lists/server";
 import { normalizeItemName, nextSortKey } from "@/lib/lists/normalize";
@@ -269,25 +272,59 @@ async function insertRecipeIngredients(
   const service = createServiceClient();
   const locale = await getLocaleForUser(userId);
 
-  const rows = await Promise.all(
+  const prepared = await Promise.all(
     ingredients.map(async (item, index) => {
       const name = item.name.trim();
+      const resolved = await resolveCategoryForWrite(userClient, name, locale);
       return {
-        recipe_id: recipeId,
-        name_original: name,
-        name_normalized: normalizeItemName(name),
-        quantity: item.quantity ?? null,
-        unit: item.unit?.trim() || null,
-        category_id: await resolveCategoryId(userClient, name, locale, {
-          allowAi: true,
-        }).catch(() => null),
-        position: index,
+        row: {
+          recipe_id: recipeId,
+          name_original: name,
+          name_normalized: normalizeItemName(name),
+          quantity: item.quantity ?? null,
+          unit: item.unit?.trim() || null,
+          category_id: resolved.categoryId,
+          position: index,
+        },
+        needsAi: resolved.needsAi,
+        name,
       };
     }),
   );
 
-  const { error } = await service.from("recipe_ingredients").insert(rows);
+  const { error } = await service
+    .from("recipe_ingredients")
+    .insert(prepared.map((entry) => entry.row));
   if (error) throw new Error(error.message);
+
+  const upgrades = prepared.filter((entry) => entry.needsAi);
+  if (upgrades.length === 0) return;
+
+  const { data: inserted } = await service
+    .from("recipe_ingredients")
+    .select("id, name_original, category_id, position")
+    .eq("recipe_id", recipeId)
+    .order("position");
+
+  await Promise.all(
+    (inserted ?? []).map(async (row) => {
+      const match = upgrades.find(
+        (entry) =>
+          entry.name === row.name_original && entry.row.position === row.position,
+      );
+      if (!match) return;
+      const upgraded = await applyAiCategoryUpgrade(
+        userClient,
+        match.name,
+        locale,
+      );
+      if (!upgraded || upgraded === row.category_id) return;
+      await service
+        .from("recipe_ingredients")
+        .update({ category_id: upgraded })
+        .eq("id", row.id);
+    }),
+  );
 }
 
 export async function createRecipeForUser(
@@ -543,11 +580,17 @@ export async function addRecipeIngredientsToListForUser(
 
     const cookieStore = await cookies();
     const userClient = createClient(cookieStore);
-    const categoryId =
-      ingredient.categoryId ??
-      (await resolveCategoryId(userClient, ingredient.name, locale, {
-        allowAi: true,
-      }).catch(() => null));
+    let categoryId = ingredient.categoryId ?? null;
+    let needsAi = false;
+    if (!categoryId) {
+      const resolved = await resolveCategoryForWrite(
+        userClient,
+        ingredient.name,
+        locale,
+      );
+      categoryId = resolved.categoryId;
+      needsAi = resolved.needsAi;
+    }
 
     const sortKey = nextSortKey(sortKeys);
     sortKeys.push(sortKey);
@@ -569,6 +612,20 @@ export async function addRecipeIngredientsToListForUser(
 
     if (insertError || !inserted) {
       throw new Error(insertError?.message ?? "Could not add item to list");
+    }
+
+    if (needsAi) {
+      const upgraded = await applyAiCategoryUpgrade(
+        userClient,
+        ingredient.name,
+        locale,
+      );
+      if (upgraded && upgraded !== categoryId) {
+        await service
+          .from("list_items")
+          .update({ category_id: upgraded })
+          .eq("id", inserted.id);
+      }
     }
 
     items.push(inserted);

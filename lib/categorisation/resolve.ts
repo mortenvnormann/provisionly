@@ -15,6 +15,13 @@ export type ResolveCategoryOptions = {
   allowAi?: boolean;
 };
 
+export type CategoryForWrite = {
+  categoryId: string;
+  generalId: string;
+  /** True when dictionary landed on General — caller may run AI after the write. */
+  needsAi: boolean;
+};
+
 export async function resolveCategoryId(
   supabase: SupabaseClient,
   itemName: string,
@@ -30,23 +37,13 @@ export async function resolveCategoryId(
       return dictionaryId;
     }
 
-    const slug = await categorizeItemWithGemini({
+    const upgraded = await applyAiCategoryUpgrade(
+      supabase,
       itemName,
       locale,
-      categories: catalog.categories,
-    });
-    if (!slug || slug === "general") {
-      return catalog.generalId;
-    }
-
-    const category = catalog.categories.find((entry) => entry.slug === slug);
-    if (!category) return catalog.generalId;
-
-    await cacheAiAlias(itemName, locale, category.id).catch((error) => {
-      console.error("[categorisation] Failed to cache AI alias:", error);
-    });
-
-    return category.id;
+      catalog,
+    );
+    return upgraded ?? catalog.generalId;
   } catch (catalogError) {
     console.error("Category catalog load failed:", catalogError);
 
@@ -62,6 +59,79 @@ export async function resolveCategoryId(
     }
 
     return data as string;
+  }
+}
+
+/**
+ * Fast dictionary-only resolve for writes. Never calls Gemini.
+ * Prefer this before insert/update; use {@link applyAiCategoryUpgrade} afterward if needsAi.
+ */
+export async function resolveCategoryForWrite(
+  supabase: SupabaseClient,
+  itemName: string,
+  locale = "en",
+): Promise<CategoryForWrite> {
+  try {
+    const catalog = await getCategoryCatalog(supabase);
+    const categoryId = resolveCategoryFromCatalog(catalog, itemName, locale);
+    return {
+      categoryId,
+      generalId: catalog.generalId,
+      needsAi: categoryId === catalog.generalId,
+    };
+  } catch (catalogError) {
+    console.error("Category catalog load failed:", catalogError);
+
+    const { data, error } = await supabase.rpc("resolve_category_id", {
+      p_name: itemName,
+    });
+
+    if (error || !data) {
+      console.error("resolve_category_id RPC failed:", error?.message);
+      throw new Error(
+        "Could not categorise item. Check that Supabase migrations are applied.",
+      );
+    }
+
+    const categoryId = data as string;
+    return {
+      categoryId,
+      generalId: categoryId,
+      needsAi: true,
+    };
+  }
+}
+
+/**
+ * Call Gemini when dictionary returned General. Returns a better category id, or null.
+ * Caches successful aliases. Failures are soft (null).
+ */
+export async function applyAiCategoryUpgrade(
+  supabase: SupabaseClient,
+  itemName: string,
+  locale: string,
+  catalogHint?: Awaited<ReturnType<typeof getCategoryCatalog>>,
+): Promise<string | null> {
+  try {
+    const catalog = catalogHint ?? (await getCategoryCatalog(supabase));
+    const slug = await categorizeItemWithGemini({
+      itemName,
+      locale,
+      categories: catalog.categories,
+    });
+    if (!slug || slug === "general") return null;
+
+    const category = catalog.categories.find((entry) => entry.slug === slug);
+    if (!category || category.id === catalog.generalId) return null;
+
+    await cacheAiAlias(itemName, locale, category.id).catch((error) => {
+      console.error("[categorisation] Failed to cache AI alias:", error);
+    });
+
+    return category.id;
+  } catch (error) {
+    console.error("[categorisation] AI upgrade failed:", error);
+    return null;
   }
 }
 
