@@ -1,16 +1,13 @@
 import "server-only";
 
-import {
-  getCategoryCatalog,
-  resolveCategoryFromCatalog,
-} from "@/lib/categorisation/catalog";
-import { normalizeItemName } from "@/lib/lists/normalize";
+import { resolveCategoryId } from "@/lib/categorisation/resolve";
+import { getCategoryCatalog } from "@/lib/categorisation/catalog";
 import { assertListAccess } from "@/lib/lists/server";
 import type { ListItemRow } from "@/lib/lists/types";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 
-/** Fix items saved without a category (or stuck on General when an alias exists). */
+/** Fix items saved without a category (or stuck on General when a better match exists). */
 export async function repairListItemCategoriesForUser(
   userId: string,
   listId: string,
@@ -20,36 +17,37 @@ export async function repairListItemCategoriesForUser(
   await assertListAccess(userId, listId);
 
   const supabase = createClient(await cookies());
-  let catalog;
+  let generalId: string | null = null;
   try {
-    catalog = await getCategoryCatalog(supabase);
+    generalId = (await getCategoryCatalog(supabase)).generalId;
   } catch {
     return items;
   }
 
-  const generalId = catalog.generalId;
   let changed = false;
   const next = [...items];
 
   for (let i = 0; i < next.length; i++) {
     const item = next[i];
-    const resolved = resolveCategoryFromCatalog(catalog, item.name, locale);
     const needsRepair =
-      item.categoryId == null ||
-      (item.categoryId === generalId &&
-        resolved !== generalId &&
-        catalog.aliases.some(
-          (alias) => alias.alias_normalized === normalizeItemName(item.name),
-        ));
+      item.categoryId == null || item.categoryId === generalId;
+    if (!needsRepair) continue;
 
-    if (!needsRepair || resolved === item.categoryId) continue;
+    const resolved = await resolveCategoryId(supabase, item.name, locale, {
+      allowAi: true,
+    }).catch(() => item.categoryId);
+
+    if (!resolved || resolved === item.categoryId) continue;
 
     const { error } = await supabase
       .from("list_items")
       .update({ category_id: resolved })
       .eq("id", item.id);
 
-    if (error) continue;
+    if (error) {
+      console.error("Category repair failed:", error.message);
+      continue;
+    }
 
     next[i] = { ...item, categoryId: resolved };
     changed = true;

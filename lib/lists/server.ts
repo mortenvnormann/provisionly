@@ -251,9 +251,9 @@ export async function addListItemForUser(
   const cookieStore = await cookies();
   const userClient = createClient(cookieStore);
   const locale = await getLocaleForUser(userId);
-  const categoryId = await resolveCategoryId(userClient, name, locale).catch(
-    () => null,
-  );
+  const categoryId = await resolveCategoryId(userClient, name, locale, {
+    allowAi: true,
+  }).catch(() => null);
 
   const service = createServiceClient();
   const { data, error } = await service
@@ -314,9 +314,9 @@ export async function updateListItemForUser(
   const cookieStore = await cookies();
   const userClient = createClient(cookieStore);
   const locale = await getLocaleForUser(userId);
-  const categoryId = await resolveCategoryId(userClient, name, locale).catch(
-    () => null,
-  );
+  const categoryId = await resolveCategoryId(userClient, name, locale, {
+    allowAi: true,
+  }).catch(() => null);
 
   const { data, error } = await service
     .from("list_items")
@@ -419,9 +419,9 @@ export async function createListWithItemsForUser(
       unit: item.unit ?? null,
       category_id:
         item.categoryId ??
-        (await resolveCategoryId(userClient, item.name, locale).catch(
-          () => null,
-        )),
+        (await resolveCategoryId(userClient, item.name, locale, {
+          allowAi: true,
+        }).catch(() => null)),
       checked: item.checked ?? false,
       sort_key: item.sortKey ?? `a${index}`,
     })),

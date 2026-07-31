@@ -1,11 +1,12 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { normalizeItemName } from "@/lib/lists/normalize";
+import { normalizeForCategoryMatch } from "@/lib/lists/normalize";
 import type { CategoryRow } from "@/lib/lists/types";
 
 type AliasRow = {
   alias_normalized: string;
   category_id: string;
   language: string | null;
+  matchKey: string;
 };
 
 export type CategoryCatalog = {
@@ -108,7 +109,12 @@ export async function getCategoryCatalog(
 
   const catalog: CategoryCatalog = {
     categories,
-    aliases: aliasesRes.data ?? [],
+    aliases: (aliasesRes.data ?? []).map((row) => ({
+      alias_normalized: row.alias_normalized,
+      category_id: row.category_id,
+      language: row.language,
+      matchKey: normalizeForCategoryMatch(row.alias_normalized),
+    })),
     generalId,
   };
 
@@ -122,12 +128,10 @@ export function resolveCategoryFromCatalog(
   itemName: string,
   locale = "en",
 ): string {
-  const normalized = normalizeItemName(itemName);
+  const normalized = normalizeForCategoryMatch(itemName);
   if (!normalized) return catalog.generalId;
 
-  const matches = catalog.aliases.filter(
-    (a) => a.alias_normalized === normalized,
-  );
+  const matches = catalog.aliases.filter((a) => a.matchKey === normalized);
 
   if (matches.length === 0) return catalog.generalId;
 

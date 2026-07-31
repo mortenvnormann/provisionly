@@ -1,17 +1,50 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { categorizeItemWithGemini } from "@/lib/categorisation/ai-resolve";
 import {
+  clearCategoryCatalogCache,
   getCategoryCatalog,
   resolveCategoryFromCatalog,
 } from "@/lib/categorisation/catalog";
+import { normalizeItemName } from "@/lib/lists/normalize";
+import { createServiceClient } from "@/lib/supabase/service";
+
+export type ResolveCategoryOptions = {
+  /** When true, call Gemini if dictionary returns General. Guests must leave this false. */
+  allowAi?: boolean;
+};
 
 export async function resolveCategoryId(
   supabase: SupabaseClient,
   itemName: string,
   locale = "en",
+  options: ResolveCategoryOptions = {},
 ): Promise<string> {
+  const allowAi = options.allowAi === true;
+
   try {
     const catalog = await getCategoryCatalog(supabase);
-    return resolveCategoryFromCatalog(catalog, itemName, locale);
+    const dictionaryId = resolveCategoryFromCatalog(catalog, itemName, locale);
+    if (dictionaryId !== catalog.generalId || !allowAi) {
+      return dictionaryId;
+    }
+
+    const slug = await categorizeItemWithGemini({
+      itemName,
+      locale,
+      categories: catalog.categories,
+    });
+    if (!slug || slug === "general") {
+      return catalog.generalId;
+    }
+
+    const category = catalog.categories.find((entry) => entry.slug === slug);
+    if (!category) return catalog.generalId;
+
+    await cacheAiAlias(itemName, locale, category.id).catch((error) => {
+      console.error("[categorisation] Failed to cache AI alias:", error);
+    });
+
+    return category.id;
   } catch (catalogError) {
     console.error("Category catalog load failed:", catalogError);
 
@@ -28,6 +61,31 @@ export async function resolveCategoryId(
 
     return data as string;
   }
+}
+
+async function cacheAiAlias(
+  itemName: string,
+  locale: string,
+  categoryId: string,
+): Promise<void> {
+  const alias = normalizeItemName(itemName);
+  if (!alias) return;
+
+  const service = createServiceClient();
+  const { error } = await service.from("category_aliases").upsert(
+    {
+      alias_normalized: alias,
+      category_id: categoryId,
+      language: locale,
+    },
+    { onConflict: "alias_normalized,language", ignoreDuplicates: true },
+  );
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  clearCategoryCatalogCache();
 }
 
 export function getCategoryLabel(

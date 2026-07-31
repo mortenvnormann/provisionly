@@ -6,7 +6,7 @@ import {
   getCategoryCatalog,
   resolveCategoryFromCatalog,
 } from "@/lib/categorisation/catalog";
-import { normalizeItemName } from "@/lib/lists/normalize";
+import { normalizeForCategoryMatch } from "@/lib/lists/normalize";
 import { repairListItemCategoriesForUser } from "@/lib/lists/repair-categories-server";
 import type { ListItemRow } from "@/lib/lists/types";
 import { parseListId } from "@/lib/validation/parse";
@@ -46,7 +46,7 @@ export async function suggestItemCategoryRepairsAction(
       (item.categoryId === generalId &&
         resolved !== generalId &&
         catalog.aliases.some(
-          (alias) => alias.alias_normalized === normalizeItemName(item.name),
+          (alias) => alias.matchKey === normalizeForCategoryMatch(item.name),
         ));
 
     if (!needsRepair || resolved === item.categoryId) continue;

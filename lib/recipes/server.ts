@@ -278,9 +278,9 @@ async function insertRecipeIngredients(
         name_normalized: normalizeItemName(name),
         quantity: item.quantity ?? null,
         unit: item.unit?.trim() || null,
-        category_id: await resolveCategoryId(userClient, name, locale).catch(
-          () => null,
-        ),
+        category_id: await resolveCategoryId(userClient, name, locale, {
+          allowAi: true,
+        }).catch(() => null),
         position: index,
       };
     }),
@@ -545,9 +545,9 @@ export async function addRecipeIngredientsToListForUser(
     const userClient = createClient(cookieStore);
     const categoryId =
       ingredient.categoryId ??
-      (await resolveCategoryId(userClient, ingredient.name, locale).catch(
-        () => null,
-      ));
+      (await resolveCategoryId(userClient, ingredient.name, locale, {
+        allowAi: true,
+      }).catch(() => null));
 
     const sortKey = nextSortKey(sortKeys);
     sortKeys.push(sortKey);
