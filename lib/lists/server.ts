@@ -1,6 +1,9 @@
 import "server-only";
 
-import { resolveCategoryId } from "@/lib/categorisation/resolve";
+import {
+  applyAiCategoryUpgrade,
+  resolveCategoryForWrite,
+} from "@/lib/categorisation/resolve";
 import { getLocaleForUser } from "@/lib/i18n/user-locale";
 import { normalizeItemName, nextSortKey } from "@/lib/lists/normalize";
 import type { ListItemRow, ListSettings, ListSummary } from "@/lib/lists/types";
@@ -235,6 +238,28 @@ export async function fetchListItemsForUser(
   }));
 }
 
+function mapListItemRow(data: {
+  id: string;
+  list_id: string;
+  name_original: string;
+  quantity: number | null;
+  unit: string | null;
+  category_id: string | null;
+  checked: boolean;
+  sort_key: string;
+}): ListItemRow {
+  return {
+    id: data.id,
+    listId: data.list_id,
+    name: data.name_original,
+    quantity: data.quantity,
+    unit: data.unit,
+    categoryId: data.category_id,
+    checked: data.checked,
+    sortKey: data.sort_key,
+  };
+}
+
 export async function addListItemForUser(
   userId: string,
   listId: string,
@@ -251,8 +276,10 @@ export async function addListItemForUser(
   const cookieStore = await cookies();
   const userClient = createClient(cookieStore);
   const locale = await getLocaleForUser(userId);
-  const categoryId = await resolveCategoryId(userClient, name, locale).catch(
-    () => null,
+  const { categoryId, needsAi } = await resolveCategoryForWrite(
+    userClient,
+    name,
+    locale,
   );
 
   const service = createServiceClient();
@@ -277,16 +304,24 @@ export async function addListItemForUser(
     throw new Error(error?.message ?? "Could not add item");
   }
 
-  return {
-    id: data.id,
-    listId: data.list_id,
-    name: data.name_original,
-    quantity: data.quantity,
-    unit: data.unit,
-    categoryId: data.category_id,
-    checked: data.checked,
-    sortKey: data.sort_key,
-  };
+  if (needsAi) {
+    const upgraded = await applyAiCategoryUpgrade(userClient, name, locale);
+    if (upgraded && upgraded !== data.category_id) {
+      const { data: updated, error: updateError } = await service
+        .from("list_items")
+        .update({ category_id: upgraded })
+        .eq("id", data.id)
+        .select(
+          "id, list_id, name_original, quantity, unit, category_id, checked, sort_key",
+        )
+        .single();
+      if (!updateError && updated) {
+        return mapListItemRow(updated);
+      }
+    }
+  }
+
+  return mapListItemRow(data);
 }
 
 export async function updateListItemForUser(
@@ -314,8 +349,10 @@ export async function updateListItemForUser(
   const cookieStore = await cookies();
   const userClient = createClient(cookieStore);
   const locale = await getLocaleForUser(userId);
-  const categoryId = await resolveCategoryId(userClient, name, locale).catch(
-    () => null,
+  const { categoryId, needsAi } = await resolveCategoryForWrite(
+    userClient,
+    name,
+    locale,
   );
 
   const { data, error } = await service
@@ -337,16 +374,24 @@ export async function updateListItemForUser(
     throw new Error(error?.message ?? "Could not update item");
   }
 
-  return {
-    id: data.id,
-    listId: data.list_id,
-    name: data.name_original,
-    quantity: data.quantity,
-    unit: data.unit,
-    categoryId: data.category_id,
-    checked: data.checked,
-    sortKey: data.sort_key,
-  };
+  if (needsAi) {
+    const upgraded = await applyAiCategoryUpgrade(userClient, name, locale);
+    if (upgraded && upgraded !== data.category_id) {
+      const { data: updated, error: updateError } = await service
+        .from("list_items")
+        .update({ category_id: upgraded })
+        .eq("id", itemId)
+        .select(
+          "id, list_id, name_original, quantity, unit, category_id, checked, sort_key",
+        )
+        .single();
+      if (!updateError && updated) {
+        return mapListItemRow(updated);
+      }
+    }
+  }
+
+  return mapListItemRow(data);
 }
 
 export async function setItemCheckedForUser(
@@ -410,25 +455,50 @@ export async function createListWithItemsForUser(
   const service = createServiceClient();
 
   const locale = await getLocaleForUser(userId);
-  const rows = await Promise.all(
-    items.map(async (item, index) => ({
-      list_id: list.id,
-      name_original: item.name,
-      name_normalized: normalizeItemName(item.name),
-      quantity: item.quantity ?? null,
-      unit: item.unit ?? null,
-      category_id:
-        item.categoryId ??
-        (await resolveCategoryId(userClient, item.name, locale).catch(
-          () => null,
-        )),
-      checked: item.checked ?? false,
-      sort_key: item.sortKey ?? `a${index}`,
-    })),
+  const resolved = await Promise.all(
+    items.map(async (item) => {
+      if (item.categoryId) {
+        return { categoryId: item.categoryId, needsAi: false as const };
+      }
+      return resolveCategoryForWrite(userClient, item.name, locale);
+    }),
   );
 
-  const { error } = await service.from("list_items").insert(rows);
+  const rows = items.map((item, index) => ({
+    list_id: list.id,
+    name_original: item.name,
+    name_normalized: normalizeItemName(item.name),
+    quantity: item.quantity ?? null,
+    unit: item.unit ?? null,
+    category_id: resolved[index].categoryId,
+    checked: item.checked ?? false,
+    sort_key: item.sortKey ?? `a${index}`,
+  }));
+
+  const { data: inserted, error } = await service
+    .from("list_items")
+    .insert(rows)
+    .select("id, name_original, category_id");
   if (error) throw new Error(error.message);
+
+  const upgrades = (inserted ?? [])
+    .map((row, index) => ({ row, needsAi: resolved[index]?.needsAi === true }))
+    .filter((entry) => entry.needsAi);
+
+  await Promise.all(
+    upgrades.map(async ({ row }) => {
+      const upgraded = await applyAiCategoryUpgrade(
+        userClient,
+        row.name_original,
+        locale,
+      );
+      if (!upgraded || upgraded === row.category_id) return;
+      await service
+        .from("list_items")
+        .update({ category_id: upgraded })
+        .eq("id", row.id);
+    }),
+  );
 }
 
 export async function fetchListAccessForUser(

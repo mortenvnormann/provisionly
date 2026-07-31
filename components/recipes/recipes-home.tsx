@@ -97,6 +97,7 @@ export function RecipesHome({
   const { push } = useAppNavigate();
   const tRecipes = useTranslations("recipes");
   const tCommon = useTranslations("common");
+  const tNav = useTranslations("nav");
   const initial = resolveInitialRecipes(initialRecipes);
   const [recipes, setRecipes] = useState<RecipeSummary[]>(initial.recipes);
   const [loading, setLoading] = useState(initial.loading);
@@ -337,6 +338,11 @@ export function RecipesHome({
                 )}
               </div>
             )}
+            {sortMode === "alpha" ? (
+              <p className="font-ui text-center text-xs text-[var(--muted-foreground)]">
+                {tNav("sortAlpha")}
+              </p>
+            ) : null}
             <div
               aria-hidden
               className="pointer-events-none shrink-0"

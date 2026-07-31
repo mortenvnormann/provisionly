@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { getCategoriesOnly } from "@/lib/categorisation/catalog";
-import { getCategoryLabel } from "@/lib/categorisation/resolve";
+import { getCategoryLabel } from "@/lib/categorisation/labels";
 import type { CategoryRow } from "@/lib/lists/types";
 import { createClient } from "@/utils/supabase/client";
 
