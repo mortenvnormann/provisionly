@@ -430,58 +430,6 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
       <div>
         <div className="mb-2 flex items-center justify-between">
           <span className="text-sm font-medium text-[var(--foreground)]">
-            {tRecipes("instructions")}
-          </span>
-          <button
-            type="button"
-            onClick={() => {
-              const next = emptyStep();
-              setSteps((prev) => [...prev, next]);
-              queueStepFocus(next.key);
-            }}
-            className="text-sm font-medium text-[var(--accent)]"
-          >
-            {tRecipes("addStep")}
-          </button>
-        </div>
-        <p className="mb-2 text-xs text-[var(--muted-foreground)]">
-          {tRecipes("instructionsHint")}
-        </p>
-        <ol className="flex list-none flex-col gap-2">
-          {steps.map((step, index) => (
-            <li key={step.key} className="flex items-start gap-2">
-              <span className="mt-2.5 w-6 shrink-0 text-sm font-semibold text-[var(--muted-foreground)]">
-                {index + 1}.
-              </span>
-              <input
-                ref={(node) => {
-                  if (node) stepRefs.current.set(step.key, node);
-                  else stepRefs.current.delete(step.key);
-                }}
-                type="text"
-                value={step.text}
-                onChange={(e) => updateStep(step.key, e.target.value)}
-                onKeyDown={(e) => handleStepKeyDown(e, step.key, step.text)}
-                placeholder={tRecipes("stepPlaceholder", { number: index + 1 })}
-                enterKeyHint="next"
-                className="h-10 min-w-0 flex-1 scroll-mb-28 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-3 text-sm"
-              />
-              <button
-                type="button"
-                onClick={() => removeStep(step.key)}
-                className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
-                aria-label={tRecipes("removeStep", { number: index + 1 })}
-              >
-                ×
-              </button>
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      <div>
-        <div className="mb-2 flex items-center justify-between">
-          <span className="text-sm font-medium text-[var(--foreground)]">
             {tRecipes("ingredients")}
           </span>
           <button
@@ -552,6 +500,58 @@ export const RecipeForm = forwardRef<RecipeFormHandle, RecipeFormProps>(
             </li>
           ))}
         </ul>
+      </div>
+
+      <div>
+        <div className="mb-2 flex items-center justify-between">
+          <span className="text-sm font-medium text-[var(--foreground)]">
+            {tRecipes("instructions")}
+          </span>
+          <button
+            type="button"
+            onClick={() => {
+              const next = emptyStep();
+              setSteps((prev) => [...prev, next]);
+              queueStepFocus(next.key);
+            }}
+            className="text-sm font-medium text-[var(--accent)]"
+          >
+            {tRecipes("addStep")}
+          </button>
+        </div>
+        <p className="mb-2 text-xs text-[var(--muted-foreground)]">
+          {tRecipes("instructionsHint")}
+        </p>
+        <ol className="flex list-none flex-col gap-2">
+          {steps.map((step, index) => (
+            <li key={step.key} className="flex items-start gap-2">
+              <span className="mt-2.5 w-6 shrink-0 text-sm font-semibold text-[var(--muted-foreground)]">
+                {index + 1}.
+              </span>
+              <input
+                ref={(node) => {
+                  if (node) stepRefs.current.set(step.key, node);
+                  else stepRefs.current.delete(step.key);
+                }}
+                type="text"
+                value={step.text}
+                onChange={(e) => updateStep(step.key, e.target.value)}
+                onKeyDown={(e) => handleStepKeyDown(e, step.key, step.text)}
+                placeholder={tRecipes("stepPlaceholder", { number: index + 1 })}
+                enterKeyHint="next"
+                className="h-10 min-w-0 flex-1 scroll-mb-28 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-3 text-sm"
+              />
+              <button
+                type="button"
+                onClick={() => removeStep(step.key)}
+                className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-lg text-[var(--muted-foreground)] hover:bg-[var(--muted)]"
+                aria-label={tRecipes("removeStep", { number: index + 1 })}
+              >
+                ×
+              </button>
+            </li>
+          ))}
+        </ol>
       </div>
 
       {error && hideFixedFooter ? (
