@@ -3,7 +3,6 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import toIco from "to-ico";
-import { lightPalette } from "../lib/design/palette";
 import { ICON_ROUTE_SIZES } from "../lib/pwa/icon-sizes";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
@@ -129,6 +128,7 @@ async function renderPng(size: number) {
 async function renderMaskable512() {
   const inner = Math.round(512 * MASKABLE_INNER_SCALE);
   const master = await loadMasterSquare();
+  const background = await sampleBackgroundColor();
   const mark = await sharp(master)
     .resize(inner, inner, { kernel: sharp.kernel.lanczos3 })
     .png()
@@ -139,7 +139,7 @@ async function renderMaskable512() {
       width: 512,
       height: 512,
       channels: 3,
-      background: lightPalette.canvasWarm,
+      background,
     },
   })
     .composite([{ input: mark, gravity: "center" }])
