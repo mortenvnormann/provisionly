@@ -4,6 +4,7 @@ import {
   applyAiCategoryUpgrade,
   resolveCategoryForWrite,
 } from "@/lib/categorisation/resolve";
+import { upgradeCategoryAfterWrite } from "@/lib/categorisation/upgrade-after-write";
 import { getLocaleForUser } from "@/lib/i18n/user-locale";
 import { normalizeItemName, nextSortKey } from "@/lib/lists/normalize";
 import type { ListItemRow, ListSettings, ListSummary } from "@/lib/lists/types";
@@ -12,6 +13,7 @@ import { assertListAccess } from "@/lib/lists/access";
 export { assertListAccess };
 import { createServiceClient } from "@/lib/supabase/service";
 import { createClient } from "@/utils/supabase/server";
+import { after } from "next/server";
 import { cookies } from "next/headers";
 
 type MemberQueryRow = {
@@ -273,10 +275,11 @@ export async function addListItemForUser(
   await assertListAccess(userId, listId);
 
   const name = input.name.trim();
+  const nameNormalized = normalizeItemName(name);
   const cookieStore = await cookies();
   const userClient = createClient(cookieStore);
   const locale = await getLocaleForUser(userId);
-  const { categoryId, needsAi } = await resolveCategoryForWrite(
+  const { categoryId, needsAi, generalId } = await resolveCategoryForWrite(
     userClient,
     name,
     locale,
@@ -288,7 +291,7 @@ export async function addListItemForUser(
     .insert({
       list_id: listId,
       name_original: name,
-      name_normalized: normalizeItemName(name),
+      name_normalized: nameNormalized,
       quantity: input.quantity ?? null,
       unit: input.unit?.trim() || null,
       category_id: categoryId,
@@ -305,20 +308,15 @@ export async function addListItemForUser(
   }
 
   if (needsAi) {
-    const upgraded = await applyAiCategoryUpgrade(userClient, name, locale);
-    if (upgraded && upgraded !== data.category_id) {
-      const { data: updated, error: updateError } = await service
-        .from("list_items")
-        .update({ category_id: upgraded })
-        .eq("id", data.id)
-        .select(
-          "id, list_id, name_original, quantity, unit, category_id, checked, sort_key",
-        )
-        .single();
-      if (!updateError && updated) {
-        return mapListItemRow(updated);
-      }
-    }
+    after(() =>
+      upgradeCategoryAfterWrite({
+        itemName: name,
+        locale,
+        itemId: data.id,
+        generalId,
+        nameNormalized,
+      }),
+    );
   }
 
   return mapListItemRow(data);
@@ -346,10 +344,11 @@ export async function updateListItemForUser(
   await assertListAccess(userId, existing.list_id);
 
   const name = input.name.trim();
+  const nameNormalized = normalizeItemName(name);
   const cookieStore = await cookies();
   const userClient = createClient(cookieStore);
   const locale = await getLocaleForUser(userId);
-  const { categoryId, needsAi } = await resolveCategoryForWrite(
+  const { categoryId, needsAi, generalId } = await resolveCategoryForWrite(
     userClient,
     name,
     locale,
@@ -359,7 +358,7 @@ export async function updateListItemForUser(
     .from("list_items")
     .update({
       name_original: name,
-      name_normalized: normalizeItemName(name),
+      name_normalized: nameNormalized,
       quantity: input.quantity ?? null,
       unit: input.unit?.trim() || null,
       category_id: categoryId,
@@ -375,20 +374,15 @@ export async function updateListItemForUser(
   }
 
   if (needsAi) {
-    const upgraded = await applyAiCategoryUpgrade(userClient, name, locale);
-    if (upgraded && upgraded !== data.category_id) {
-      const { data: updated, error: updateError } = await service
-        .from("list_items")
-        .update({ category_id: upgraded })
-        .eq("id", itemId)
-        .select(
-          "id, list_id, name_original, quantity, unit, category_id, checked, sort_key",
-        )
-        .single();
-      if (!updateError && updated) {
-        return mapListItemRow(updated);
-      }
-    }
+    after(() =>
+      upgradeCategoryAfterWrite({
+        itemName: name,
+        locale,
+        itemId: data.id,
+        generalId,
+        nameNormalized,
+      }),
+    );
   }
 
   return mapListItemRow(data);

@@ -78,7 +78,7 @@ export function itemsFingerprint(items: ListItemRow[]): string {
     .sort((a, b) => a.id.localeCompare(b.id))
     .map(
       (item) =>
-        `${item.id}:${item.checked}:${item.name}:${item.quantity}:${item.unit}`,
+        `${item.id}:${item.checked}:${item.name}:${item.quantity}:${item.unit}:${item.categoryId ?? ""}`,
     )
     .join("|");
 }
