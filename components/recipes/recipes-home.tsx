@@ -8,7 +8,7 @@ import { useRegisterDock } from "@/components/layout/dock-context";
 import { HomeHeader } from "@/components/layout/home-header";
 import { LoadingState } from "@/components/ui/loading-state";
 import { SwipeRow } from "@/components/ui/swipe-row";
-import { ChevronRightIcon } from "@/components/ui/icons";
+import { ChevronRightIcon, RecipesIcon } from "@/components/ui/icons";
 import {
   deleteRecipeAction,
   importRecipeFromUrlAction,
@@ -111,6 +111,7 @@ export function RecipesHome({
   const [importing, setImporting] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
   const prefetchedRecipesRef = useRef(new Set<string>());
+  const addPanelRef = useRef<HTMLDivElement>(null);
   const greetingName = profileGreeting({ firstName, lastName, displayName }, email);
 
   const prefetchRecipeDetail = useCallback(
@@ -154,6 +155,29 @@ export function RecipesHome({
     setAddPanel((current) => (current === "closed" ? "menu" : "closed"));
     setImportError(null);
   }, []);
+
+  useEffect(() => {
+    if (addPanel === "closed") return;
+
+    function onPointerDown(event: PointerEvent) {
+      const target = event.target as Element | null;
+      if (!target) return;
+      if (addPanelRef.current?.contains(target)) return;
+      if (target.closest("[data-dock-add]")) return;
+      closeAddPanel();
+    }
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") closeAddPanel();
+    }
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [addPanel, closeAddPanel]);
 
   const handleManual = useCallback(() => {
     closeAddPanel();
@@ -319,9 +343,10 @@ export function RecipesHome({
                                 transitionType: "nav-up",
                               })
                             }
-                            className="font-ui card-surface pressable flex w-full items-center justify-between px-3.5 py-3 text-left"
+                            className="font-ui card-surface pressable flex w-full items-center gap-3 px-3.5 py-3 text-left"
                           >
-                            <div className="min-w-0">
+                            <RecipesIcon className="size-[1.875rem] shrink-0 text-[var(--muted-foreground)]" />
+                            <div className="min-w-0 flex-1">
                               <span className="block truncate text-[15px] font-medium text-[var(--foreground)]">
                                 {recipe.title}
                               </span>
@@ -356,7 +381,10 @@ export function RecipesHome({
       </div>
 
       {addPanel === "menu" ? (
-        <div className="pointer-events-none fixed inset-x-0 bottom-[calc(var(--dock-height)+env(safe-area-inset-bottom,0px)+0.75rem)] z-[60] mx-auto w-full max-w-lg px-4 pb-2">
+        <div
+          ref={addPanelRef}
+          className="pointer-events-none fixed inset-x-0 bottom-[calc(var(--dock-height)+env(safe-area-inset-bottom,0px)+0.75rem)] z-[60] mx-auto w-full max-w-lg px-4 pb-2"
+        >
           <div className="pointer-events-auto ml-auto w-44">
             <div
               className="card-surface-bordered font-ui overflow-hidden py-1 shadow-token-md"
@@ -387,7 +415,10 @@ export function RecipesHome({
       ) : null}
 
       {addPanel === "import" ? (
-        <div className="font-ui fixed inset-x-0 bottom-[calc(var(--dock-height)+env(safe-area-inset-bottom,0px)+0.75rem)] z-[60] mx-auto w-full max-w-lg px-4 pb-2">
+        <div
+          ref={addPanelRef}
+          className="font-ui fixed inset-x-0 bottom-[calc(var(--dock-height)+env(safe-area-inset-bottom,0px)+0.75rem)] z-[60] mx-auto w-full max-w-lg px-4 pb-2"
+        >
           <form
             onSubmit={(event) => void handleImportSubmit(event)}
             className="card-surface-bordered p-3 shadow-token-md"

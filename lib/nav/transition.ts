@@ -31,3 +31,35 @@ export function lightHaptic() {
     navigator.vibrate(8);
   }
 }
+
+const PRESS_FEEDBACK_MS = 95;
+
+function prefersReducedMotion() {
+  if (typeof window === "undefined" || !window.matchMedia) return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+/**
+ * Show press styling + haptic briefly before running a navigation callback,
+ * so feedback is visible before the route unmounts.
+ */
+export async function pressThenNavigate(
+  element: HTMLElement,
+  navigate: () => void,
+): Promise<void> {
+  lightHaptic();
+  setNavOrigin(element);
+  element.dataset.pressed = "true";
+
+  if (!prefersReducedMotion()) {
+    await new Promise<void>((resolve) => {
+      window.setTimeout(resolve, PRESS_FEEDBACK_MS);
+    });
+  }
+
+  try {
+    navigate();
+  } finally {
+    delete element.dataset.pressed;
+  }
+}

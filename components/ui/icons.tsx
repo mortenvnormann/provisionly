@@ -72,10 +72,10 @@ export function RecipesIcon({ className }: IconProps) {
       aria-hidden
     >
       <path d="M12 3.5v2" />
-      <path d="M5 8h14" />
-      <path d="M6.5 8h11l-.85 10.25A2 2 0 0 1 14.66 20H9.34a2 2 0 0 1-1.99-1.75L6.5 8z" />
-      <path d="M6.5 11.5H5a1.75 1.75 0 0 1 0-3.5" />
-      <path d="M17.5 11.5H19a1.75 1.75 0 0 0 0-3.5" />
+      <path d="M5.5 7h13" />
+      <path d="M6.5 7.5h11v10a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2v-10z" />
+      <path d="M6.5 10H4.75v3H6.5" />
+      <path d="M17.5 10h1.75v3H17.5" />
     </svg>
   );
 }
@@ -170,6 +170,24 @@ export function ChevronRightIcon({ className }: IconProps) {
       aria-hidden
     >
       <path d="M9 6l6 6-6 6" />
+    </svg>
+  );
+}
+
+export function BackIcon({ className }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.4}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+    >
+      <path d="M15 6l-6 6 6 6" />
     </svg>
   );
 }

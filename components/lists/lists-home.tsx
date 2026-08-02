@@ -25,7 +25,7 @@ import { useRegisterDock } from "@/components/layout/dock-context";
 import { HomeHeader } from "@/components/layout/home-header";
 import { SwipeRow } from "@/components/ui/swipe-row";
 import { Button } from "@/components/ui/button";
-import { ChevronRightIcon } from "@/components/ui/icons";
+import { ChevronRightIcon, ListsIcon } from "@/components/ui/icons";
 import {
   getSortPreference,
   setSortPreference,
@@ -65,6 +65,7 @@ export function ListsHome({
     getSortPreference("lists"),
   );
   const prefetchedListsRef = useRef(new Set<string>());
+  const createFormRef = useRef<HTMLFormElement>(null);
 
   const prefetchListDetail = useCallback(
     (listId: string) => {
@@ -127,8 +128,37 @@ export function ListsHome({
   }, []);
 
   const handleAdd = useCallback(() => {
-    setShowForm(true);
+    setShowForm((open) => {
+      if (open) setNewTitle("");
+      return !open;
+    });
   }, []);
+
+  useEffect(() => {
+    if (!showForm) return;
+
+    function onPointerDown(event: PointerEvent) {
+      const target = event.target as Element | null;
+      if (!target) return;
+      if (createFormRef.current?.contains(target)) return;
+      if (target.closest("[data-dock-add]")) return;
+      setShowForm(false);
+      setNewTitle("");
+    }
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key !== "Escape") return;
+      setShowForm(false);
+      setNewTitle("");
+    }
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [showForm]);
 
   const dockHandlers = useMemo(
     () => ({
@@ -267,9 +297,10 @@ export function ListsHome({
                             transitionType: "nav-up",
                           })
                         }
-                        className="font-ui card-surface pressable flex w-full items-center justify-between px-3.5 py-3 text-left"
+                        className="font-ui card-surface pressable flex w-full items-center gap-3 px-3.5 py-3 text-left"
                       >
-                        <span className="text-[15px] font-medium text-[var(--foreground)]">
+                        <ListsIcon className="size-5 shrink-0 text-[var(--muted-foreground)]" />
+                        <span className="min-w-0 flex-1 truncate text-[15px] font-medium text-[var(--foreground)]">
                           {list.title}
                         </span>
                         <ChevronRightIcon className="size-4 shrink-0 text-[var(--muted-foreground)]" />
@@ -301,6 +332,7 @@ export function ListsHome({
       {showForm ? (
         <div className="font-ui safe-area-pb fixed inset-x-0 bottom-[var(--dock-height)] z-20 mx-auto w-full max-w-lg px-4 pb-2">
           <form
+            ref={createFormRef}
             onSubmit={handleCreate}
             className="card-surface-bordered font-ui p-3"
           >
@@ -317,7 +349,10 @@ export function ListsHome({
                 type="button"
                 variant="secondary"
                 fullWidth
-                onClick={() => setShowForm(false)}
+                onClick={() => {
+                  setShowForm(false);
+                  setNewTitle("");
+                }}
               >
                 {tCommon("cancel")}
               </Button>

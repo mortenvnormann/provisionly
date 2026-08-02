@@ -75,18 +75,35 @@ export function SettingsForm({ profile }: SettingsFormProps) {
               <span className="text-sm font-medium text-[var(--foreground)]">
                 {t("language")}
               </span>
-              <select
-                name="locale"
-                value={locale}
-                onChange={(event) => setLocale(event.target.value as AppLocale)}
-                className="font-ui h-10 rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] px-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/20"
-              >
-                {Object.entries(LOCALE_LABELS).map(([code, label]) => (
-                  <option key={code} value={code}>
-                    {label}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  name="locale"
+                  value={locale}
+                  onChange={(event) =>
+                    setLocale(event.target.value as AppLocale)
+                  }
+                  className="font-ui h-10 w-full appearance-none rounded-[var(--radius-control)] border border-[var(--border)] bg-[var(--surface)] py-2 pr-10 pl-3 text-base focus:border-[var(--focus-ring)] focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/20"
+                >
+                  {Object.entries(LOCALE_LABELS).map(([code, label]) => (
+                    <option key={code} value={code}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.6}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-[var(--muted-foreground)]"
+                  aria-hidden
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </div>
             </label>
             {saveError ? (
               <p className="text-sm text-[var(--destructive)]" role="alert">

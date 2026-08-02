@@ -98,9 +98,11 @@ body {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .pressable:active:not(:disabled) {
-    transform: scale(0.97);
-    opacity: 0.9;
+  .pressable:active:not(:disabled),
+  .pressable[data-pressed="true"]:not(:disabled) {
+    transform: scale(0.94);
+    opacity: 0.88;
+    background-color: color-mix(in srgb, var(--muted) 70%, transparent);
   }
 }
 
@@ -186,8 +188,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pressable:active:not(:disabled) {
+  .pressable:active:not(:disabled),
+  .pressable[data-pressed="true"]:not(:disabled) {
     transform: none;
     opacity: 1;
+    background-color: transparent;
   }
 }

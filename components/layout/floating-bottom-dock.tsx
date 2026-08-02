@@ -6,6 +6,7 @@ import { useCallback, useMemo, useRef } from "react";
 import { useDockOptional } from "@/components/layout/dock-context";
 import {
   AddToListIcon,
+  BackIcon,
   ClearCheckedIcon,
   ListsIcon,
   PersonOutlineIcon,
@@ -14,14 +15,14 @@ import {
   SortIcon,
 } from "@/components/ui/icons";
 import { useAppNavigate } from "@/lib/nav/use-app-navigate";
-import { lightHaptic, setNavOrigin } from "@/lib/nav/transition";
+import { lightHaptic, pressThenNavigate, setNavOrigin } from "@/lib/nav/transition";
 import { prefetchListsHome, prefetchRecipesHome } from "@/lib/tabs/prefetch";
 
 type DockItemProps = {
   label: string;
   active?: boolean;
   disabled?: boolean;
-  onClick: (el: HTMLButtonElement) => void;
+  onClick: (el: HTMLButtonElement) => void | Promise<void>;
   onPointerEnter?: () => void;
   children: React.ReactNode;
   title?: string;
@@ -48,7 +49,7 @@ function DockItem({
       onPointerEnter={onPointerEnter}
       onClick={() => {
         if (!ref.current || disabled) return;
-        onClick(ref.current);
+        void onClick(ref.current);
       }}
       className={[
         "font-ui pressable flex min-w-0 shrink flex-1 items-center justify-center rounded-full px-2 py-1.5",
@@ -102,6 +103,8 @@ export function FloatingBottomDock() {
 
   const activeTab = dock?.tabNavigation?.activeTab ?? dock?.lastMainTab ?? "lists";
   const isSettings = pathname === "/settings";
+  const isBackSibling =
+    isSettings || isListDetail(pathname) || isRecipeDetail(pathname);
   const isGuestRecipesDisabled = Boolean(dock?.isGuest && pathname === "/home");
 
   const handlers = dock?.handlers;
@@ -113,22 +116,13 @@ export function FloatingBottomDock() {
   const addVisible = !formActionsVisible && (handlers?.addVisible ?? isMainTabPath(pathname));
 
   const siblingLabel = useMemo(() => {
-    if (isSettings) {
-      return dock?.lastMainTab === "recipes" ? tNav("recipes") : tNav("lists");
-    }
-    if (isListDetail(pathname)) return tNav("lists");
-    if (isRecipeDetail(pathname)) return tNav("recipes");
+    if (isBackSibling) return tCommon("back");
     return activeTab === "lists" ? tNav("recipes") : tNav("lists");
-  }, [activeTab, dock?.lastMainTab, isSettings, pathname, tNav]);
+  }, [activeTab, isBackSibling, tCommon, tNav]);
 
   const siblingIconKind = useMemo((): "lists" | "recipes" => {
-    if (isSettings) {
-      return dock?.lastMainTab === "recipes" ? "recipes" : "lists";
-    }
-    if (isListDetail(pathname)) return "lists";
-    if (isRecipeDetail(pathname)) return "recipes";
     return activeTab === "lists" ? "recipes" : "lists";
-  }, [activeTab, dock?.lastMainTab, isSettings, pathname]);
+  }, [activeTab]);
 
   const ActionIcon =
     isRecipeDetail(pathname) || actionSlot?.label === tAddToList("addToList")
@@ -136,30 +130,35 @@ export function FloatingBottomDock() {
       : ClearCheckedIcon;
 
   const handleSiblingPrefetch = useCallback(() => {
-    if (isListDetail(pathname) || isRecipeDetail(pathname) || isSettings) return;
+    if (isBackSibling) return;
     if (activeTab === "lists") prefetchRecipesHome();
     else prefetchListsHome();
-  }, [activeTab, isSettings, pathname]);
+  }, [activeTab, isBackSibling]);
 
   const handleSibling = useCallback(
-    (el: HTMLButtonElement) => {
-      setNavOrigin(el);
-      lightHaptic();
-
+    async (el: HTMLButtonElement) => {
       if (isListDetail(pathname)) {
-        push("/home", { element: el, transitionType: "nav-down" });
+        await pressThenNavigate(el, () => {
+          push("/home", { element: el, transitionType: "nav-down" });
+        });
         return;
       }
       if (isRecipeDetail(pathname)) {
-        push("/recipes", { element: el, transitionType: "nav-down" });
+        await pressThenNavigate(el, () => {
+          push("/recipes", { element: el, transitionType: "nav-down" });
+        });
         return;
       }
       if (isSettings) {
         const target = dock?.lastMainTab === "recipes" ? "/recipes" : "/home";
-        push(target, { element: el, transitionType: "nav-down" });
+        await pressThenNavigate(el, () => {
+          push(target, { element: el, transitionType: "nav-down" });
+        });
         return;
       }
 
+      lightHaptic();
+      setNavOrigin(el);
       const nextTab = activeTab === "lists" ? "recipes" : "lists";
       dock?.setLastMainTab(nextTab);
       dock?.tabNavigation?.setActiveTab(nextTab);
@@ -168,13 +167,14 @@ export function FloatingBottomDock() {
   );
 
   const handleSettings = useCallback(
-    (el: HTMLButtonElement) => {
+    async (el: HTMLButtonElement) => {
       if (isSettings) return;
-      lightHaptic();
       if (isMainTabPath(pathname)) {
         dock?.setLastMainTab(activeTab);
       }
-      push("/settings", { element: el, transitionType: "nav-up" });
+      await pressThenNavigate(el, () => {
+        push("/settings", { element: el, transitionType: "nav-up" });
+      });
     },
     [activeTab, dock, isSettings, pathname, push],
   );
@@ -253,16 +253,24 @@ export function FloatingBottomDock() {
         >
           <DockItem
             label={siblingLabel}
-            disabled={isGuestRecipesDisabled && siblingLabel === tNav("recipes")}
+            disabled={
+              !isBackSibling &&
+              isGuestRecipesDisabled &&
+              siblingLabel === tNav("recipes")
+            }
             title={
-              isGuestRecipesDisabled && siblingLabel === tNav("recipes")
+              !isBackSibling &&
+              isGuestRecipesDisabled &&
+              siblingLabel === tNav("recipes")
                 ? tNav("guestRecipesHint")
                 : undefined
             }
             onPointerEnter={handleSiblingPrefetch}
             onClick={handleSibling}
           >
-            {siblingIconKind === "lists" ? (
+            {isBackSibling ? (
+              <BackIcon className="size-6" />
+            ) : siblingIconKind === "lists" ? (
               <ListsIcon className="size-6" />
             ) : (
               <RecipesIcon className="size-6" />
@@ -303,6 +311,7 @@ export function FloatingBottomDock() {
           <button
             type="button"
             aria-label={tCommon("add")}
+            data-dock-add
             onClick={(e) => handleAdd(e.currentTarget)}
             className="font-ui pressable shadow-token-md flex size-[var(--dock-action-size)] shrink-0 items-center justify-center rounded-full bg-[var(--primary)] text-[var(--primary-foreground)]"
           >
