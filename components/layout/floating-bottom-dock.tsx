@@ -42,6 +42,7 @@ function DockItem({
     <button
       ref={ref}
       type="button"
+      aria-label={label}
       title={title}
       disabled={disabled}
       onPointerEnter={onPointerEnter}
@@ -50,20 +51,19 @@ function DockItem({
         onClick(ref.current);
       }}
       className={[
-        "font-ui pressable flex min-w-0 shrink flex-1 flex-col items-center justify-center gap-0.5 rounded-full px-2 py-1.5 text-[10px] font-medium",
+        "font-ui pressable flex min-w-0 shrink flex-1 items-center justify-center rounded-full px-2 py-1.5",
         disabled ? "cursor-not-allowed opacity-40" : "text-[var(--muted-foreground)]",
         active ? "text-[var(--foreground)]" : "",
       ].join(" ")}
     >
       <span
         className={[
-          "flex size-8 shrink-0 items-center justify-center rounded-full",
+          "flex size-10 shrink-0 items-center justify-center rounded-full",
           active ? "bg-[var(--muted)]" : "",
         ].join(" ")}
       >
         {children}
       </span>
-      <span className="max-w-full shrink truncate">{label}</span>
     </button>
   );
 }
@@ -122,12 +122,11 @@ export function FloatingBottomDock() {
   }, [activeTab, dock?.lastMainTab, isSettings, pathname, tNav]);
 
   const siblingIconKind = useMemo((): "lists" | "recipes" => {
-    if (isListDetail(pathname) || (isSettings && dock?.lastMainTab !== "recipes")) {
-      return "lists";
+    if (isSettings) {
+      return dock?.lastMainTab === "recipes" ? "recipes" : "lists";
     }
-    if (isRecipeDetail(pathname) || activeTab === "recipes") {
-      return "recipes";
-    }
+    if (isListDetail(pathname)) return "lists";
+    if (isRecipeDetail(pathname)) return "recipes";
     return activeTab === "lists" ? "recipes" : "lists";
   }, [activeTab, dock?.lastMainTab, isSettings, pathname]);
 
@@ -264,9 +263,9 @@ export function FloatingBottomDock() {
             onClick={handleSibling}
           >
             {siblingIconKind === "lists" ? (
-              <ListsIcon className="size-5" />
+              <ListsIcon className="size-6" />
             ) : (
-              <RecipesIcon className="size-5" />
+              <RecipesIcon className="size-6" />
             )}
           </DockItem>
 
@@ -276,7 +275,7 @@ export function FloatingBottomDock() {
               active={handlers?.sortActive}
               onClick={handleSort}
             >
-              <SortIcon className="size-5" />
+              <SortIcon className="size-6" />
             </DockItem>
           ) : null}
 
@@ -286,7 +285,7 @@ export function FloatingBottomDock() {
               disabled={actionSlot.disabled}
               onClick={handleAction}
             >
-              <ActionIcon className="size-5" />
+              <ActionIcon className="size-6" />
             </DockItem>
           ) : null}
 
@@ -296,7 +295,7 @@ export function FloatingBottomDock() {
             disabled={isSettings}
             onClick={handleSettings}
           >
-            <PersonOutlineIcon className="size-5" />
+            <PersonOutlineIcon className="size-6" />
           </DockItem>
         </nav>
 
@@ -307,14 +306,9 @@ export function FloatingBottomDock() {
             onClick={(e) => handleAdd(e.currentTarget)}
             className="font-ui pressable shadow-token-md flex size-[var(--dock-action-size)] shrink-0 items-center justify-center rounded-full bg-[var(--primary)] text-[var(--primary-foreground)]"
           >
-            <PlusIcon className="size-6" />
+            <PlusIcon className="size-7" />
           </button>
-        ) : (
-          <div
-            className="size-[var(--dock-action-size)] shrink-0"
-            aria-hidden
-          />
-        )}
+        ) : null}
       </div>
     </div>
   );

@@ -71,8 +71,11 @@ export function RecipesIcon({ className }: IconProps) {
       className={className}
       aria-hidden
     >
-      <path d="M6 4h12a2 2 0 0 1 2 2v14a1 1 0 0 1-1.56.83L12 17.5l-6.44 3.33A1 1 0 0 1 4 20V6a2 2 0 0 1 2-2z" />
-      <path d="M8 8h8M8 12h8" />
+      <path d="M12 3.5v2" />
+      <path d="M5 8h14" />
+      <path d="M6.5 8h11l-.85 10.25A2 2 0 0 1 14.66 20H9.34a2 2 0 0 1-1.99-1.75L6.5 8z" />
+      <path d="M6.5 11.5H5a1.75 1.75 0 0 1 0-3.5" />
+      <path d="M17.5 11.5H19a1.75 1.75 0 0 0 0-3.5" />
     </svg>
   );
 }
