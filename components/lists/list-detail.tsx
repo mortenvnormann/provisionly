@@ -26,6 +26,7 @@ import {
   deleteGuestItem,
   deleteGuestList,
   getGuestList,
+  renameGuestList,
   setAllGuestItemsChecked,
   updateGuestList,
   updateGuestItem,
@@ -41,6 +42,7 @@ import {
   setItemCheckedAction,
   setListGroupByCategoryAction,
   updateListItemAction,
+  updateListTitleAction,
 } from "@/lib/lists/actions";
 import {
   getPrefetchedListDetail,
@@ -171,6 +173,9 @@ export function ListDetail({
   const [shareOpen, setShareOpen] = useState(false);
   const [joinedBanner, setJoinedBanner] = useState(showJoinedBanner);
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
+  const [editingTitle, setEditingTitle] = useState(false);
+  const [draftTitle, setDraftTitle] = useState("");
+  const titleEditCancelledRef = useRef(false);
   type PendingToggle = {
     desired: boolean;
     inFlight: boolean;
@@ -712,6 +717,50 @@ export function ListDetail({
 
   useRegisterDock(dockHandlers);
 
+  const titleEditDisabled = writesBlocked || authOffline;
+
+  function beginTitleEdit() {
+    if (titleEditDisabled) return;
+    titleEditCancelledRef.current = false;
+    setDraftTitle(title);
+    setEditingTitle(true);
+  }
+
+  function cancelTitleEdit() {
+    titleEditCancelledRef.current = true;
+    setEditingTitle(false);
+    setDraftTitle(title);
+  }
+
+  async function commitTitleEdit() {
+    if (titleEditCancelledRef.current) {
+      titleEditCancelledRef.current = false;
+      return;
+    }
+    const previous = title;
+    const next = draftTitle.trim() || tLists("defaultListTitle");
+    setEditingTitle(false);
+    if (next === previous) return;
+
+    setTitle(next);
+    persistCache(next, items);
+
+    try {
+      if (isGuest) {
+        renameGuestList(listId, next);
+        return;
+      }
+      const saved = await updateListTitleAction(listId, next);
+      setTitle(saved);
+      persistCache(saved, items);
+    } catch (err) {
+      console.error(err);
+      setTitle(previous);
+      persistCache(previous, items);
+      showActionError(tLists("couldNotSaveItem"));
+    }
+  }
+
   async function handleUpdateItem(
     itemId: string,
     input: { name: string; quantity?: number; unit?: string },
@@ -821,9 +870,39 @@ export function ListDetail({
       <header className="safe-area-pt font-ui sticky top-0 z-10 shrink-0 bg-[var(--background)]/95">
         <div className="flex items-center gap-2 px-2 py-2">
           <BackLink href="/home" label={tCommon("back")} />
-          <h1 className="heading-editorial min-w-0 flex-1 truncate text-lg text-[var(--foreground)]">
-            {title}
-          </h1>
+          {editingTitle ? (
+            <input
+              type="text"
+              value={draftTitle}
+              aria-label={tLists("defaultListTitle")}
+              autoFocus
+              maxLength={200}
+              onFocus={(event) => event.currentTarget.select()}
+              onChange={(event) => setDraftTitle(event.target.value)}
+              onBlur={() => {
+                void commitTitleEdit();
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  event.currentTarget.blur();
+                } else if (event.key === "Escape") {
+                  event.preventDefault();
+                  cancelTitleEdit();
+                }
+              }}
+              className="heading-editorial min-w-0 flex-1 truncate rounded-[var(--radius-control)] border border-[var(--focus-ring)] bg-[var(--background)] px-1.5 py-0.5 text-lg text-[var(--foreground)] outline-none focus:ring-2 focus:ring-[var(--focus-ring)]/20"
+            />
+          ) : (
+            <button
+              type="button"
+              disabled={titleEditDisabled}
+              onClick={beginTitleEdit}
+              className="heading-editorial min-w-0 flex-1 truncate rounded-[var(--radius-control)] px-1.5 py-0.5 text-left text-lg text-[var(--foreground)] disabled:cursor-default enabled:hover:bg-[var(--muted)]/60"
+            >
+              {title}
+            </button>
+          )}
           {!isGuest && !authOffline ? (
             <button
               type="button"

@@ -146,6 +146,27 @@ export async function setListGroupByCategoryForUser(
   if (error) throw new Error(error.message);
 }
 
+export async function updateListTitleForUser(
+  userId: string,
+  listId: string,
+  title: string,
+): Promise<string> {
+  await assertListAccess(userId, listId);
+  const nextTitle = title.trim() || "Shopping list";
+  const service = createServiceClient();
+  const { data, error } = await service
+    .from("lists")
+    .update({ title: nextTitle })
+    .eq("id", listId)
+    .select("title")
+    .single();
+
+  if (error || !data) {
+    throw new Error(error?.message ?? "Could not update list title");
+  }
+  return data.title;
+}
+
 export async function fetchListSyncForUser(
   userId: string,
   listId: string,

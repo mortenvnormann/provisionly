@@ -55,6 +55,11 @@ export function updateGuestList(
   return lists[index];
 }
 
+export function renameGuestList(listId: string, title: string): GuestList | null {
+  const nextTitle = title.trim() || "Shopping list";
+  return updateGuestList(listId, (list) => ({ ...list, title: nextTitle }));
+}
+
 export function addGuestItem(
   listId: string,
   item: Omit<GuestListItem, "id"> & { id?: string },

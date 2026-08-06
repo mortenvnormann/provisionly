@@ -29,6 +29,7 @@ import {
   setAllListItemsCheckedForUser,
   setListGroupByCategoryForUser,
   updateListItemForUser,
+  updateListTitleForUser,
 } from "@/lib/lists/server";
 import { fetchListPageData, type ListPageData } from "@/lib/lists/fetch-list-page";
 import type { ListItemRow, ListSummary } from "@/lib/lists/types";
@@ -102,6 +103,21 @@ export async function setListGroupByCategoryAction(
     groupByCategory,
   );
   revalidatePath(`/lists/${listId}`);
+}
+
+export async function updateListTitleAction(
+  listId: string,
+  title: string,
+): Promise<string> {
+  const user = await getVerifiedUser();
+  const nextTitle = await updateListTitleForUser(
+    user.id,
+    parseListId(listId),
+    parseListTitle(title.trim() || "Shopping list"),
+  );
+  revalidatePath(`/lists/${listId}`);
+  revalidatePath("/home");
+  return nextTitle;
 }
 
 export async function addListItemAction(

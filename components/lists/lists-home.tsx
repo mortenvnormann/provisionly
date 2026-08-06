@@ -188,8 +188,10 @@ export function ListsHome({
   async function handleCreate(event: React.FormEvent) {
     event.preventDefault();
     const title = newTitle.trim() || tHome("defaultListTitle");
+    const formEl = event.currentTarget as HTMLFormElement;
     setCreating(true);
     try {
+      let listId: string;
       if (isGuest) {
         const list = createGuestList(title);
         setLists((prev) => [
@@ -201,12 +203,18 @@ export function ListsHome({
           },
           ...prev,
         ]);
+        listId = list.id;
       } else {
         const list = await createListAction(title);
         setLists((prev) => [list, ...prev]);
+        listId = list.id;
       }
       setNewTitle("");
       setShowForm(false);
+      push(`/lists/${listId}`, {
+        element: formEl,
+        transitionType: "nav-up",
+      });
     } finally {
       setCreating(false);
     }
