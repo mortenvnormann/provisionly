@@ -85,7 +85,7 @@ export function ShareRecipeSheet({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center">
+    <div className="fixed inset-0 z-[60] flex items-end justify-center px-4 pt-4 pb-[calc(var(--dock-height)+env(safe-area-inset-bottom,0px)+0.75rem+0.5rem)] sm:items-center">
       <button
         type="button"
         className="sheet-backdrop absolute inset-0 bg-[var(--overlay)]"
@@ -126,9 +126,14 @@ export function ShareRecipeSheet({
 
         {url ? (
           <div className="flex flex-col gap-3">
-            <div className="card-surface-bordered px-3 py-2 text-sm break-all text-[var(--foreground)]">
+            <button
+              type="button"
+              onClick={() => void handleCopy()}
+              aria-label={copied ? tCommon("copied") : tCommon("copyLink")}
+              className="card-surface-bordered pressable px-3 py-2 text-left text-sm break-all text-[var(--foreground)]"
+            >
               {url}
-            </div>
+            </button>
             {expiresAt ? (
               <p className="text-xs text-[var(--muted-foreground)]">
                 {tShare("expiresAt", { date: formatExpiry(expiresAt) })}

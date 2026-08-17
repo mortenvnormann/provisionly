@@ -5,6 +5,19 @@ import { useLayoutEffect, useRef } from "react";
 import { hasWarmDetailForPath } from "@/lib/nav/detail-prefetch-ready";
 import { restoreNavOrigin } from "@/lib/nav/transition";
 
+function hasStoredNavOrigin() {
+  try {
+    const raw = sessionStorage.getItem("provisionly-nav-origin");
+    if (!raw) return false;
+    const parsed = JSON.parse(raw) as { x?: string; y?: string };
+    return Boolean(parsed.x && parsed.y);
+  } catch {
+    return false;
+  }
+}
+
+let hasMountedTemplate = false;
+
 export default function Template({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
@@ -44,7 +57,12 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
     el.style.setProperty("--nav-expand-radius", `${coverRadius}px`);
 
-    const skipAnimation = hasWarmDetailForPath(pathname);
+    const isColdStart = !hasMountedTemplate;
+    hasMountedTemplate = true;
+    const skipAnimation =
+      isColdStart ||
+      hasWarmDetailForPath(pathname) ||
+      !hasStoredNavOrigin();
 
     el.classList.remove("route-expand");
     void el.offsetWidth;

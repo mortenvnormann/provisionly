@@ -8,7 +8,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Provisionly",
     short_name: "Provisionly",
     description: "Minimal collaborative grocery lists and recipes",
-    start_url: "/",
+    start_url: "/home",
     scope: "/",
     display: "standalone",
     orientation: "portrait",

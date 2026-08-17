@@ -47,6 +47,28 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
+.boot-mark-pulse {
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .boot-mark-pulse {
+    animation: boot-mark-breathe 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes boot-mark-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.88;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+
 body {
   min-height: 100%;
   background: var(--background);

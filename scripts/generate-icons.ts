@@ -4,11 +4,14 @@ import path from "node:path";
 import sharp from "sharp";
 import toIco from "to-ico";
 import { ICON_ROUTE_SIZES } from "../lib/pwa/icon-sizes";
+import { APPLE_STARTUP_IMAGES } from "../lib/pwa/startup-images";
+import { lightPalette } from "../lib/design/palette";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const MASTER_PATH = path.join(ROOT, "assets/icon-master-512.png");
 const ICON_VERSION_PATH = path.join(ROOT, "lib/pwa/icon-version.ts");
 const PUBLIC_ICONS = path.join(ROOT, "public", "icons");
+const PUBLIC_SPLASH = path.join(ROOT, "public", "splash");
 const APP_DIR = path.join(ROOT, "app");
 const FAVICON_SIZES = [16, 32, 48] as const;
 const MASKABLE_INNER_SCALE = 0.82;
@@ -147,6 +150,23 @@ async function renderMaskable512() {
     .toBuffer();
 }
 
+async function renderSplash(width: number, height: number) {
+  const iconSize = Math.round(Math.min(width, height) * 0.22);
+  const mark = await renderPng(iconSize);
+
+  return sharp({
+    create: {
+      width,
+      height,
+      channels: 3,
+      background: lightPalette.canvasWarm,
+    },
+  })
+    .composite([{ input: mark, gravity: "center" }])
+    .png({ compressionLevel: 9, effort: 10 })
+    .toBuffer();
+}
+
 async function writeIconVersion(): Promise<string> {
   const masterBytes = await readFile(MASTER_PATH);
   const version = createHash("sha256")
@@ -167,6 +187,7 @@ export const ICON_ASSET_VERSION = "${version}";
 
 async function main() {
   await mkdir(PUBLIC_ICONS, { recursive: true });
+  await mkdir(PUBLIC_SPLASH, { recursive: true });
 
   const version = await writeIconVersion();
 
@@ -195,6 +216,13 @@ async function main() {
   await writeFile(path.join(APP_DIR, "icon.png"), await renderPng(32));
   await writeFile(path.join(APP_DIR, "apple-icon.png"), await renderPng(180));
 
+  for (const splash of APPLE_STARTUP_IMAGES) {
+    await writeFile(
+      path.join(PUBLIC_SPLASH, `apple-splash-${splash.width}-${splash.height}.png`),
+      await renderSplash(splash.width, splash.height),
+    );
+  }
+
   // Normalized square master for easier future edits.
   await writeFile(
     path.join(ROOT, "assets/icon-source-square.png"),
@@ -202,7 +230,7 @@ async function main() {
   );
 
   console.log(
-    `Scaled ${path.relative(ROOT, MASTER_PATH)} → app/icon.png, app/apple-icon.png, public/favicon.ico (${FAVICON_SIZES.join(", ")}px), and ${ICON_ROUTE_SIZES.length + 1} PNGs in public/icons/ (v=${version})`,
+    `Scaled ${path.relative(ROOT, MASTER_PATH)} → app/icon.png, app/apple-icon.png, public/favicon.ico (${FAVICON_SIZES.join(", ")}px), ${ICON_ROUTE_SIZES.length + 1} PNGs in public/icons/, and ${APPLE_STARTUP_IMAGES.length} iOS splash images (v=${version})`,
   );
 }
 

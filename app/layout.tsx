@@ -12,6 +12,7 @@ import { AppProviders } from "@/components/providers/app-providers";
 import { AppSerwistProvider } from "@/components/providers/serwist-provider";
 import { darkPalette, lightPalette } from "@/lib/design/palette";
 import { iconAssetUrl } from "@/lib/pwa/icon-url";
+import { appleStartupImages } from "@/lib/pwa/startup-images";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -35,6 +36,7 @@ export const metadata: Metadata = {
     capable: true,
     title: "Provisionly",
     statusBarStyle: "default",
+    startupImage: appleStartupImages(),
   },
   formatDetection: {
     telephone: false,
@@ -72,8 +74,17 @@ export default async function RootLayout({
     <html
       lang={locale}
       className={`${geistSans.variable} ${sourceSerif.variable} h-full antialiased`}
+      style={{ backgroundColor: lightPalette.canvasWarm }}
     >
-      <body className="flex h-dvh min-h-0 flex-col overflow-hidden">
+      <body
+        className="flex h-dvh min-h-0 flex-col overflow-hidden"
+        style={{ backgroundColor: "inherit" }}
+      >
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `html,body{background-color:${lightPalette.canvasWarm}}@media (prefers-color-scheme: dark){html,body{background-color:${darkPalette.nightSlate}}}`,
+          }}
+        />
         <AppSerwistProvider>
           <NextIntlClientProvider messages={messages}>
             <AppProviders>
